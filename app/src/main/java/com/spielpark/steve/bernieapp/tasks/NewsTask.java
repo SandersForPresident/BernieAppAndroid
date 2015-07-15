@@ -87,7 +87,6 @@ public class NewsTask extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        Log.d("OPE", "There are " + events.size() + " events.");
         Collections.sort(events);
         String[] titles = new String[events.size()];
         for (int i = 0; i < events.size(); i++) {
@@ -247,7 +246,6 @@ public class NewsTask extends AsyncTask {
         }
         formatDate(e);
         events.add(e);
-        Log.d("New Event", e.toString());
     }
 
     private class NewsAdapter extends ArrayAdapter {
