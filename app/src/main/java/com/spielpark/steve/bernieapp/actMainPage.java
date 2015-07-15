@@ -12,7 +12,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.support.v4.widget.DrawerLayout;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.spielpark.steve.bernieapp.fragments.BottomNavFragment;
+import com.spielpark.steve.bernieapp.fragments.ConnectFragment;
 import com.spielpark.steve.bernieapp.fragments.EventFragment;
 import com.spielpark.steve.bernieapp.fragments.IssuesFragment;
 import com.spielpark.steve.bernieapp.fragments.NavigationDrawerFragment;
@@ -24,7 +28,6 @@ import com.spielpark.steve.bernieapp.wrappers.Issue;
 
 public class actMainPage extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, BottomNavFragment.OnFragmentInteractionListener {
-
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -66,6 +69,10 @@ public class actMainPage extends ActionBarActivity
             }
             case 1 : {
                 replacement = new IssuesFragment();
+                break;
+            }
+            case 3: {
+                replacement = new ConnectFragment();
                 break;
             }
             default:  {
