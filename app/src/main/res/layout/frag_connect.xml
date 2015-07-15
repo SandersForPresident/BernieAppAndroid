@@ -1,10 +1,93 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.spielpark.steve.bernieapp.fragments.ConnectFragment">
+    android:layout_marginBottom="60dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <EditText
+        android:id="@+id/c_edtZip"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:hint="ZIP Code"
+        android:background="@drawable/search_border"
+        android:drawableLeft="@android:drawable/ic_menu_search"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:textColorHint="#888888"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:maxLength="5"
+        android:inputType="number"/>
 
-</FrameLayout>
+    <Button
+        android:id="@+id/c_btnRadius"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/c_edtZip"
+        android:layout_alignBottom="@id/c_edtZip"
+        android:layout_toRightOf="@id/c_edtZip"
+        android:background="@drawable/search_border"
+        android:textColor="#147FD7"
+        android:layout_marginLeft="8dp"
+        android:text="50 Miles"
+        android:textSize="16sp"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/c_btnGo"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="8dp"
+        android:layout_alignTop="@id/c_edtZip"
+        android:layout_alignBottom="@id/c_edtZip"
+        android:layout_toRightOf="@id/c_btnRadius"
+        android:background="#147FD1"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:text="Go"/>
+
+
+<!--    <ImageView
+        android:id="@+id/c_imgMap"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/c_edtZip"
+        android:layout_marginTop="6dp"
+        android:src="@drawable/logo"
+        android:scaleType="fitCenter"/>
+-->
+    <FrameLayout
+        android:id="@+id/c_mapContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/c_edtZip"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:visibility="invisible">
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/c_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.google.android.gms.maps.SupportMapFragment"/>
+    </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/c_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/c_edtZip"
+        android:layout_marginTop="92dp"
+        android:visibility="visible"/>
+
+    <ListView
+        android:id="@+id/c_listEvents"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_below="@id/c_mapContainer" />
+
+
+</RelativeLayout>
