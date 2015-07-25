@@ -54,17 +54,14 @@ public class NewsTask extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] params) {
         events = new ArrayList<>();
-        BufferedReader in = null;
         BufferedReader xml = null;
         try {
-            URL url = new URL("https://go.berniesanders.com/page/event/search_results?orderby=date&format=json");
-            in = new BufferedReader(new InputStreamReader(url.openStream()));
-            url = new URL("https://berniesanders.com/feed/");
+            URL url = new URL("https://berniesanders.com/feed/");
             xml = new BufferedReader(new InputStreamReader(url.openStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (in == null || xml == null) {
+        if (xml == null) {
             Event e = new Event();
             e.setName("Unable to Load News");
             e.setDescription("Check your internet connection?");
@@ -72,12 +69,10 @@ public class NewsTask extends AsyncTask {
             super.onCancelled();
             return null;
         }
-        JsonReader reader = new JsonReader(in);
         XmlPullParser xmlReader = Xml.newPullParser();
         try {
             xmlReader.setInput(xml);
             readXml(xmlReader);
-            readObjects(reader);
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
@@ -116,99 +111,8 @@ public class NewsTask extends AsyncTask {
     private String getHTMLForTitle(Event e) {
         StringBuilder bld = new StringBuilder();
         bld.append("<big>").append(e.getName()).append("</big><br>");
-        if (! (e.isrss)) {
-            bld.append("<font color=\"#FF2222\">&emsp;").append(e.getVenue_city()).append(", ").append(e.getState()).append("</font>");
-        } else {
-            bld.append("<font color=\"#FF2222\">&emsp;").append(e.getDate());
-        }
+        bld.append("<font color=\"#FF2222\">&emsp;").append(e.getDate());
         return bld.toString();
-    }
-
-    private void readObjects(JsonReader reader) throws IOException {
-        Event e = new Event();
-        reader.beginObject();
-        while (reader.hasNext()) {
-            String next = reader.nextName();
-            switch(next.toLowerCase().trim()) {
-                case "results" : {
-                    reader.beginArray();
-                    reader.beginObject();
-                    break;
-                }
-                case "name" : {
-                    e.setName(reader.nextString());
-                    break;
-                }
-                case "start_day" : {
-                    e.setDate(reader.nextString());
-                    break;
-                }
-                case "start_time" : {
-                    e.setTime(reader.nextString());
-                    break;
-                }
-                case "url" : {
-                    e.setUrl(reader.nextString().replaceAll("\\\\", ""));
-                    break;
-                }
-                case "timezone" : {
-                    e.setTimezone(reader.nextString());
-                    break;
-                }
-                case "description" : {
-                    e.setDescription(reader.nextString());
-                    break;
-                }
-                case "event_type_name" : {
-                    e.setEventType(reader.nextString());
-                    break;
-                }
-                case "venue_name" : {
-                    e.setVenue(reader.nextString());
-                    break;
-                }
-                case "venue_state_cd" : {
-                    e.setState(reader.nextString());
-                    break;
-                }
-                case "venue_addr1" : {
-                    e.setVenue_addr(reader.nextString());
-                    break;
-                }
-                case "venue_city" : {
-                    e.setVenue_city(reader.nextString());
-                    break;
-                }
-                case "venue_zip" : {
-                    e.setZip(reader.nextInt());
-                    break;
-                }
-                case "capacity" : {
-                    e.setCapacity(reader.nextInt());
-                    break;
-                }
-                case "latitude" : {
-                    e.setLatitude(reader.nextDouble());
-                    break;
-                }
-                case "longitude" : {
-                    e.setLongitude(reader.nextDouble());
-                    break;
-                }
-                case "is_official" : {
-                    e.setOfficial(reader.nextInt() == 1);
-                    break;
-                }
-                case "attendee_count" : {
-                    e.setLatitude(reader.nextInt());
-                    break;
-                }
-                default: reader.skipValue();
-            }
-        }
-        formatDate(e);
-        events.add(e);
-        reader.close();
     }
 
     private void readXml(XmlPullParser in) throws XmlPullParserException, IOException {
@@ -232,7 +136,7 @@ public class NewsTask extends AsyncTask {
                 if (name.equals("title")) {
                     e.setName(in.nextText());
                 } else if (name.equals("link")) {
-                    e.setUrl(in.getText());
+                    e.setUrl(in.nextText());
                 } else if (name.equals("pubDate")) {
                     String t = (in.nextText());
                     String time = t.substring(t.indexOf(':') - 2, t.lastIndexOf(':') +2);
