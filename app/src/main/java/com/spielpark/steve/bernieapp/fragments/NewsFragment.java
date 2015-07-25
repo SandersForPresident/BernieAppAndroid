@@ -25,6 +25,16 @@ import com.spielpark.steve.bernieapp.wrappers.Event;
  */
 public class NewsFragment extends Fragment {
 
+    private static NewsFragment mIntstance;
+
+    public static NewsFragment getInstance() {
+        if (mIntstance == null) {
+            mIntstance = new NewsFragment();
+            return mIntstance;
+        } else {
+            return mIntstance;
+        }
+    }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
