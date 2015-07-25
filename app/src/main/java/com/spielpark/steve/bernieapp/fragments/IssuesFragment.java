@@ -25,6 +25,16 @@ import com.spielpark.steve.bernieapp.wrappers.Issue;
 public class IssuesFragment extends Fragment {
 
     private static Issue mIssue;
+    private static IssuesFragment mIntstance;
+
+    public static IssuesFragment getInstance() {
+        if (mIntstance == null) {
+            mIntstance = new IssuesFragment();
+            return mIntstance;
+        } else {
+            return mIntstance;
+        }
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
