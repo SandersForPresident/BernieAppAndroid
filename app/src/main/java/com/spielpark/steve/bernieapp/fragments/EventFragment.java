@@ -24,19 +24,19 @@ import java.util.Date;
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * to handle interaction events.
- * Use the {@link EventFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class EventFragment extends Fragment {
     private static Event mEvent;
+    private static EventFragment mInstance;
 
-
-    public static EventFragment newInstance(Event e) {
+    public static EventFragment getInstance(Event e) {
         mEvent = e;
-        return new EventFragment();
-    }
-
-    public EventFragment() {
+        if (mInstance == null) {
+            mInstance = new EventFragment();
+            return mInstance;
+        } else {
+            return mInstance;
+        }
     }
 
     @Override
@@ -44,22 +44,13 @@ public class EventFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         String time = mEvent.getTime();
         try {
-            final SimpleDateFormat sdf = new SimpleDateFormat("H:mm");
+            final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
             final Date dateObj = sdf.parse(time);
-            time = new SimpleDateFormat("h:mm a").format(dateObj);
+            time = new SimpleDateFormat("h:mm a, z").format(dateObj);
         } catch (final ParseException e) {
             e.printStackTrace();
         }
         View root = getView();
-        if (!(mEvent.isrss)) {
-            root.findViewById(R.id.e_txtVenue).setVisibility(View.VISIBLE);
-            root.findViewById(R.id.e_txtCity).setVisibility(View.VISIBLE);
-            ((TextView) root.findViewById(R.id.e_txtVenue)).setText(mEvent.getVenue());
-            ((TextView) root.findViewById(R.id.e_txtCity)).setText(mEvent.getVenue_city() + ", " + mEvent.getState());
-        } else {
-            root.findViewById(R.id.e_txtVenue).setVisibility(View.INVISIBLE);
-            root.findViewById(R.id.e_txtCity).setVisibility(View.INVISIBLE);
-        }
         ((TextView) root.findViewById(R.id.e_txtTitle)).setText(mEvent.getName());
         ((TextView) root.findViewById(R.id.e_txtDate)).setText(mEvent.getDate() + " at " + time);
         ((TextView) root.findViewById(R.id.e_txtDesc)).setText(Html.fromHtml(mEvent.getDescription()));
