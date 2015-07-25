@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.support.v4.widget.DrawerLayout;
+import android.view.View;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,19 +22,20 @@ import com.spielpark.steve.bernieapp.fragments.EventFragment;
 import com.spielpark.steve.bernieapp.fragments.IssuesFragment;
 import com.spielpark.steve.bernieapp.fragments.NavigationDrawerFragment;
 import com.spielpark.steve.bernieapp.fragments.NewsFragment;
+import com.spielpark.steve.bernieapp.fragments.OrganizeFragment;
 import com.spielpark.steve.bernieapp.fragments.SingleIssueFragment;
 import com.spielpark.steve.bernieapp.wrappers.Event;
 import com.spielpark.steve.bernieapp.wrappers.Issue;
 
 
 public class actMainPage extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, BottomNavFragment.OnFragmentInteractionListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    
-    private BottomNavFragment mBottomNavFragment;
+
+    private static Fragment curFrag;
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -51,7 +53,6 @@ public class actMainPage extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-        mBottomNavFragment = (BottomNavFragment) getSupportFragmentManager().findFragmentById(R.id.bottom_navigation);
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#147FD7")));
         mTitle = "News";
@@ -64,21 +65,26 @@ public class actMainPage extends ActionBarActivity
         Fragment replacement;
         switch(position) {
             case 0 : {
-                replacement = new NewsFragment();
+                replacement = NewsFragment.getInstance();
                 break;
             }
             case 1 : {
-                replacement = new IssuesFragment();
+                replacement = IssuesFragment.getInstance();
+                break;
+            }
+            case 2 : {
+                replacement = OrganizeFragment.getInstance();
                 break;
             }
             case 3: {
-                replacement = new ConnectFragment();
+                replacement = ConnectFragment.getInstance();
                 break;
             }
             default:  {
-                replacement = new NewsFragment();
+                replacement = NewsFragment.getInstance();
             }
         }
+        curFrag = replacement;
         onSectionAttached(++position);
         fragmentManager.beginTransaction()
                 .replace(R.id.container, replacement)
@@ -123,11 +129,13 @@ public class actMainPage extends ActionBarActivity
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-    @Override
     public void onBackPressed() {
+        if (curFrag instanceof ConnectFragment) {
+            ((ConnectFragment) curFrag).backPressed();
+            return;
+        } else if (curFrag instanceof NewsFragment) {
+
+        }
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             this.finish();
         } else {
@@ -136,7 +144,7 @@ public class actMainPage extends ActionBarActivity
     }
 
     public void loadEvent(Event e) {
-        Fragment f = EventFragment.newInstance(e);
+        Fragment f = EventFragment.getInstance(e);
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().addToBackStack(null).replace(R.id.container, f).commit();
     }
