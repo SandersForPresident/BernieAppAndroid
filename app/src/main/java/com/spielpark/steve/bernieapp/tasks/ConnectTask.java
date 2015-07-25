@@ -1,34 +1,19 @@
 package com.spielpark.steve.bernieapp.tasks;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
-import android.util.Xml;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.fragments.ConnectFragment;
 import com.spielpark.steve.bernieapp.wrappers.Event;
 
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.ParseException;
@@ -36,28 +21,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by Steve on 7/8/2015.
  */
 public class ConnectTask extends AsyncTask {
     private static ArrayList<Event> events;
-    private static ListView list;
-    private static ProgressBar progressBar;
     private static Context ctx;
-    private static int radius;
-    private static int zip;
-    private static View map;
-    private static StringBuilder bld;
+    private static ConnectFragment frag;
 
-    public ConnectTask(Context ctx, ListView listView, ProgressBar progressBar, View map, int zip, int radius) {
-        this.list = listView;
+    public ConnectTask(Context ctx, ConnectFragment frag) {
+        this.frag = frag;
         this.ctx = ctx;
-        this.progressBar = progressBar;
-        this.zip = zip;
-        this.radius = radius;
-        this.map = map;
     }
 
     public static ArrayList<Event> getEvents() {
@@ -69,12 +44,14 @@ public class ConnectTask extends AsyncTask {
         events = new ArrayList<>();
         BufferedReader in = null;
         try {
-            URL url = new URL("https://go.berniesanders.com/page/event/search_results?orderby=date&format=json&zip_radius=" + radius + "&zip=" + zip);
+            URL url = new URL("https://go.berniesanders.com/page/event/search_results?orderby=date&format=json&zip_radius=" + frag.mRadius + "&zip=" + frag.mZip);
+            Log.d("URL", url.toString());
             in = new BufferedReader(new InputStreamReader(url.openStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
         if (in == null) {
+            Log.d("reader null", "no events, null reader,");
             Event e = new Event();
             e.setName("Unable to Load News");
             e.setDescription("Check your internet connection?");
@@ -101,21 +78,13 @@ public class ConnectTask extends AsyncTask {
             titles[i] = getHTMLForTitle(events.get(i));
         }
         NewsAdapter adapter = new NewsAdapter(ctx, R.layout.list_news_item, R.id.txtItem, titles);
-        list.setAdapter(adapter);
-        list.setVisibility(View.VISIBLE);
-        map.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
-        map = null;
-        ConnectFragment.setMarkers();
+        frag.setMarkers();
+        frag.updateViews(adapter);
+        frag = null;
     }
 
     private void formatDate(Event e) {
-        SimpleDateFormat ft;
-        if (e.isrss) {
-            ft = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.US);
-        } else {
-            ft = new SimpleDateFormat("yyyy-MM-dd");
-        }
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = ft.parse(e.getDate());
             e.setDate(new SimpleDateFormat("MMMM d, yyyy").format(date));
@@ -126,19 +95,21 @@ public class ConnectTask extends AsyncTask {
 
     private String getHTMLForTitle(Event e) {
         StringBuilder bld = new StringBuilder();
-        bld.append("<big>").append(e.getName()).append("</big><br>");
-        bld.append("<font color=\"#FF2222\">&emsp;").append(e.getVenue_city()).append(", ").append(e.getState()).append("</font>");
+        bld.append("<big><font color =\"#147FD7\">").append(e.getName()).append("</font></big><br>");
+        bld.append("&emsp;").append(e.getVenue_city()).append(", ").append(e.getState()).append(" - ").append(e.getZip()).append("<br>");
+        bld.append("&emsp;# of RSVP: ").append(e.getAttendee_count()).append("/").append(e.getCapacity());
         return bld.toString();
     }
 
     private void readObjects(JsonReader reader) throws IOException {
+        Log.d("JsonReader", "Beginning parsing");
         Event e = new Event();
-        bld = new StringBuilder();
         while (reader.hasNext()) {
             if (reader.peek() == JsonToken.BEGIN_OBJECT) {
                 reader.beginObject();
             }
             String next = reader.nextName();
+            Log.d("Reading..", next + "..another next? .." + reader.hasNext());
             switch(next.toLowerCase().trim()) {
                 case "results" : {
                     reader.beginArray();
@@ -192,7 +163,6 @@ public class ConnectTask extends AsyncTask {
                 case "venue_zip" : {
                     String zipped = reader.nextString().substring(0, 5);
                     e.setZip(Integer.parseInt(zipped));
-                    bld.append(zipped).append("%7C");
                     break;
                 }
                 case "capacity" : {
