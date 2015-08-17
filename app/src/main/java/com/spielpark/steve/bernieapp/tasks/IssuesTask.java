@@ -3,6 +3,8 @@ package com.spielpark.steve.bernieapp.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.Html;
+import android.util.JsonReader;
+import android.util.JsonToken;
 import android.util.Log;
 import android.util.Xml;
 import android.view.View;
@@ -11,7 +13,10 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.spielpark.steve.bernieapp.R;
+import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
+import com.spielpark.steve.bernieapp.misc.Util;
 import com.spielpark.steve.bernieapp.wrappers.Event;
+import com.spielpark.steve.bernieapp.wrappers.ImgTxtItem;
 import com.spielpark.steve.bernieapp.wrappers.Issue;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -26,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -36,6 +42,7 @@ public class IssuesTask extends AsyncTask {
     private static ListView list;
     private static ProgressBar progressBar;
     private static Context ctx;
+    private static HashMap<String, String> vidLinks;
     public IssuesTask(Context ctx, ListView listView, ProgressBar progressBar) {
         this.list = listView;
         this.ctx = ctx;
@@ -48,7 +55,7 @@ public class IssuesTask extends AsyncTask {
 
     private String getHTMLForTitle(Issue i) {
         SimpleDateFormat ft = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.US);
-        String time = "";
+        String time;
         try {
             final Date dateObj = ft.parse(i.getPubDate());
             time = new SimpleDateFormat("EEE, d MMM yyyy").format(dateObj);
@@ -58,7 +65,7 @@ public class IssuesTask extends AsyncTask {
         }
         StringBuilder bld = new StringBuilder();
         bld.append("<big>").append(i.getTitle()).append("</big><br>");
-        bld.append("<font color=\"#FF2222\">&emsp; Published on ").append(time).append("</font>");
+        bld.append("<font color=\"#FF2222\">Published on ").append(time).append("</font>");
         return bld.toString();
     }
 
@@ -66,11 +73,12 @@ public class IssuesTask extends AsyncTask {
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
         Log.d("OPE", "There are " + issues.size() + " events.");
-        String[] titles = new String[issues.size()];
-        for (int i = 0; i < issues.size(); i++) {
-            titles[i] = getHTMLForTitle(issues.get(i));
+        for (Issue i : issues) {
+            i.setUrl(vidLinks.get(i.getTitle()));
+            Log.d("Success!", i.getTitle() + "..." + i.getUrl());
         }
-        IssuesAdapter adapter = new IssuesAdapter(ctx, R.layout.list_news_item, R.id.txtItem, titles);
+        new FetchThumbsTask().execute();
+        ImgTxtAdapter adapter = new ImgTxtAdapter(ctx, R.layout.list_news_item, issues);
         list.setAdapter(adapter);
         list.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
@@ -78,6 +86,7 @@ public class IssuesTask extends AsyncTask {
 
     @Override
     protected Object doInBackground(Object[] params) {
+        retrieveLinks();
         issues = new ArrayList<>();
         BufferedReader xml = null;
         try {
@@ -88,10 +97,9 @@ public class IssuesTask extends AsyncTask {
         }
         if (xml == null) {
             Issue i = new Issue();
-            i.setTitle("Unable to Load News");
+            i.setHtmlTitle("Unable to Load News");
             i.setDesc("Check your internet connection?");
             issues.add(i);
-            super.onCancelled();
             return null;
         }
         XmlPullParser xmlReader = Xml.newPullParser();
@@ -104,6 +112,67 @@ public class IssuesTask extends AsyncTask {
         return null;
     }
 
+    private void retrieveLinks() {
+        BufferedReader in = null;
+        vidLinks = new HashMap<>();
+        try {
+            URL url = new URL("https://www.reddit.com/r/bernienews.json");
+            in = new BufferedReader(new InputStreamReader(url.openStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (in == null) {
+            Log.d("rss reader null", "null reader. Is Reddit down?!?!");
+        }
+        JsonReader reader = new JsonReader(in);
+        try {
+            readObjects(reader);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readObjects(JsonReader reader) throws IOException {
+        Log.d("JsonReader", "Beginning parsing");
+        String title = "";
+        String link = "";
+        while (reader.hasNext()) {
+            if (reader.peek() == JsonToken.BEGIN_OBJECT) {
+                reader.beginObject();
+            }
+            String next = reader.nextName();
+            switch(next.toLowerCase().trim()) {
+                case "children" : {
+                    reader.beginArray();
+                    reader.beginObject();
+                    break;
+                }
+                case "data" : {
+                    reader.beginObject();
+                    break;
+                }
+                case "title" : {
+                    title = reader.nextString();
+                    break;
+                }
+                case "url" : {
+                    link = reader.nextString();
+                    break;
+                }
+                case "ups": {
+                    reader.skipValue();
+                    reader.endObject();
+                    reader.endObject();
+                    vidLinks.put(title, link);
+                    break;
+                }
+                default: {
+                    reader.skipValue();
+                }
+            }
+        }
+        reader.close();
+    }
 
     private void readXml(XmlPullParser in) throws XmlPullParserException, IOException {
         int type = in.getEventType();
@@ -128,6 +197,7 @@ public class IssuesTask extends AsyncTask {
                 } else if (name.equals("pubDate")) {
                     String t = (in.nextText());
                     i.setPubDate(t);
+                    i.setHtmlTitle(getHTMLForTitle(i));
                 } else if (name.equals("description")) {
                     i.setDesc(in.nextText());
                 }
@@ -135,20 +205,29 @@ public class IssuesTask extends AsyncTask {
             type = in.next();
         }
         issues.add(i);
-        Log.d("New Event", i.toString());
     }
 
-    private class IssuesAdapter extends ArrayAdapter {
+    private class FetchThumbsTask extends AsyncTask {
 
-        private IssuesAdapter(Context context, int resource, int textViewResourceId, Object[] objects) {
-            super(context, resource, textViewResourceId, objects);
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            StringBuilder bld = new StringBuilder("http://img.youtube.com/vi/");
+            for (Issue i : issues) {
+                if (i.getUrl() == null) {
+                    continue;
+                }
+                bld.append(i.getUrl().substring(i.getUrl().lastIndexOf('=') + 1));
+                bld.append("/default.jpg");
+                i.setThumb(Util.getBitmapFromURL(bld.toString()));
+                bld = new StringBuilder("http://img.youtube.com/vi/");
+            }
+            return null;
         }
 
         @Override
-        public Object getItem(int position) {
-            return Html.fromHtml((String) super.getItem(position));
+        protected void onPostExecute(Object o) {
+            ((ImgTxtAdapter) list.getAdapter()).notifyDataSetChanged();
         }
-
     }
 
 }
