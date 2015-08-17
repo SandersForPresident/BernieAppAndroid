@@ -1,17 +1,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:layout_marginBottom="60dp"
+    android:layout_marginBottom="61dp"
     tools:context=".actMainPage$PlaceholderFragment">
+
+
+    <ImageView
+        android:id="@+id/pic_header"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:src="@drawable/index"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="12dp"
+        android:layout_alignTop="@id/pic_header"
+        android:gravity="left"
+        android:textColor="#FFFFFF"
+        android:text="This just in.."
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:background="@drawable/shadow"/>
+
+    <TextView
+        android:id="@+id/txtSubHeader"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingBottom="4dp"
+        android:layout_marginTop="-2dp"
+        android:textStyle="bold"
+        android:text="Predictable filler text meant to fill a space. With the filler text, the text that fills, the text specifically designed to fill a blank space, filler text."
+        android:layout_below="@id/pic_header"
+        android:background="@drawable/news_header_border"/>
 
     <ListView
         android:id="@+id/listNews"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginTop="12dp"
-        android:visibility="gone"/>
+        android:layout_below="@id/txtSubHeader"
+        android:visibility="visible"/>
     
     <ProgressBar
         android:id="@+id/progressBar"
