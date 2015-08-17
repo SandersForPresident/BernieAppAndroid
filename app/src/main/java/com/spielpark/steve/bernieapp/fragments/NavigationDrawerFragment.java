@@ -1,5 +1,6 @@
 package com.spielpark.steve.bernieapp.fragments;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -20,10 +21,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.spielpark.steve.bernieapp.R;
+import com.spielpark.steve.bernieapp.wrappers.NavDrawerItem;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -99,17 +103,14 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                        getString(R.string.title_section4),
-                        getString(R.string.title_section5),
-                }));
+        NavDrawerItem[] datas = new NavDrawerItem[] {
+                new NavDrawerItem(R.drawable.ic_public_white_24dp, getString(R.string.title_section1)),
+                new NavDrawerItem(R.drawable.ic_event_note_white_24dp, getString(R.string.title_section2)),
+                new NavDrawerItem(R.drawable.ic_people_white_24dp, getString(R.string.title_section3)),
+                new NavDrawerItem(R.drawable.ic_map_white_24dp, getString(R.string.title_section4)),
+                new NavDrawerItem(R.drawable.ic_insert_chart_white_24dp, getString(R.string.title_section5)),
+        };
+        mDrawerListView.setAdapter(new NavDrawerAdapter(getActivity(), R.layout.list_drawer_item, datas));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -277,4 +278,36 @@ public class NavigationDrawerFragment extends Fragment {
          */
         void onNavigationDrawerItemSelected(int position);
     }
-}
+
+    private static class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
+            private final Context context;
+            private final int layoutResourceId;
+            private NavDrawerItem data[] = null;
+
+            public NavDrawerAdapter(Context context, int layoutResourceId, NavDrawerItem [] data)
+            {
+                super(context, layoutResourceId, data);
+                this.context = context;
+                this.layoutResourceId = layoutResourceId;
+                this.data = data;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+
+                View v = inflater.inflate(layoutResourceId, parent, false);
+
+                ImageView imageView = (ImageView) v.findViewById(R.id.navDrawerImageView);
+                TextView textView = (TextView) v.findViewById(R.id.navDrawerTextView);
+
+                NavDrawerItem choice = data[position];
+
+                imageView.setImageResource(choice.icon);
+                textView.setText(choice.name);
+
+                return v;
+            }
+        }
+    }
+
