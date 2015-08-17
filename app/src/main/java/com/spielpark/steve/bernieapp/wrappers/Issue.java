@@ -1,15 +1,17 @@
 package com.spielpark.steve.bernieapp.wrappers;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Steve on 7/9/2015.
  */
-public class Issue {
-    public String getTitle() {
-        return title;
+public class Issue implements ImgTxtItem {
+    public String getHtmlTitle() {
+        return htmlTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setHtmlTitle(String title) {
+        this.htmlTitle = title;
     }
 
     public String getDesc() {
@@ -20,49 +22,30 @@ public class Issue {
         this.desc = desc;
     }
 
-    public String getLongdesc() {
-        return longdesc;
+    public Bitmap getThumb() {
+        return thumb;
     }
 
-    public void setLongdesc(String longdesc) {
-        this.longdesc = longdesc;
+    public void setThumb(Bitmap thumb) {
+        this.thumb = thumb;
     }
 
-    public String getIcon_image() {
-        return icon_image;
+    public String getVideo() {
+        return video;
     }
 
-    public void setIcon_image(String icon_image) {
-        this.icon_image = icon_image;
+    public void setVideo(String videos) {
+        this.video = videos;
     }
 
-    public String[] getVideos() {
-        return videos;
-    }
-
-    public void setVideos(String[] videos) {
-        this.videos = videos;
-    }
-
-    public String[] getImages() {
-        return images;
-    }
-
-    public void setImages(String[] images) {
-        this.images = images;
-    }
 
     private String pubDate;
-    private String title;
-
+    private String htmlTitle;
     private String desc;
-    private String longdesc;
-    private String icon_image;
+    private Bitmap thumb;
     private String Url;
-
-    private String[] videos;
-    private String[] images;
-
+    private String title;
+    private String video;
     public String getPubDate() {
         return pubDate;
     }
@@ -71,6 +54,13 @@ public class Issue {
         this.pubDate = pubDate;
     }
 
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String t) {
+        this.title = t;
+    }
 
     public String getUrl() {
         return Url;
@@ -80,4 +70,23 @@ public class Issue {
         Url = url;
     }
 
+    @Override
+    public String getTxt() {
+        return getHtmlTitle();
+    }
+
+    @Override
+    public void setTxt(String txt) {
+        this.setHtmlTitle(txt);
+    }
+
+    @Override
+    public Bitmap getImg() {
+        return getThumb();
+    }
+
+    @Override
+    public void setImg(Bitmap img) {
+        this.setThumb(img);
+    }
 }
