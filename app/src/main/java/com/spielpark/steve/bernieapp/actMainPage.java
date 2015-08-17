@@ -1,5 +1,6 @@
 package com.spielpark.steve.bernieapp;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.view.View;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.spielpark.steve.bernieapp.fragments.BernRateFragment;
 import com.spielpark.steve.bernieapp.fragments.BottomNavFragment;
 import com.spielpark.steve.bernieapp.fragments.ConnectFragment;
 import com.spielpark.steve.bernieapp.fragments.EventFragment;
@@ -26,6 +28,7 @@ import com.spielpark.steve.bernieapp.fragments.OrganizeFragment;
 import com.spielpark.steve.bernieapp.fragments.SingleIssueFragment;
 import com.spielpark.steve.bernieapp.wrappers.Event;
 import com.spielpark.steve.bernieapp.wrappers.Issue;
+import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
 
 public class actMainPage extends ActionBarActivity
@@ -34,7 +37,7 @@ public class actMainPage extends ActionBarActivity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
+    private static SharedPreferences preferences;
     private static Fragment curFrag;
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -45,7 +48,6 @@ public class actMainPage extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_page);
-
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -56,6 +58,7 @@ public class actMainPage extends ActionBarActivity
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#147FD7")));
         mTitle = "News";
+        preferences = getApplicationContext().getSharedPreferences("bernie_app_prefs", MODE_PRIVATE);
     }
 
     @Override
@@ -76,8 +79,12 @@ public class actMainPage extends ActionBarActivity
                 replacement = OrganizeFragment.getInstance();
                 break;
             }
-            case 3: {
+            case 3 : {
                 replacement = ConnectFragment.getInstance();
+                break;
+            }
+            case 4 : {
+                replacement = BernRateFragment.getInstance();
                 break;
             }
             default:  {
@@ -143,7 +150,7 @@ public class actMainPage extends ActionBarActivity
         }
     }
 
-    public void loadEvent(Event e) {
+    public void loadEvent(NewsArticle e) {
         Fragment f = EventFragment.getInstance(e);
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().addToBackStack(null).replace(R.id.container, f).commit();
@@ -155,4 +162,7 @@ public class actMainPage extends ActionBarActivity
         manager.beginTransaction().addToBackStack(null).replace(R.id.container, f).commit();
     }
 
+    public SharedPreferences getPrefs() {
+        return this.preferences;
+    }
 }
