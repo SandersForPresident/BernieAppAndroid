@@ -29,7 +29,6 @@ public class ConnectTask extends AsyncTask {
     private static ArrayList<Event> events;
     private static Context ctx;
     private static ConnectFragment frag;
-
     public ConnectTask(Context ctx, ConnectFragment frag) {
         this.frag = frag;
         this.ctx = ctx;
@@ -44,7 +43,9 @@ public class ConnectTask extends AsyncTask {
         events = new ArrayList<>();
         BufferedReader in = null;
         try {
-            URL url = new URL("https://go.berniesanders.com/page/event/search_results?orderby=date&format=json&zip_radius=" + frag.mRadius + "&zip=" + frag.mZip);
+            URL url = frag.fetchCountry ?
+                    new URL("https://go.berniesanders.com/page/event/search_results?orderby=date&format=json") :
+                    new URL("https://go.berniesanders.com/page/event/search_results?orderby=date&format=json&zip_radius=" + frag.mRadius + "&zip=" + frag.mZip);
             Log.d("URL", url.toString());
             in = new BufferedReader(new InputStreamReader(url.openStream()));
         } catch (IOException e) {
@@ -56,7 +57,6 @@ public class ConnectTask extends AsyncTask {
             e.setName("Unable to Load News");
             e.setDescription("Check your internet connection?");
             events.add(e);
-            super.onCancelled();
             return null;
         }
         JsonReader reader = new JsonReader(in);
@@ -97,7 +97,7 @@ public class ConnectTask extends AsyncTask {
         StringBuilder bld = new StringBuilder();
         bld.append("<big><font color =\"#147FD7\">").append(e.getName()).append("</font></big><br>");
         bld.append("&emsp;").append(e.getVenue_city()).append(", ").append(e.getState()).append(" - ").append(e.getZip()).append("<br>");
-        bld.append("&emsp;# of RSVP: ").append(e.getAttendee_count()).append("/").append(e.getCapacity());
+        bld.append("&emsp;# of RSVP: ").append(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
         return bld.toString();
     }
 
@@ -105,11 +105,17 @@ public class ConnectTask extends AsyncTask {
         Log.d("JsonReader", "Beginning parsing");
         Event e = new Event();
         while (reader.hasNext()) {
+            if (reader.peek() == JsonToken.END_OBJECT) {
+                Log.d("Adding..", "Adding event: " + e.getName());
+                formatDate(e);
+                events.add(e);
+                e = new Event();
+                reader.endObject();
+            }
             if (reader.peek() == JsonToken.BEGIN_OBJECT) {
                 reader.beginObject();
             }
             String next = reader.nextName();
-            Log.d("Reading..", next + "..another next? .." + reader.hasNext());
             switch(next.toLowerCase().trim()) {
                 case "results" : {
                     reader.beginArray();
@@ -179,6 +185,16 @@ public class ConnectTask extends AsyncTask {
                 }
                 case "is_official" : {
                     e.setOfficial(reader.nextInt() == 1);
+                    break;
+                }
+                case "closed_msg" : {
+                    reader.skipValue(); //consume and throw away
+                    if (reader.peek() == JsonToken.END_OBJECT) {
+                        formatDate(e);
+                        events.add(e);
+                        e = new Event();
+                        reader.endObject();
+                    }
                     break;
                 }
                 case "attendee_count" : {
