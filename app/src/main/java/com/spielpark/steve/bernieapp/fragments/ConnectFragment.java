@@ -22,8 +22,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -46,6 +48,7 @@ public class ConnectFragment extends Fragment {
     private static GoogleMap map;
     public int mZip = 0;
     public int mRadius = 50;
+    public boolean fetchCountry = true;
     private static ConnectFragment mInstance;
     public static ConnectFragment getInstance() {
         if (mInstance == null) {
@@ -76,9 +79,11 @@ public class ConnectFragment extends Fragment {
         getView().findViewById(R.id.c_btnGo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fetchCountry = false;
                 startTask();
                 InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);}
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         });
         ((ListView) getView().findViewById(R.id.c_listEvents)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,7 +91,9 @@ public class ConnectFragment extends Fragment {
                 listItemClicked(i, false);
             }
         });
+        fetchCountry = true;
         setUpMap();
+        MapsInitializer.initialize(getActivity().getApplicationContext());
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -146,7 +153,7 @@ public class ConnectFragment extends Fragment {
         ((TextView) base.findViewById(R.id.cd_txtDescContent)).setText(e.getDescription());
         ((TextView) base.findViewById(R.id.cd_txtDescContent)).setMovementMethod(new ScrollingMovementMethod());
         ((TextView) base.findViewById(R.id.cd_txtLocation)).setText(e.getVenue_addr() + "\n" + e.getVenue_city() + ", " + e.getState() + " - " + e.getZip());
-        ((TextView) base.findViewById(R.id.cd_txtRSVP)).setText(e.getAttendee_count() + "/" + e.getCapacity());
+        ((TextView) base.findViewById(R.id.cd_txtRSVP)).setText(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
         Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), alreadyLoaded ? R.anim.view_fade_in_fast : R.anim.view_fade_in);
         fadeIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -167,7 +174,9 @@ public class ConnectFragment extends Fragment {
     }
 
     private void startTask() {
-        if (validZip()) {
+        if (fetchCountry) {
+            new ConnectTask(getActivity(), getInstance()).execute();
+        } else if (validZip()) {
             getView().findViewById(R.id.c_btnGo).setEnabled(false);
             getView().findViewById(R.id.c_btnGo).setBackgroundColor(Color.parseColor("#CCCCCC"));
             getView().findViewById(R.id.c_progress).setVisibility(View.VISIBLE);
@@ -201,6 +210,7 @@ public class ConnectFragment extends Fragment {
                 ConnectFragment.this.map = googleMap;
             }
         });
+        startTask();
     }
 
     public void setMarkers() {
@@ -208,15 +218,14 @@ public class ConnectFragment extends Fragment {
         LatLngBounds.Builder bld = new LatLngBounds.Builder();
         List<Marker> markers = new ArrayList<>(events.size());
         LatLng pos;
-        Random gen = new Random();
-        float hue = 1.0f;
+        float hue;
         for (Event e : ConnectTask.getEvents()) {
+            hue = e.isOfficial() ? 1.0f : 214f;
             pos = new LatLng(e.getLatitude(), e.getLongitude());
             markers.add(map.addMarker(new MarkerOptions()
                     .position(pos)
                     .title(e.getName())
                     .icon(BitmapDescriptorFactory.defaultMarker(hue))));
-            hue = (hue + gen.nextFloat() * (16.0f - 8.0f) + 8.0f) % 360;
             bld.include(pos);
         }
         LatLngBounds bounds = bld.build();
@@ -249,6 +258,9 @@ public class ConnectFragment extends Fragment {
 
     public void updateViews(ArrayAdapter a) {
         View parent = getView();
+        if (parent == null) {
+            return; //We switched out of this view.
+        }
         ListView list = (ListView) getView().findViewById(R.id.c_listEvents);
         list.setAdapter(a);
         list.setVisibility(View.VISIBLE);
