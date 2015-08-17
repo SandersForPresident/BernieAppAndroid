@@ -1,11 +1,8 @@
 package com.spielpark.steve.bernieapp.tasks;
 
 import android.content.Context;
-import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.text.Html;
-import android.util.JsonReader;
-import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,7 +10,10 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.spielpark.steve.bernieapp.R;
+import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
+import com.spielpark.steve.bernieapp.misc.Util;
 import com.spielpark.steve.bernieapp.wrappers.Event;
+import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -21,52 +21,50 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 /**
  * Created by Steve on 7/8/2015.
  */
 public class NewsTask extends AsyncTask {
-    private static ArrayList<Event> events;
+    private static ArrayList<NewsArticle> articles;
     private static ListView list;
     private static ProgressBar progressBar;
     private static Context ctx;
-    public NewsTask(Context ctx, ListView listView, ProgressBar progressBar) {
+    private static boolean demdaily = true;
+
+    public NewsTask(Context ctx, ListView listView, ProgressBar progressBar, boolean demdaily) {
         this.list = listView;
         this.ctx = ctx;
         this.progressBar = progressBar;
+        this.demdaily = demdaily;
     }
 
-    public static Event getEvent(int pos) {
-        return events.get(pos);
+    public static NewsArticle getArticle(int pos) {
+        return articles.get(pos);
     }
 
     @Override
     protected Object doInBackground(Object[] params) {
-        events = new ArrayList<>();
+        articles = new ArrayList<>();
         BufferedReader xml = null;
         try {
-            URL url = new URL("https://berniesanders.com/feed/");
+            URL url = new URL(demdaily ? "https://berniesanders.com/feed/" : "https://berniesanders.com/press-release/feed/");
             xml = new BufferedReader(new InputStreamReader(url.openStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
         if (xml == null) {
-            Event e = new Event();
-            e.setName("Unable to Load News");
-            e.setDescription("Check your internet connection?");
-            events.add(e);
-            super.onCancelled();
+            NewsArticle a = new NewsArticle();
+            a.setTitle("Unable to Load News");
+            a.setDesc("Check your internet connection?");
+            articles.add(a);
             return null;
         }
         XmlPullParser xmlReader = Xml.newPullParser();
@@ -82,36 +80,39 @@ public class NewsTask extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        Collections.sort(events);
-        String[] titles = new String[events.size()];
-        for (int i = 0; i < events.size(); i++) {
-            titles[i] = getHTMLForTitle(events.get(i));
+        Collections.sort(articles);
+        NewsArticle a;
+        for (int i = 0; i < articles.size(); i++) {
+            a = articles.get(i);
+            a.setHtmlTitle(getHTMLForTitle(a));
         }
-        NewsAdapter adapter = new NewsAdapter(ctx, R.layout.list_news_item, R.id.txtItem, titles);
+        //new FetchNewsThumbs().execute();
+        ImgTxtAdapter adapter = new ImgTxtAdapter(ctx, R.layout.list_news_item, articles);
         list.setAdapter(adapter);
         list.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     }
 
-    private void formatDate(Event e) {
+    private void formatDate(NewsArticle e) {
         SimpleDateFormat ft;
-        if (e.isrss) {
-            ft = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.US);
-        } else {
-            ft = new SimpleDateFormat("yyyy-MM-dd");
-        }
+        ft = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.US);
         try {
-            Date date = ft.parse(e.getDate());
-            e.setDate(new SimpleDateFormat("MMMM d, yyyy").format(date));
+            Date date = ft.parse(e.getPubdate());
+            e.setPubdate(new SimpleDateFormat("MMMM d, yyyy").format(date));
         } catch (ParseException e1) {
             e1.printStackTrace();
         }
     }
 
-    private String getHTMLForTitle(Event e) {
+    private String getHTMLForTitle(NewsArticle e) {
         StringBuilder bld = new StringBuilder();
-        bld.append("<big>").append(e.getName()).append("</big><br>");
-        bld.append("<font color=\"#FF2222\">&emsp;").append(e.getDate());
+        String title = e.getTitle();
+        if (title.length() > 40) {
+            title = title.substring(0, 40);
+            title = title.substring(0, Math.min(title.length(), title.lastIndexOf(' '))).concat("...");
+        }
+        bld.append("<big>").append(title).append("</big><br>");
+        bld.append("<font color=\"#FF2222\">").append(e.getPubdate());
         return bld.toString();
     }
 
@@ -127,41 +128,43 @@ public class NewsTask extends AsyncTask {
     }
 
     private void readItem(XmlPullParser in) throws XmlPullParserException, IOException {
-        Event e = new Event();
-        e.isrss = true;
+        NewsArticle a = new NewsArticle();
         int type = in.next();
         while (!(type == XmlPullParser.END_TAG && in.getName().equals("item"))) {
             if (type == XmlPullParser.START_TAG) {
                 String name = in.getName();
                 if (name.equals("title")) {
-                    e.setName(in.nextText());
+                    a.setTitle(in.nextText());
                 } else if (name.equals("link")) {
-                    e.setUrl(in.nextText());
+                    a.setUrl(in.nextText());
                 } else if (name.equals("pubDate")) {
                     String t = (in.nextText());
                     String time = t.substring(t.indexOf(':') - 2, t.lastIndexOf(':') +2);
-                    e.setTime(time);
-                    e.setDate(t);
+                    a.setTime(time);
+                    a.setPubdate(t);
                 } else if (name.equals("description")) {
-                    e.setDescription(in.nextText());
+                    a.setDesc(in.nextText());
                 }
             }
             type = in.next();
         }
-        formatDate(e);
-        events.add(e);
+        formatDate(a);
+        articles.add(a);
     }
 
-    private class NewsAdapter extends ArrayAdapter {
-
-        private NewsAdapter(Context context, int resource, int textViewResourceId, Object[] objects) {
-            super(context, resource, textViewResourceId, objects);
+    private static class FetchNewsThumbs extends AsyncTask {
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            ((ImgTxtAdapter) NewsTask.list.getAdapter()).notifyDataSetChanged();
         }
 
         @Override
-        public Object getItem(int position) {
-            return Html.fromHtml( (String) super.getItem(position));
+        protected Object doInBackground(Object[] objects) {
+            for (NewsArticle a : articles) {
+                a.setThumb(Util.getOGImage(a.getUrl(), NewsTask.ctx, true));
+            }
+            return null;
         }
-
     }
 }
