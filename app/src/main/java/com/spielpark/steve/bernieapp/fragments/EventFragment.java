@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.wrappers.Event;
+import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,10 +27,10 @@ import java.util.Date;
  * to handle interaction events.
  */
 public class EventFragment extends Fragment {
-    private static Event mEvent;
+    private static NewsArticle mEvent;
     private static EventFragment mInstance;
 
-    public static EventFragment getInstance(Event e) {
+    public static EventFragment getInstance(NewsArticle e) {
         mEvent = e;
         if (mInstance == null) {
             mInstance = new EventFragment();
@@ -51,9 +52,9 @@ public class EventFragment extends Fragment {
             e.printStackTrace();
         }
         View root = getView();
-        ((TextView) root.findViewById(R.id.e_txtTitle)).setText(mEvent.getName());
-        ((TextView) root.findViewById(R.id.e_txtDate)).setText(mEvent.getDate() + " at " + time);
-        ((TextView) root.findViewById(R.id.e_txtDesc)).setText(Html.fromHtml(mEvent.getDescription()));
+        ((TextView) root.findViewById(R.id.e_txtTitle)).setText(mEvent.getTitle());
+        ((TextView) root.findViewById(R.id.e_txtDate)).setText(mEvent.getPubdate() + " at " + time);
+        ((TextView) root.findViewById(R.id.e_txtDesc)).setText(Html.fromHtml(mEvent.getDesc()));
         ((TextView) root.findViewById(R.id.e_txtDesc)).setMovementMethod(new ScrollingMovementMethod());
          root.findViewById(R.id.e_btnWebsite).setOnClickListener(new View.OnClickListener() {
             @Override
