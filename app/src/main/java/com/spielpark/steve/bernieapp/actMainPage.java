@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.fragments.BernRateFragment;
 import com.spielpark.steve.bernieapp.fragments.ConnectFragment;
@@ -62,6 +63,7 @@ public class actMainPage extends ActionBarActivity
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#147FD7")));
         mTitle = "News";
         preferences = getApplicationContext().getSharedPreferences("bernie_app_prefs", 0);
+        adjustNavBarText(0);
     }
 
     @Override
@@ -95,6 +97,7 @@ public class actMainPage extends ActionBarActivity
                 replacement = NewsFragment.getInstance();
             }
         }
+        adjustNavBarText(position);
         curFrag = replacement;
         onSectionAttached(++position);
         fragmentManager.beginTransaction()
@@ -185,5 +188,32 @@ public class actMainPage extends ActionBarActivity
                 }
             }
         }
+    }
+
+    public void adjustNavBarText(int selected) {
+        TextView[] views = new TextView[] {
+                (TextView) findViewById(R.id.newsTxt),
+                (TextView) findViewById(R.id.issuesTxt),
+                (TextView) findViewById(R.id.organizeTxt),
+                (TextView) findViewById(R.id.connectTxt)
+        };
+        for (int i = 0; i < views.length; i++) {
+            TextView t = views[i];
+            if (t == null) {
+                return;
+            }
+            if (i == selected) {
+                t.setTextColor(Color.parseColor("#FFC207"));
+            } else {
+                t.setTextColor(Color.parseColor("#FFFFFF"));
+            }
+        }
+    }
+
+    public void switchPage(View view) {
+        onNavigationDrawerItemSelected(Integer.parseInt((String) view.getTag()));
+        onSectionAttached(Integer.parseInt((String) view.getTag()) + 1);
+        restoreActionBar();
+        adjustNavBarText(Integer.parseInt((String) view.getTag()));
     }
 }
