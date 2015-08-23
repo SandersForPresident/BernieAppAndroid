@@ -3,9 +3,12 @@ package com.spielpark.steve.bernieapp.fragments;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -147,10 +150,27 @@ public class ConnectFragment extends Fragment {
             View mapContainer = base.findViewById(R.id.c_mapContainer);
             mapContainer.startAnimation(new AnimationUtils().loadAnimation(getActivity(), R.anim.view_slide_up));
         }
-        Event e = ConnectTask.getEvents().get(pos);
+        final Event e = ConnectTask.getEvents().get(pos);
+        base.findViewById(R.id.cd_btnRSVP).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(e.getUrl()));
+                startActivity(i);
+            }
+        });
+        base.findViewById(R.id.cd_btnDirections).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri gmmIntentUri = Uri.parse("geo:" + Double.toString(e.getLatitude()) + "," + Double.toString(e.getLongitude()));
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+        });
         ((TextView) base.findViewById(R.id.cd_txtDate)).setText(e.getDate());
         ((TextView) base.findViewById(R.id.cd_txtTitle)).setText(e.getName());
-        ((TextView) base.findViewById(R.id.cd_txtDescContent)).setText(e.getDescription());
+        ((TextView) base.findViewById(R.id.cd_txtDescContent)).setText(Html.fromHtml(e.getDescription()));
         ((TextView) base.findViewById(R.id.cd_txtDescContent)).setMovementMethod(new ScrollingMovementMethod());
         ((TextView) base.findViewById(R.id.cd_txtLocation)).setText(e.getVenue_addr() + "\n" + e.getVenue_city() + ", " + e.getState() + " - " + e.getZip());
         ((TextView) base.findViewById(R.id.cd_txtRSVP)).setText(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
