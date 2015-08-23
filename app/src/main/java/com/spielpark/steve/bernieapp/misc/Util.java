@@ -6,7 +6,10 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +42,16 @@ public class Util {
         public String name;
     }
 
+    public static int[] getScreenWidthHeight(Activity ctx) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        ctx.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = Math.round(metrics.widthPixels / metrics.density) - 24;
+        int height = Math.round(metrics.heightPixels / metrics.density) / 3;
+        return new int[] {width, height};
+    }
     public static Bitmap getOGImage(String src, Context context, boolean thumb) {
+        String key = context.getResources().getString(R.string.firesizeacc);
+        String fireUrl = "https://" + key + ".firesize.com/" + (thumb ? "150x120" : "500x300") + "/g_none/";
         try {
             HttpURLConnection conn = ((HttpURLConnection) (new URL(src)).openConnection());
             conn.connect();
@@ -49,12 +61,8 @@ public class Util {
                 int loc = next.indexOf("og:image");
                 if (loc > 0) {
                     int start = next.indexOf("https", loc);
-                    Log.d("ImgURL", next.substring(start, next.lastIndexOf('\"')));
-                    if (thumb) {
-                        return Bitmap.createScaledBitmap(getBitmapFromURL(next.substring(start, next.lastIndexOf('\"'))), 64, 64, false);
-                    } else {
-                        return getBitmapFromURL(next.substring(start, next.lastIndexOf('\"')));
-                    }
+                    Log.d("ImgURL", fireUrl + next.substring(start, next.lastIndexOf('\"')));
+                    return getBitmapFromURL(fireUrl + next.substring(start, next.lastIndexOf('\"')));
                 }
                 next = in.readLine();
             }
@@ -63,6 +71,11 @@ public class Util {
             return BitmapFactory.decodeResource(context.getResources(), R.drawable.logo);
         }
         return null;
+    }
+    public static boolean isOnWifi(Context ctx) {
+        ConnectivityManager cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
     public static Bitmap getBitmapFromURL(String src) {
@@ -95,9 +108,11 @@ public class Util {
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
+                        Log.d("Dialog", "Was dismissed.");
                         boolean checked = ((CheckBox) view.findViewById(R.id.dia_checkbox)).isChecked();
                         if (checked) {
-                            prefs.edit().putInt(p.name, 1).commit();
+                            Log.d("Dialog Gen", "Box was checked, putting in things.");
+                            prefs.edit().putInt(p.name, 0).commit();
                         }
                     }
                 })
