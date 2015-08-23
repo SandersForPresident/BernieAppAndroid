@@ -48,7 +48,13 @@ public class IssuesTask extends AsyncTask {
         this.ctx = ctx;
         this.progressBar = progressBar;
     }
-
+    public static void clear() {
+        issues = null;
+        ctx = null;
+        list = null;
+        progressBar = null;
+        vidLinks = null;
+    }
     public static Issue getIssue(int position) {
         return issues.get(position);
     }
@@ -74,8 +80,8 @@ public class IssuesTask extends AsyncTask {
         super.onPostExecute(o);
         Log.d("OPE", "There are " + issues.size() + " events.");
         for (Issue i : issues) {
-            i.setUrl(vidLinks.get(i.getTitle()));
-            Log.d("Success!", i.getTitle() + "..." + i.getUrl());
+            i.setVideo(vidLinks.get(i.getTitle()));
+            Log.d("Success!", i.getTitle() + "..." + i.getVideo());
         }
         new FetchThumbsTask().execute();
         ImgTxtAdapter adapter = new ImgTxtAdapter(ctx, R.layout.list_news_item, issues);
@@ -163,7 +169,7 @@ public class IssuesTask extends AsyncTask {
                     reader.skipValue();
                     reader.endObject();
                     reader.endObject();
-                    vidLinks.put(title, link);
+                    vidLinks.put(title, link.substring(link.lastIndexOf('=') + 1));
                     break;
                 }
                 default: {
@@ -211,12 +217,12 @@ public class IssuesTask extends AsyncTask {
 
         @Override
         protected Object doInBackground(Object[] objects) {
-            StringBuilder bld = new StringBuilder("http://img.youtube.com/vi/");
+            StringBuilder bld = new StringBuilder("https://img.youtube.com/vi/");
             for (Issue i : issues) {
-                if (i.getUrl() == null) {
+                if (i.getVideo() == null) {
                     continue;
                 }
-                bld.append(i.getUrl().substring(i.getUrl().lastIndexOf('=') + 1));
+                bld.append(i.getVideo());
                 bld.append("/default.jpg");
                 i.setThumb(Util.getBitmapFromURL(bld.toString()));
                 bld = new StringBuilder("http://img.youtube.com/vi/");
