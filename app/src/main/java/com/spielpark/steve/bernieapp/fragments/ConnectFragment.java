@@ -272,10 +272,14 @@ public class ConnectFragment extends Fragment {
 
     public void backPressed() {
         View parent = getView();
-        parent.findViewById(R.id.c_edtZip).setVisibility(View.VISIBLE);
-        parent.findViewById(R.id.c_btnRadius).setVisibility(View.VISIBLE);
-        parent.findViewById(R.id.c_listEvents).setVisibility(View.VISIBLE);
-        parent.findViewById(R.id.c_btnGo).setVisibility(View.VISIBLE);
-        parent.findViewById(R.id.cd_container).setVisibility(View.GONE);
+        if (parent.findViewById(R.id.c_btnGo).getVisibility() == View.VISIBLE) {
+            getActivity().finish();
+        } else {
+            parent.findViewById(R.id.c_edtZip).setVisibility(View.VISIBLE);
+            parent.findViewById(R.id.c_btnRadius).setVisibility(View.VISIBLE);
+            parent.findViewById(R.id.c_listEvents).setVisibility(View.VISIBLE);
+            parent.findViewById(R.id.c_btnGo).setVisibility(View.VISIBLE);
+            parent.findViewById(R.id.cd_container).setVisibility(View.GONE);
+        }
     }
 }
