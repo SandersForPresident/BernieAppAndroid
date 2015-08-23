@@ -12,33 +12,38 @@
     <ImageView
         android:id="@+id/pic_header"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:src="@drawable/index"/>
+        android:layout_height="180dp"
+        android:src="@drawable/vermont_state_house"
+        android:scaleType="fitXY"/>
 
     <TextView
+        android:id="@+id/txtHeader"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="2dp"
-        android:paddingLeft="12dp"
-        android:paddingTop="12dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
         android:layout_alignTop="@id/pic_header"
         android:gravity="left"
         android:textColor="#FFFFFF"
-        android:text="This just in.."
+        android:text="This just in: "
         android:textStyle="bold"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:background="@drawable/shadow"/>
 
     <TextView
         android:id="@+id/txtSubHeader"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:paddingBottom="4dp"
         android:layout_marginTop="-2dp"
         android:textStyle="bold"
+        android:textSize="12sp"
         android:text="Predictable filler text meant to fill a space. With the filler text, the text that fills, the text specifically designed to fill a blank space, filler text."
+        android:scrollbars="vertical"
+        android:maxLines="4"
         android:layout_below="@id/pic_header"
         android:background="@drawable/news_header_border"/>
 
