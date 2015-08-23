@@ -12,9 +12,10 @@
     <ImageView
         android:id="@+id/pic_header"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="160dp"
         android:src="@drawable/vermont_state_house"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        android:onClick="loadHeaderArticle"/>
 
     <TextView
         android:id="@+id/txtHeader"
@@ -22,7 +23,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="2dp"
         android:paddingLeft="8dp"
-        android:paddingTop="8dp"
+        android:paddingTop="4dp"
         android:layout_alignTop="@id/pic_header"
         android:gravity="left"
         android:textColor="#FFFFFF"
@@ -34,10 +35,9 @@
     <TextView
         android:id="@+id/txtSubHeader"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:paddingBottom="4dp"
         android:layout_marginTop="-2dp"
         android:textStyle="bold"
         android:textSize="12sp"
