@@ -1,39 +1,37 @@
 package com.spielpark.steve.bernieapp.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.text.method.ScrollingMovementMethod;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
-import com.spielpark.steve.bernieapp.wrappers.Event;
+import com.spielpark.steve.bernieapp.misc.Util;
 import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * to handle interaction events.
- */
-public class EventFragment extends Fragment {
+public class SingleNewsFragment extends Fragment {
     private static NewsArticle mEvent;
-    private static EventFragment mInstance;
+    private static SingleNewsFragment mInstance;
 
-    public static EventFragment getInstance(NewsArticle e) {
+    public static SingleNewsFragment getInstance(NewsArticle e) {
         mEvent = e;
         if (mInstance == null) {
-            mInstance = new EventFragment();
+            mInstance = new SingleNewsFragment();
             return mInstance;
         } else {
             return mInstance;
@@ -41,7 +39,7 @@ public class EventFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String time = mEvent.getTime();
         try {
@@ -53,10 +51,12 @@ public class EventFragment extends Fragment {
         }
         View root = getView();
         ((TextView) root.findViewById(R.id.e_txtTitle)).setText(mEvent.getTitle());
+        ((TextView) root.findViewById(R.id.e_txtTitle)).setShadowLayer(13, 0, 0, Color.BLACK);
         ((TextView) root.findViewById(R.id.e_txtDate)).setText(mEvent.getPubdate() + " at " + time);
         ((TextView) root.findViewById(R.id.e_txtDesc)).setText(Html.fromHtml(mEvent.getDesc()));
-        ((TextView) root.findViewById(R.id.e_txtDesc)).setMovementMethod(new ScrollingMovementMethod());
-         root.findViewById(R.id.e_btnWebsite).setOnClickListener(new View.OnClickListener() {
+        ((TextView) root.findViewById(R.id.e_txtDesc)).setMovementMethod(new LinkMovementMethod());
+        new getNewsPicTask(root.findViewById(R.id.e_imgLogo), mEvent.getUrl(), getActivity()).execute();
+        root.findViewById(R.id.e_btnWebsite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_VIEW);
@@ -76,5 +76,30 @@ public class EventFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.frag_event, container, false);
+    }
+
+    private static class getNewsPicTask extends AsyncTask {
+        private static ImageView view;
+        private static String url;
+        private static Context ctx;
+        private static Bitmap bmp;
+
+        public getNewsPicTask (View v, String url, Context ctx) {
+            view = (ImageView) v;
+            this.url = url;
+            this.ctx = ctx;
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            bmp =  Util.getOGImage(url, ctx, false);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            view.setImageBitmap(bmp);
+        }
     }
 }
