@@ -61,13 +61,9 @@ public class BernRateFragment extends Fragment {
 
     private String[] generateURLs() {
         String[] gen = new String[urls.length];
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int width = Math.round(metrics.widthPixels / metrics.density) - 24;
-        int height = Math.round(metrics.heightPixels / metrics.density) / 3;
+        int[] heightWidth = Util.getScreenWidthHeight(getActivity());
         for (int i = 0; i < gen.length; i++) {
-            gen[i] = urls[i].concat(" width=\"" + width + "px\" height=\"" + height + "px\"></iframe>");
-            Log.d("GenURL", gen[i]);
+            gen[i] = urls[i].concat(" width=\"" + heightWidth[0] + "px\" height=\"" + heightWidth[1] + "px\"></iframe>");
         }
         return gen;
     }
