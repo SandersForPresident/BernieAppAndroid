@@ -7,6 +7,7 @@ package com.spielpark.steve.bernieapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.actMainPage;
 import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
 import com.spielpark.steve.bernieapp.tasks.NewsTask;
+import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -44,6 +46,19 @@ public class NewsFragment extends Fragment {
         if (!(NewsTask.hasData())) {
             new NewsTask(getActivity(), newsList, (ProgressBar) view.findViewById(R.id.progressBar), (TextView) view.findViewById(R.id.txtSubHeader), (TextView) view.findViewById(R.id.txtHeader)).execute();
         } else {
+            for (NewsArticle a : NewsTask.getData()) {
+                if (a.getUrl().contains("press-release")) {
+                    ((TextView) view.findViewById(R.id.txtSubHeader)).setText(Html.fromHtml(a.getDesc()));
+                    StringBuilder s = new StringBuilder(a.getTitle());
+                    s.append(" and a smaller series of just random letters.");
+                    if (s.length() > 45) {
+                        int inPoint = Math.min(s.length(), s.lastIndexOf("' '"));
+                        s.insert(inPoint, "\n");
+                    }
+                    ((TextView) view.findViewById(R.id.txtHeader)).setText(s);
+                    break;
+                }
+            }
             newsList.setVisibility(View.VISIBLE);
             view.findViewById(R.id.progressBar).setVisibility(View.GONE);
             newsList.setAdapter(new ImgTxtAdapter(getActivity(), R.layout.list_news_item, NewsTask.getData()));
