@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.support.v4.widget.DrawerLayout;
+import android.view.View;
 
 import com.spielpark.steve.bernieapp.fragments.BernRateFragment;
 import com.spielpark.steve.bernieapp.fragments.ConnectFragment;
@@ -173,5 +174,16 @@ public class actMainPage extends ActionBarActivity
 
     public SharedPreferences getPrefs() {
         return this.preferences;
+    }
+
+    public void loadHeaderArticle(View view) {
+        if (NewsTask.getData() != null) {
+            for (NewsArticle a : NewsTask.getData()) {
+                if (a.getUrl().contains("press-release")) {
+                    this.loadEvent(a);
+                    break;
+                }
+            }
+        }
     }
 }
