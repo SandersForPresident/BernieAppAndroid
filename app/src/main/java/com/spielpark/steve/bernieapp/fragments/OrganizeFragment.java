@@ -34,7 +34,8 @@ public class OrganizeFragment extends Fragment {
         WebView browser = (WebView) getView().findViewById(R.id.o_webView);
         browser.getSettings().setJavaScriptEnabled(true);
         browser.getSettings().setAppCachePath(getActivity().getCacheDir().getPath());
-        browser.getSettings().setAppCacheEnabled(true);browser.setWebViewClient(new WebViewClient() {
+        browser.getSettings().setAppCacheEnabled(true);
+        browser.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
                 super.onReceivedHttpAuthRequest(view, handler, host, realm);
