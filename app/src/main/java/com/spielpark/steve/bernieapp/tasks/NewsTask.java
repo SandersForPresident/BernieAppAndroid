@@ -3,11 +3,14 @@ package com.spielpark.steve.bernieapp.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.Html;
+import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
@@ -37,25 +40,45 @@ public class NewsTask extends AsyncTask {
     private static ListView list;
     private static ProgressBar progressBar;
     private static Context ctx;
-    private static boolean demdaily = true;
+    private static TextView subHeader;
+    private static TextView header;
 
-    public NewsTask(Context ctx, ListView listView, ProgressBar progressBar, boolean demdaily) {
+    public NewsTask(Context ctx, ListView listView, ProgressBar progressBar, TextView subHeader, TextView header) {
         this.list = listView;
         this.ctx = ctx;
         this.progressBar = progressBar;
-        this.demdaily = demdaily;
+        this.subHeader = subHeader;
+        this.header = header;
     }
 
     public static NewsArticle getArticle(int pos) {
         return articles.get(pos);
     }
-
+    public static boolean hasData() { return articles != null && articles.size() != 0; }
+    public static ArrayList<NewsArticle> getData() { return articles; }
+    public static void clear() {
+        articles = null;
+        ctx = null;
+        list = null;
+        progressBar = null;
+    }
     @Override
     protected Object doInBackground(Object[] params) {
         articles = new ArrayList<>();
+        String[] feeds = new String[] {
+                "https://berniesanders.com/feed/",
+                "https://berniesanders.com/press-release/feed/"
+        };
+        for (String s : feeds) {
+            readStream(s);
+        }
+        return null;
+    }
+
+    private void readStream(String feed) {
         BufferedReader xml = null;
         try {
-            URL url = new URL(demdaily ? "https://berniesanders.com/feed/" : "https://berniesanders.com/press-release/feed/");
+            URL url = new URL(feed);
             xml = new BufferedReader(new InputStreamReader(url.openStream()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,7 +88,7 @@ public class NewsTask extends AsyncTask {
             a.setTitle("Unable to Load News");
             a.setDesc("Check your internet connection?");
             articles.add(a);
-            return null;
+            return;
         }
         XmlPullParser xmlReader = Xml.newPullParser();
         try {
@@ -74,7 +97,6 @@ public class NewsTask extends AsyncTask {
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
     @Override
@@ -82,13 +104,25 @@ public class NewsTask extends AsyncTask {
         super.onPostExecute(o);
         Collections.sort(articles);
         NewsArticle a;
+        boolean setSubheader = false;
         for (int i = 0; i < articles.size(); i++) {
             a = articles.get(i);
             a.setHtmlTitle(getHTMLForTitle(a));
+            if (!(setSubheader)) {
+                if (a.getUrl().contains("press-release")) {
+                    subHeader.setText(Html.fromHtml(a.getDesc()));
+                    String s = a.getTitle();
+                    s = s.length() > 40 ? s.substring(0, 40) + "..." : s;
+                    header.setText(s);
+                    setSubheader = true;
+                }
+            }
         }
-        //new FetchNewsThumbs().execute();
         ImgTxtAdapter adapter = new ImgTxtAdapter(ctx, R.layout.list_news_item, articles);
         list.setAdapter(adapter);
+        if (Util.isOnWifi(ctx)) {
+            new FetchNewsThumbs(list.getAdapter()).execute();
+        }
         list.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     }
@@ -153,16 +187,31 @@ public class NewsTask extends AsyncTask {
     }
 
     private static class FetchNewsThumbs extends AsyncTask {
+        private static ListAdapter adapter;
+        public FetchNewsThumbs(ListAdapter a) {
+            this.adapter = a;
+        }
+
+
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            ((ImgTxtAdapter) NewsTask.list.getAdapter()).notifyDataSetChanged();
+            if (adapter != null ) {
+                ((ImgTxtAdapter) NewsTask.list.getAdapter()).notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Object[] values) {
+            super.onProgressUpdate(values);
+            ((ImgTxtAdapter) adapter).notifyDataSetChanged();
         }
 
         @Override
         protected Object doInBackground(Object[] objects) {
             for (NewsArticle a : articles) {
-                a.setThumb(Util.getOGImage(a.getUrl(), NewsTask.ctx, true));
+                a.setImg(Util.getOGImage(a.getUrl(), ctx, true));
+                publishProgress();
             }
             return null;
         }
