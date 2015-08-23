@@ -3,7 +3,6 @@ package com.spielpark.steve.bernieapp;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -12,21 +11,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.support.v4.widget.DrawerLayout;
-import android.view.View;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.spielpark.steve.bernieapp.fragments.BernRateFragment;
-import com.spielpark.steve.bernieapp.fragments.BottomNavFragment;
 import com.spielpark.steve.bernieapp.fragments.ConnectFragment;
-import com.spielpark.steve.bernieapp.fragments.EventFragment;
+import com.spielpark.steve.bernieapp.fragments.SingleNewsFragment;
 import com.spielpark.steve.bernieapp.fragments.IssuesFragment;
 import com.spielpark.steve.bernieapp.fragments.NavigationDrawerFragment;
 import com.spielpark.steve.bernieapp.fragments.NewsFragment;
 import com.spielpark.steve.bernieapp.fragments.OrganizeFragment;
 import com.spielpark.steve.bernieapp.fragments.SingleIssueFragment;
-import com.spielpark.steve.bernieapp.wrappers.Event;
+import com.spielpark.steve.bernieapp.tasks.IssuesTask;
+import com.spielpark.steve.bernieapp.tasks.NewsTask;
 import com.spielpark.steve.bernieapp.wrappers.Issue;
 import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
@@ -45,6 +40,13 @@ public class actMainPage extends ActionBarActivity
     private CharSequence mTitle;
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        IssuesTask.clear();
+        NewsTask.clear();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_page);
@@ -58,13 +60,14 @@ public class actMainPage extends ActionBarActivity
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#147FD7")));
         mTitle = "News";
-        preferences = getApplicationContext().getSharedPreferences("bernie_app_prefs", MODE_PRIVATE);
+        preferences = getApplicationContext().getSharedPreferences("bernie_app_prefs", 0);
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack("base", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         Fragment replacement;
         switch(position) {
             case 0 : {
@@ -146,20 +149,26 @@ public class actMainPage extends ActionBarActivity
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             this.finish();
         } else {
-            getSupportFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStack("base", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
     }
 
     public void loadEvent(NewsArticle e) {
-        Fragment f = EventFragment.getInstance(e);
+        Fragment f = SingleNewsFragment.getInstance(e);
         FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction().addToBackStack(null).replace(R.id.container, f).commit();
+        if (manager.getBackStackEntryCount() > 0) {
+            manager.popBackStack();
+        }
+        manager.beginTransaction().addToBackStack("base").replace(R.id.container, f).commit();
     }
 
     public void loadIssue(Issue i) {
         Fragment f = SingleIssueFragment.newInstance(i);
         FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction().addToBackStack(null).replace(R.id.container, f).commit();
+        if (manager.getBackStackEntryCount() > 0) {
+            manager.popBackStack();
+        }
+        manager.beginTransaction().addToBackStack("base").replace(R.id.container, f).commit();
     }
 
     public SharedPreferences getPrefs() {
