@@ -41,14 +41,14 @@ import com.spielpark.steve.bernieapp.tasks.ConnectTask;
 import com.spielpark.steve.bernieapp.wrappers.Event;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ConnectFragment extends Fragment {
     private static GoogleMap map;
+    private HashMap<Marker, Integer> mHashMap;
     public int mZip = 0;
     public int mRadius = 50;
     public boolean fetchCountry = true;
@@ -234,41 +234,43 @@ public class ConnectFragment extends Fragment {
     }
 
     public void setMarkers() {
+        map.clear();
         ArrayList<Event> events = ConnectTask.getEvents();
+        mHashMap = new HashMap<>(events.size());
         LatLngBounds.Builder bld = new LatLngBounds.Builder();
-        List<Marker> markers = new ArrayList<>(events.size());
         LatLng pos;
         float hue;
+        int id = 0;
         for (Event e : ConnectTask.getEvents()) {
             hue = e.isOfficial() ? 1.0f : 214f;
             pos = new LatLng(e.getLatitude(), e.getLongitude());
-            markers.add(map.addMarker(new MarkerOptions()
+            mHashMap.put(map.addMarker(new MarkerOptions()
                     .position(pos)
                     .title(e.getName())
-                    .icon(BitmapDescriptorFactory.defaultMarker(hue))));
+                    .icon(BitmapDescriptorFactory.defaultMarker(hue))), id++);
             bld.include(pos);
         }
         LatLngBounds bounds = bld.build();
         map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0));
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker) {
+            public boolean onMarkerClick(final Marker marker) {
                 final int id = Integer.parseInt(marker.getId().substring(1));
                 if (getView().findViewById(R.id.cd_container).getVisibility() == View.VISIBLE) {
-                    listItemClicked(id, true);
+                    listItemClicked(mHashMap.get(marker), true);
                     return false;
                 }
                 final ListView list = (ListView) getView().findViewById(R.id.c_listEvents);
                 list.post(new Runnable() {
                     @Override
                     public void run() {
-                        list.smoothScrollToPositionFromTop(id, 0, 500);
+                        list.smoothScrollToPositionFromTop(mHashMap.get(marker), 0, 500);
                         list.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                list.setSelection(id);
+                                list.setSelection(mHashMap.get(marker));
                             }
-                        }, 500);
+                        }, 510);
                     }
                 });
                 return false;
