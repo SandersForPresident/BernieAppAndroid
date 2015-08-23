@@ -102,14 +102,13 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:paddingRight="16dp"
             android:layout_toLeftOf="@id/c_centerMark"
-            android:gravity="center"
+            android:textAlignment="center"
             android:background="#F55B5B"
             android:textSize="16dp"
             android:text="RSVP"
             android:drawableLeft="@drawable/ic_check_circle_black_24dp"
-            android:drawablePadding="16dp"
             />
 
         <Button
@@ -119,7 +118,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:layout_toRightOf="@id/c_centerMark"
-            android:gravity="center"
+            android:textAlignment="center"
             android:background="#147FD7"
             android:textSize="16dp"
             android:text="Directions"
@@ -132,7 +131,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/cd_btnRSVP"
-            android:layout_marginLeft="4dp"
             android:textSize="18sp"
             android:textColor="#27557C"
             android:textStyle="bold"
@@ -144,11 +142,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/cd_txtTitle"
             android:layout_marginTop="4dp"
-            android:layout_marginLeft="8dp"
             android:textSize="16sp"
             android:textColor="#F55B5B"
             android:textStyle="bold"
             android:text="Filler Date"
+            android:drawablePadding="4dp"
             android:drawableLeft="@drawable/ic_event_black_24dp"/>
 
         <TextView
@@ -157,10 +155,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/cd_txtDate"
             android:layout_marginTop="4dp"
-            android:layout_marginLeft="8dp"
             android:textSize="16sp"
             android:textColor="#27557C"
             android:text="Filler RSVP"
+            android:drawablePadding="4dp"
             android:drawableLeft="@drawable/ic_face_black_24dp"/>
 
         <TextView
@@ -169,10 +167,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/cd_txtRSVP"
             android:layout_marginTop="4dp"
-            android:layout_marginLeft="8dp"
             android:textSize="16sp"
             android:textColor="#27557C"
-            android:text="Filler RSVP"
+            android:text="Filler Location"
+            android:drawablePadding="4dp"
             android:drawableLeft="@drawable/ic_place_black_24dp"/>
 
 
@@ -185,7 +183,7 @@
             android:layout_marginLeft="4dp"
             android:scrollbars="vertical"
             android:textSize="14sp"
-            android:text="Filler Title"/>
+            android:text="Filler Content"/>
 
     </RelativeLayout>
 
