@@ -2,17 +2,20 @@ package com.spielpark.steve.bernieapp.fragments;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,15 +33,15 @@ import java.util.Locale;
 public class SingleIssueFragment extends Fragment {
     private static Issue mIssue;
 
-    private float oldY;
-
-    public SingleIssueFragment() {
-        // Required empty public constructor
-    }
-
     public static SingleIssueFragment newInstance(Issue i) {
         mIssue = i;
         return new SingleIssueFragment();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((WebView) getView().findViewById(R.id.i_video)).onPause();
     }
 
     @Override
@@ -59,34 +62,14 @@ public class SingleIssueFragment extends Fragment {
         } catch (final ParseException e) {
             e.printStackTrace();
         }
-        final float scale = getActivity().getResources().getDisplayMetrics().density;
-        int pixels = (int) (200 * scale + 0.5f);
         final View root = getView();
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, pixels);
-                    root.findViewById(R.id.i_imgLogo).setLayoutParams(params);
         ((TextView) root.findViewById(R.id.i_txtTitle)).setText(mIssue.getTitle());
+        ((TextView) root.findViewById(R.id.i_txtTitle)).setShadowLayer(13, 0, 0, Color.BLACK);
         ((TextView) root.findViewById(R.id.i_txtDate)).setText("Published " + formattedDate + " at " + time);
         ((TextView) root.findViewById(R.id.i_txtDesc)).setText(Html.fromHtml(mIssue.getDesc()));
-        //((TextView) root.findViewById(R.id.i_txtDesc)).setMovementMethod(new ScrollingMovementMethod());
-        /*((TextView) root.findViewById(R.id.i_txtDesc)).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    oldY = 1.0f;
-                    return false;
-                }
-                if (oldY == 1.0f) {
-                    oldY = event.getY();
-                } else {
-                    float diff = (oldY-event.getY());
-                    oldY = event.getY();
-                    Log.d("..", Float.toString(diff));
-                    root.findViewById(R.id.i_imgLogo).animate().translationYBy(diff);
-                }
-                return false;
-            }
-        });
-    */
+        ((TextView) root.findViewById(R.id.i_txtDesc)).setMovementMethod(new LinkMovementMethod());
+        ((WebView) root.findViewById(R.id.i_video)).getSettings().setJavaScriptEnabled(true);
+        ((WebView) root.findViewById(R.id.i_video)).loadData(mIssue.getEmbedURL(getActivity()), "text/Html", "UTF-8");
     }
 
 
