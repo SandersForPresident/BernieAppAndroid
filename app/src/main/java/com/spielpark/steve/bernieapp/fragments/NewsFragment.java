@@ -49,12 +49,8 @@ public class NewsFragment extends Fragment {
             for (NewsArticle a : NewsTask.getData()) {
                 if (a.getUrl().contains("press-release")) {
                     ((TextView) view.findViewById(R.id.txtSubHeader)).setText(Html.fromHtml(a.getDesc()));
-                    StringBuilder s = new StringBuilder(a.getTitle());
-                    s.append(" and a smaller series of just random letters.");
-                    if (s.length() > 45) {
-                        int inPoint = Math.min(s.length(), s.lastIndexOf("' '"));
-                        s.insert(inPoint, "\n");
-                    }
+                    String s = a.getTitle();
+                    s = s.length() > 42 ? s.substring(0, 42) + "..." : s;
                     ((TextView) view.findViewById(R.id.txtHeader)).setText(s);
                     break;
                 }
