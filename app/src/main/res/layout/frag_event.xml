@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.spielpark.steve.bernieapp.fragments.EventFragment"
+    tools:context="com.spielpark.steve.bernieapp.fragments.SingleNewsFragment"
     android:layout_marginBottom="60dp">
     <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
         android:layout_width="fill_parent"
@@ -15,7 +15,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="200dp"
                 android:src="@drawable/logo"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitXY"/>
 
             <TextView
                 android:id="@+id/e_txtTitle"
@@ -38,7 +38,7 @@
                 android:layout_below="@id/e_txtTitle"
                 android:text="Date"
                 android:background="#147FD7"
-                android:textColor="#F55B5B"
+                android:textColor="#FFC207"
                 android:textStyle="italic|bold"
                 android:textSize="18sp"
                 android:gravity="center_horizontal"
@@ -57,7 +57,7 @@
             <TextView
                 android:id="@+id/e_txtDesc"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="wrap_content"    
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
