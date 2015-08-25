@@ -1,24 +1,19 @@
 package com.spielpark.steve.bernieapp.fragments;
 
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.spielpark.steve.bernieapp.R;
-import com.spielpark.steve.bernieapp.actMainPage;
+import com.spielpark.steve.bernieapp.MainActivity;
 import com.spielpark.steve.bernieapp.misc.Util;
 
 
@@ -51,7 +46,7 @@ public class BernRateFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SharedPreferences p = ((actMainPage) getActivity()).getPrefs();
+        SharedPreferences p = ((MainActivity) getActivity()).getPrefs();
         Util.Preferences key = Util.Preferences.BERNRATE_DIALOGUE;
         if (p.getInt(key.name, key.value) == 1) {
             Util.getShowAgainDialogue(getActivity(), p, key, "Welcome to BernRate. This section is dedicated to showing you how Bernie Sanders is doing with popularity in various Social Medias. Created by Arman, this contribution was made by volunteers, NOT the millionaire class.").show();

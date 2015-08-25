@@ -3,12 +3,11 @@ package com.spielpark.steve.bernieapp;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
@@ -28,7 +27,7 @@ import com.spielpark.steve.bernieapp.wrappers.Issue;
 import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
 
-public class actMainPage extends ActionBarActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.

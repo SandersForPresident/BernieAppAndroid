@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
-import com.spielpark.steve.bernieapp.actMainPage;
+import com.spielpark.steve.bernieapp.MainActivity;
 import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
 import com.spielpark.steve.bernieapp.tasks.NewsTask;
 import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
@@ -62,7 +62,7 @@ public class NewsFragment extends Fragment {
         newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((actMainPage) getActivity()).loadEvent(NewsTask.getArticle(position));
+                ((MainActivity) getActivity()).loadEvent(NewsTask.getArticle(position));
             }
         });
     }
