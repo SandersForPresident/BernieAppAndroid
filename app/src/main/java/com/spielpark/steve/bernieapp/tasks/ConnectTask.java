@@ -29,6 +29,7 @@ public class ConnectTask extends AsyncTask {
     private static ArrayList<Event> events;
     private static Context ctx;
     private static ConnectFragment frag;
+
     public ConnectTask(Context ctx, ConnectFragment frag) {
         this.frag = frag;
         this.ctx = ctx;
@@ -119,6 +120,13 @@ public class ConnectTask extends AsyncTask {
             switch(next.toLowerCase().trim()) {
                 case "results" : {
                     reader.beginArray();
+                    if (reader.peek() == JsonToken.END_ARRAY) {
+                        //There's no events~!
+                        e.setName("No events in your area!");
+                        e.setDescription("Perhaps you want to create one? Visit www.berniesanders.com!");
+                        events.add(e);
+                        return;
+                    }
                     reader.beginObject();
                     break;
                 }

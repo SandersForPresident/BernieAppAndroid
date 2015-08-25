@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -47,6 +48,7 @@ import java.util.HashMap;
  * A simple {@link Fragment} subclass.
  */
 public class ConnectFragment extends Fragment {
+    private static ConnectTask mTask;
     private static GoogleMap map;
     private HashMap<Marker, Integer> mHashMap;
     public int mZip = 0;
@@ -194,16 +196,20 @@ public class ConnectFragment extends Fragment {
     }
 
     private void startTask() {
+        if (mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING) {
+            mTask.cancel(true);
+        }
         if (fetchCountry) {
-            new ConnectTask(getActivity(), getInstance()).execute();
+            mTask = new ConnectTask(getActivity(), getInstance());
         } else if (validZip()) {
             getView().findViewById(R.id.c_btnGo).setEnabled(false);
             getView().findViewById(R.id.c_btnGo).setBackgroundColor(Color.parseColor("#CCCCCC"));
             getView().findViewById(R.id.c_progress).setVisibility(View.VISIBLE);
-            new ConnectTask(getActivity(), getInstance()).execute();
+            mTask = new ConnectTask(getActivity(), getInstance());
         } else {
             Toast.makeText(getActivity(), "Please enter a valid Zip Code!", Toast.LENGTH_SHORT).show();
         }
+        mTask.execute();
     }
 
     private boolean validZip() {
@@ -227,7 +233,11 @@ public class ConnectFragment extends Fragment {
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
+                Log.d("Map Ready", "Bam.");
                 ConnectFragment.this.map = googleMap;
+                ConnectFragment.this.getView().findViewById(R.id.c_btnGo).setEnabled(true);
+                ConnectFragment.this.getView().findViewById(R.id.c_progress).setVisibility(View.GONE);
+                ConnectFragment.this.getView().findViewById(R.id.c_btnGo).setBackgroundColor(Color.parseColor("#147FD7"));
             }
         });
         startTask();
@@ -236,6 +246,9 @@ public class ConnectFragment extends Fragment {
     public void setMarkers() {
         map.clear();
         ArrayList<Event> events = ConnectTask.getEvents();
+        if (events.size() == 0) {
+            return; //There are no events to draw.
+        }
         mHashMap = new HashMap<>(events.size());
         LatLngBounds.Builder bld = new LatLngBounds.Builder();
         LatLng pos;

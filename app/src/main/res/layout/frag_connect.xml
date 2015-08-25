@@ -42,9 +42,10 @@
         android:layout_alignTop="@id/c_edtZip"
         android:layout_alignBottom="@id/c_edtZip"
         android:layout_toRightOf="@id/c_btnRadius"
-        android:background="#147FD7"
+        android:background="#CCCCCC"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
+        android:enabled="false"
         android:text="Go"/>
 
     <FrameLayout
@@ -71,7 +72,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/c_edtZip"
         android:layout_marginTop="92dp"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <ListView
         android:id="@+id/c_listEvents"
