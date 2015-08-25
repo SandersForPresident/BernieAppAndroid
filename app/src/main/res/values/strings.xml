@@ -1,21 +1,20 @@
 <resources>
     <string name="app_name">Bernie App</string>
 
-    <string name="title_section1">News</string>
-    <string name="title_section2">Issues</string>
-    <string name="title_section3">Organize</string>
-    <string name="title_section4">Connect</string>
-    <string name="title_section5">BernRate</string>
+    <string name="action_ok">Okay</string>
+
+    <string name="bern_rate_intro_dialog">Welcome to BernRate. This section is dedicated to showing you how Bernie Sanders is doing with popularity in various Social Medias. Created by Arman, this contribution was made by volunteers, NOT the millionaire class.</string>
+    <string name="bern_rate_welcome">Welcome!</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_example">Example action</string>
+    <string name="section_news">News</string>
+    <string name="section_issues">Issues</string>
+    <string name="section_organize">Organize</string>
+    <string name="section_connect">Connect</string>
+    <string name="section_bern_rate">BernRate</string>
 
-    <string name="action_settings">Settings</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="radius_choices">
         <item>25</item>
         <item>50</item>

@@ -1,7 +1,6 @@
-package com.spielpark.steve.bernieapp.fragments;
+package com.spielpark.steve.bernieapp.bernrate;
 
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -13,14 +12,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.spielpark.steve.bernieapp.R;
-import com.spielpark.steve.bernieapp.MainActivity;
+import com.spielpark.steve.bernieapp.dagger.Dagger;
 import com.spielpark.steve.bernieapp.misc.Util;
+import com.spielpark.steve.bernieapp.persistence.DataStore;
+
+import javax.inject.Inject;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class BernRateFragment extends Fragment {
+    // TODO: Shouldn't need a static reference to this
     private static BernRateFragment mInstance;
     private static String[] urls = new String[]{
             "<iframe src=\"http://www.bernrate.com/embed?dataKey=followers:berniesanders\"",
@@ -30,9 +33,9 @@ public class BernRateFragment extends Fragment {
             "<iframe src=\"http://www.bernrate.com/embed?dataKey=reddit:sandersforpresident:visitors\"",
             "<iframe src=\"http://www.bernrate.com/embed?dataKey=reddit:sandersforpresident:subscriptions\""
     };
-    //private static final String[] urls = new String[]{
-    //        "<iframe src=\"http://www.bernrate.com/embed?dataKey=followers:berniesanders\"></iframe>"
-   // };
+
+    @Inject
+    DataStore mDataStore;
 
     public static BernRateFragment getInstance() {
         if (mInstance == null) {
@@ -41,26 +44,6 @@ public class BernRateFragment extends Fragment {
         } else {
             return mInstance;
         }
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        SharedPreferences p = ((MainActivity) getActivity()).getPrefs();
-        Util.Preferences key = Util.Preferences.BERNRATE_DIALOGUE;
-        if (p.getInt(key.name, key.value) == 1) {
-            Util.getShowAgainDialogue(getActivity(), p, key, "Welcome to BernRate. This section is dedicated to showing you how Bernie Sanders is doing with popularity in various Social Medias. Created by Arman, this contribution was made by volunteers, NOT the millionaire class.").show();
-        }
-        displayWebViews(generateURLs());
-    }
-
-    private String[] generateURLs() {
-        String[] gen = new String[urls.length];
-        int[] heightWidth = Util.getScreenWidthHeight(getActivity());
-        for (int i = 0; i < gen.length; i++) {
-            gen[i] = urls[i].concat(" width=\"" + heightWidth[0] + "px\" height=\"" + heightWidth[1] + "px\"></iframe>");
-        }
-        return gen;
     }
 
     private void displayWebViews(String[] urls) {
@@ -80,11 +63,37 @@ public class BernRateFragment extends Fragment {
         }
     }
 
+    private String[] generateURLs() {
+        String[] gen = new String[urls.length];
+        int[] heightWidth = Util.getScreenWidthHeight(getActivity());
+        for (int i = 0; i < gen.length; i++) {
+            gen[i] = urls[i].concat(" width=\"" + heightWidth[0] + "px\" height=\"" + heightWidth[1] + "px\"></iframe>");
+        }
+        return gen;
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Dagger.applicationComponent(getActivity()).inject(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.frag_bernrate, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (mDataStore.showBernRateDialog()) {
+            BernRateDialogFragment fragment = new BernRateDialogFragment();
+            fragment.show(getChildFragmentManager(), "BernRateIntro");
+        }
+
+        displayWebViews(generateURLs());
     }
 
 
