@@ -35,3 +35,6 @@ app/src/main/res/values/key.xml
 # Created by .ignore support plugin (hsz.mobi)
 
 .idea/*
+.DS_Store
+*.iml
+gradle*
