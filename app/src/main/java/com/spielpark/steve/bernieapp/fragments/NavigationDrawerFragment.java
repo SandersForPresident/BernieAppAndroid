@@ -57,12 +57,18 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerListView;
+    private static ListView mDrawerListView;
     private View mFragmentContainerView;
 
-    private int mCurrentSelectedPosition = 0;
+    private static int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+
+    public static void setSelected(int i) {
+        mCurrentSelectedPosition = i;
+        mDrawerListView.setSelection(i);
+        mDrawerListView.setItemChecked(i, true);
+    }
 
     public NavigationDrawerFragment() {
     }

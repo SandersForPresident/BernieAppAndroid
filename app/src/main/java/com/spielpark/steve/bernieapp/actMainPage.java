@@ -211,9 +211,11 @@ public class actMainPage extends ActionBarActivity
     }
 
     public void switchPage(View view) {
-        onNavigationDrawerItemSelected(Integer.parseInt((String) view.getTag()));
-        onSectionAttached(Integer.parseInt((String) view.getTag()) + 1);
+        int selected = Integer.parseInt((String) view.getTag());
+        onNavigationDrawerItemSelected(selected);
+        onSectionAttached(selected + 1);
         restoreActionBar();
-        adjustNavBarText(Integer.parseInt((String) view.getTag()));
+        adjustNavBarText(selected);
+        NavigationDrawerFragment.setSelected(selected);
     }
 }
