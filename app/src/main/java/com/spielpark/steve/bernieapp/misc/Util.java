@@ -76,16 +76,4 @@ public class Util {
         return activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
-    public enum Preferences {
-        BERNRATE_DIALOGUE("BernRate_ShowDialogue", 1);
-
-        public int value;
-        public String name;
-
-        Preferences(String s, int i) {
-            this.value = i;
-            this.name = s;
-        }
-    }
-
 }
