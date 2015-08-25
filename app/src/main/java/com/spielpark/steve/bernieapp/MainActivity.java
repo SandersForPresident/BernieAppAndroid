@@ -29,6 +29,11 @@ import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+    private static final int POSITION_NEWS = 0;
+    private static final int POSITION_ISSUES = 1;
+    private static final int POSITION_ORGANIZE = 2;
+    private static final int POSITION_CONNECT = 3;
+    private static final int POSITION_BERN_RATE = 4;
     private static SharedPreferences preferences;
     private static Fragment curFrag;
     /**
@@ -141,31 +146,28 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack("base", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         Fragment replacement;
-        switch(position) {
-            case 0 : {
+
+        switch (position) {
+            case POSITION_NEWS:
                 replacement = NewsFragment.getInstance();
                 break;
-            }
-            case 1 : {
-                replacement = IssuesFragment.getInstance();
+            case POSITION_ISSUES:
+                replacement = new IssuesFragment();
                 break;
-            }
-            case 2 : {
+            case POSITION_ORGANIZE:
                 replacement = OrganizeFragment.getInstance();
                 break;
-            }
-            case 3 : {
-                replacement = ConnectFragment.getInstance();
+            case POSITION_CONNECT:
+                replacement = new ConnectFragment();
                 break;
-            }
-            case 4 : {
-                replacement = BernRateFragment.getInstance();
+            case POSITION_BERN_RATE:
+                replacement = new BernRateFragment();
                 break;
-            }
-            default:  {
+            default:
                 replacement = NewsFragment.getInstance();
-            }
+                break;
         }
+
         adjustNavBarText(position);
         curFrag = replacement;
         onSectionAttached(++position);
@@ -176,19 +178,19 @@ public class MainActivity extends AppCompatActivity
 
     public void onSectionAttached(int number) {
         switch (number) {
-            case 1:
+            case POSITION_NEWS:
                 mTitle = getString(R.string.section_news);
                 break;
-            case 2:
+            case POSITION_ISSUES:
                 mTitle = getString(R.string.section_issues);
                 break;
-            case 3:
+            case POSITION_ORGANIZE:
                 mTitle = getString(R.string.section_organize);
                 break;
-            case 4:
+            case POSITION_CONNECT:
                 mTitle = getString(R.string.section_connect);
                 break;
-            case 5:
+            case POSITION_BERN_RATE:
                 mTitle = getString(R.string.section_bern_rate);
                 break;
         }
@@ -211,7 +213,7 @@ public class MainActivity extends AppCompatActivity
     public void switchPage(View view) {
         int selected = Integer.parseInt((String) view.getTag());
         onNavigationDrawerItemSelected(selected);
-        onSectionAttached(selected + 1);
+        onSectionAttached(selected);
         restoreActionBar();
         adjustNavBarText(selected);
         NavigationDrawerFragment.setSelected(selected);

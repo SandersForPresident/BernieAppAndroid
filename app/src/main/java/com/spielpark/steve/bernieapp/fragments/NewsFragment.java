@@ -17,8 +17,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.MainActivity;
+import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
 import com.spielpark.steve.bernieapp.tasks.NewsTask;
 import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
@@ -38,6 +38,13 @@ public class NewsFragment extends Fragment {
             return mIntstance;
         }
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.frag_newsarticles, container, false);
+    }
+
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -65,12 +72,5 @@ public class NewsFragment extends Fragment {
                 ((MainActivity) getActivity()).loadEvent(NewsTask.getArticle(position));
             }
         });
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.frag_newsarticles, container, false);
-        return rootView;
     }
 }

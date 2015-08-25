@@ -29,6 +29,13 @@ public class OrganizeFragment extends Fragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.frag_organize, container, false);
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         WebView browser = (WebView) getView().findViewById(R.id.o_webView);
@@ -39,23 +46,16 @@ public class OrganizeFragment extends Fragment {
             @Override
             public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
                 super.onReceivedHttpAuthRequest(view, handler, host, realm);
-                Toast.makeText(getActivity(), "Logging in..", Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(), R.string.organize_logging_in, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onReceivedLoginRequest(WebView view, String realm, String account, String args) {
                 super.onReceivedLoginRequest(view, realm, account, args);
-                Toast.makeText(getActivity(), "Logging in -HTTP..", Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(), R.string.organize_logging_in_http, Toast.LENGTH_SHORT).show();
             }
         });
         browser.loadUrl("https://berniecrowd.org/");
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.frag_organize, container, false);
     }
 
 

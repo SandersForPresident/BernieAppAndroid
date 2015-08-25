@@ -26,7 +26,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
@@ -50,56 +49,22 @@ import java.util.HashMap;
 public class ConnectFragment extends Fragment {
     private static ConnectTask mTask;
     private static GoogleMap map;
-    private HashMap<Marker, Integer> mHashMap;
     public int mZip = 0;
     public int mRadius = 50;
     public boolean fetchCountry = true;
-    private static ConnectFragment mInstance;
-    public static ConnectFragment getInstance() {
-        if (mInstance == null) {
-            mInstance = new ConnectFragment();
-            return mInstance;
-        } else {
-            return mInstance;
-        }
-    }
+    private HashMap<Marker, Integer> mHashMap;
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        getView().findViewById(R.id.c_btnRadius).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                android.support.v7.app.AlertDialog.Builder bld = new android.support.v7.app.AlertDialog.Builder(getActivity());
-                bld.setTitle("Pick a Radius");
-                bld.setSingleChoiceItems(R.array.radius_choices, 1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        setRadius(i);
-                        dialogInterface.dismiss();
-                    }
-                });
-                bld.create().show();
-            }
-        });
-        getView().findViewById(R.id.c_btnGo).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fetchCountry = false;
-                startTask();
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
-        });
-        ((ListView) getView().findViewById(R.id.c_listEvents)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                listItemClicked(i, false);
-            }
-        });
-        fetchCountry = true;
-        setUpMap();
-        MapsInitializer.initialize(getActivity().getApplicationContext());
-        super.onViewCreated(view, savedInstanceState);
+    public void backPressed() {
+        View parent = getView();
+        if (parent.findViewById(R.id.c_btnGo).getVisibility() == View.VISIBLE) {
+            getActivity().finish();
+        } else {
+            parent.findViewById(R.id.c_edtZip).setVisibility(View.VISIBLE);
+            parent.findViewById(R.id.c_btnRadius).setVisibility(View.VISIBLE);
+            parent.findViewById(R.id.c_listEvents).setVisibility(View.VISIBLE);
+            parent.findViewById(R.id.c_btnGo).setVisibility(View.VISIBLE);
+            parent.findViewById(R.id.cd_container).setVisibility(View.GONE);
+        }
     }
 
     private void listItemClicked(int pos, boolean alreadyLoaded) {
@@ -114,17 +79,17 @@ public class ConnectFragment extends Fragment {
                 Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_slide_out_top);
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
                     public void onAnimationEnd(Animation animation) {
                         v.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onAnimationRepeat(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationStart(Animation animation) {
 
                     }
                 });
@@ -134,17 +99,17 @@ public class ConnectFragment extends Fragment {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_slide_out_bottom);
             anim.setAnimationListener(new Animation.AnimationListener() {
                 @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
                 public void onAnimationEnd(Animation animation) {
                     list.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onAnimationRepeat(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationStart(Animation animation) {
 
                 }
             });
@@ -179,11 +144,6 @@ public class ConnectFragment extends Fragment {
         Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), alreadyLoaded ? R.anim.view_fade_in_fast : R.anim.view_fade_in);
         fadeIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {
-                base.findViewById(R.id.cd_container).setVisibility(View.VISIBLE);
-            }
-
-            @Override
             public void onAnimationEnd(Animation animation) {
             }
 
@@ -191,35 +151,13 @@ public class ConnectFragment extends Fragment {
             public void onAnimationRepeat(Animation animation) {
 
             }
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+                base.findViewById(R.id.cd_container).setVisibility(View.VISIBLE);
+            }
         });
         base.findViewById(R.id.cd_container).startAnimation(fadeIn);
-    }
-
-    private void startTask() {
-        if (mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING) {
-            mTask.cancel(true);
-        }
-        if (fetchCountry) {
-            mTask = new ConnectTask(getActivity(), getInstance());
-        } else if (validZip()) {
-            getView().findViewById(R.id.c_btnGo).setEnabled(false);
-            getView().findViewById(R.id.c_btnGo).setBackgroundColor(Color.parseColor("#CCCCCC"));
-            getView().findViewById(R.id.c_progress).setVisibility(View.VISIBLE);
-            mTask = new ConnectTask(getActivity(), getInstance());
-        } else {
-            Toast.makeText(getActivity(), "Please enter a valid Zip Code!", Toast.LENGTH_SHORT).show();
-        }
-        mTask.execute();
-    }
-
-    private boolean validZip() {
-        mZip = Integer.parseInt(((EditText) getView().findViewById(R.id.c_edtZip)).getText().toString());
-        return mZip > 9999;
-    }
-
-    private void setRadius(int m) {
-        mRadius = m++ < 4 ? m*25 : ((m-2)*50);
-        ((Button) getView().findViewById(R.id.c_btnRadius)).setText(mRadius + " miles");
     }
 
     @Override
@@ -228,19 +166,42 @@ public class ConnectFragment extends Fragment {
         return inflater.inflate(R.layout.frag_connect, container, false);
     }
 
-    private void setUpMap() {
-        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.c_map);
-        mapFragment.getMapAsync(new OnMapReadyCallback() {
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        getView().findViewById(R.id.c_btnRadius).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onMapReady(GoogleMap googleMap) {
-                Log.d("Map Ready", "Bam.");
-                ConnectFragment.this.map = googleMap;
-                ConnectFragment.this.getView().findViewById(R.id.c_btnGo).setEnabled(true);
-                ConnectFragment.this.getView().findViewById(R.id.c_progress).setVisibility(View.GONE);
-                ConnectFragment.this.getView().findViewById(R.id.c_btnGo).setBackgroundColor(Color.parseColor("#147FD7"));
+            public void onClick(View view) {
+                android.support.v7.app.AlertDialog.Builder bld = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                bld.setTitle(getString(R.string.connect_pick_radius));
+                bld.setSingleChoiceItems(R.array.radius_choices, 1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        setRadius(i);
+                        dialogInterface.dismiss();
+                    }
+                });
+                bld.create().show();
             }
         });
-        startTask();
+        getView().findViewById(R.id.c_btnGo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fetchCountry = false;
+                startTask();
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        });
+        ((ListView) getView().findViewById(R.id.c_listEvents)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                listItemClicked(i, false);
+            }
+        });
+        fetchCountry = true;
+        setUpMap();
+        MapsInitializer.initialize(getActivity().getApplicationContext());
+        super.onViewCreated(view, savedInstanceState);
     }
 
     public void setMarkers() {
@@ -291,6 +252,43 @@ public class ConnectFragment extends Fragment {
         });
     }
 
+    private void setRadius(int m) {
+        mRadius = m++ < 4 ? m*25 : ((m-2)*50);
+        ((Button) getView().findViewById(R.id.c_btnRadius)).setText(mRadius + " miles");
+    }
+
+    private void setUpMap() {
+        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.c_map);
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                Log.d("Map Ready", "Bam.");
+                map = googleMap;
+                ConnectFragment.this.getView().findViewById(R.id.c_btnGo).setEnabled(true);
+                ConnectFragment.this.getView().findViewById(R.id.c_progress).setVisibility(View.GONE);
+                ConnectFragment.this.getView().findViewById(R.id.c_btnGo).setBackgroundColor(Color.parseColor("#147FD7"));
+            }
+        });
+        startTask();
+    }
+
+    private void startTask() {
+        if (mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING) {
+            mTask.cancel(true);
+        }
+        if (fetchCountry) {
+            mTask = new ConnectTask(getActivity(), this);
+        } else if (validZip()) {
+            getView().findViewById(R.id.c_btnGo).setEnabled(false);
+            getView().findViewById(R.id.c_btnGo).setBackgroundColor(Color.parseColor("#CCCCCC"));
+            getView().findViewById(R.id.c_progress).setVisibility(View.VISIBLE);
+            mTask = new ConnectTask(getActivity(), this);
+        } else {
+            Toast.makeText(getActivity(), R.string.connect_enter_valid_zip_code, Toast.LENGTH_SHORT).show();
+        }
+        mTask.execute();
+    }
+
     public void updateViews(ArrayAdapter a) {
         View parent = getView();
         if (parent == null) {
@@ -305,16 +303,8 @@ public class ConnectFragment extends Fragment {
         parent.findViewById(R.id.c_btnGo).setBackgroundColor(Color.parseColor("#147FD7"));
     }
 
-    public void backPressed() {
-        View parent = getView();
-        if (parent.findViewById(R.id.c_btnGo).getVisibility() == View.VISIBLE) {
-            getActivity().finish();
-        } else {
-            parent.findViewById(R.id.c_edtZip).setVisibility(View.VISIBLE);
-            parent.findViewById(R.id.c_btnRadius).setVisibility(View.VISIBLE);
-            parent.findViewById(R.id.c_listEvents).setVisibility(View.VISIBLE);
-            parent.findViewById(R.id.c_btnGo).setVisibility(View.VISIBLE);
-            parent.findViewById(R.id.cd_container).setVisibility(View.GONE);
-        }
+    private boolean validZip() {
+        mZip = Integer.parseInt(((EditText) getView().findViewById(R.id.c_edtZip)).getText().toString());
+        return mZip > 9999;
     }
 }

@@ -6,8 +6,16 @@
     <string name="bern_rate_intro_dialog">Welcome to BernRate. This section is dedicated to showing you how Bernie Sanders is doing with popularity in various Social Medias. Created by Arman, this contribution was made by volunteers, NOT the millionaire class.</string>
     <string name="bern_rate_welcome">Welcome!</string>
 
+    <string name="connect_pick_radius">Pick a Radius</string>
+    <string name="connect_enter_valid_zip_code">Please enter a valid Zip Code!</string>
+
+    <string name="issues_publish_date">Published %1$s at %2$s</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="organize_logging_in">Logging in…</string>
+    <string name="organize_logging_in_http">Logging in -HTTP…</string>
 
     <string name="section_news">News</string>
     <string name="section_issues">Issues</string>

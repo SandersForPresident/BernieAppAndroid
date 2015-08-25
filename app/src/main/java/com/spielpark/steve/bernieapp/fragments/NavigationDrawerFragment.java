@@ -13,6 +13,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,6 +115,16 @@ public class NavigationDrawerFragment extends Fragment {
 
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // If the drawer is open, show the global app actions in the action bar. See also
+        // showGlobalContextActionBar, which controls the top-left area of the action bar.
+        if (mDrawerLayout != null && isDrawerOpen()) {
+            showGlobalContextActionBar();
+        }
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -252,7 +264,7 @@ public class NavigationDrawerFragment extends Fragment {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setTitle("App Pages");
+        actionBar.setTitle(R.string.app_name);
     }
 
     /**

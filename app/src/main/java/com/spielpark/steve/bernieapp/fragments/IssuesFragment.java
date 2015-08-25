@@ -10,8 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.MainActivity;
+import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.tasks.IssuesTask;
 
 
@@ -20,15 +20,16 @@ import com.spielpark.steve.bernieapp.tasks.IssuesTask;
  */
 public class IssuesFragment extends Fragment {
 
-    private static IssuesFragment mIntstance;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-    public static IssuesFragment getInstance() {
-        if (mIntstance == null) {
-            mIntstance = new IssuesFragment();
-            return mIntstance;
-        } else {
-            return mIntstance;
-        }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.frag_issues, container, false);
     }
 
     @Override
@@ -42,18 +43,6 @@ public class IssuesFragment extends Fragment {
                 ((MainActivity)getActivity()).loadIssue(IssuesTask.getIssue(position));
             }
         });
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.frag_issues, container, false);
     }
 
 }

@@ -23,8 +23,6 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  */
 public class BernRateFragment extends Fragment {
-    // TODO: Shouldn't need a static reference to this
-    private static BernRateFragment mInstance;
     private static String[] urls = new String[]{
             "<iframe src=\"http://www.bernrate.com/embed?dataKey=followers:berniesanders\"",
             "<iframe src=\"http://www.bernrate.com/embed?dataKey=tweet:feelthebern\"",
@@ -36,15 +34,6 @@ public class BernRateFragment extends Fragment {
 
     @Inject
     DataStore mDataStore;
-
-    public static BernRateFragment getInstance() {
-        if (mInstance == null) {
-            mInstance = new BernRateFragment();
-            return mInstance;
-        } else {
-            return mInstance;
-        }
-    }
 
     private void displayWebViews(String[] urls) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
