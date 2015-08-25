@@ -22,3 +22,15 @@ VCS in the Android Studio start-up panel. After importing, you'll need a couple 
  ```
 
  Make sure that this file is not under version control!
+
+ For the time being, you'll also want to get hold of a Firesize api key [here](http://firesize.com/) and once
+ you do, place it in the key.xml file. The api key in this case is going to be the top level domain.
+ Your final file should look like this:
+
+ ```xml
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+     <string name="google_maps_api_key">GOOGLE_MAPS_API_KEY</string>
+     <string name="firesizeacc">FIRE_SIZE_API_KEY</string>
+ </resources>
+ ```
