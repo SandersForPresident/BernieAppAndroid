@@ -170,12 +170,12 @@ public class ConnectFragment extends Fragment {
                 startActivity(mapIntent);
             }
         });
-        ((TextView) base.findViewById(R.id.cd_txtDate)).setText(e.getDate());
+        if (e.getDate() != null) ((TextView) base.findViewById(R.id.cd_txtDate)).setText(e.getDate());
         ((TextView) base.findViewById(R.id.cd_txtTitle)).setText(e.getName());
         ((TextView) base.findViewById(R.id.cd_txtDescContent)).setText(Html.fromHtml(e.getDescription()));
         ((TextView) base.findViewById(R.id.cd_txtDescContent)).setMovementMethod(new ScrollingMovementMethod());
-        ((TextView) base.findViewById(R.id.cd_txtLocation)).setText(e.getVenue_addr() + "\n" + e.getVenue_city() + ", " + e.getState() + " - " + e.getZip());
-        ((TextView) base.findViewById(R.id.cd_txtRSVP)).setText(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
+        if (e.getVenue_city() != null) ((TextView) base.findViewById(R.id.cd_txtLocation)).setText(e.getVenue_addr() + "\n" + e.getVenue_city() + ", " + e.getState() + " - " + e.getZip());
+        if (e.getAttendee_count() != 0) ((TextView) base.findViewById(R.id.cd_txtRSVP)).setText(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
         Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), alreadyLoaded ? R.anim.view_fade_in_fast : R.anim.view_fade_in);
         fadeIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
