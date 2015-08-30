@@ -97,8 +97,10 @@ public class ConnectTask extends AsyncTask {
     private String getHTMLForTitle(Event e) {
         StringBuilder bld = new StringBuilder();
         bld.append("<big><font color =\"#147FD7\">").append(e.getName()).append("</font></big><br>");
-        bld.append("&emsp;").append(e.getVenue_city()).append(", ").append(e.getState()).append(" - ").append(e.getZip()).append("<br>");
-        bld.append("&emsp;# of RSVP: ").append(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
+        if (e.getVenue_city() != null) {
+            bld.append("&emsp;").append(e.getVenue_city()).append(", ").append(e.getState()).append(" - ").append(e.getZip()).append("<br>");
+            bld.append("&emsp;# of RSVP: ").append(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
+        }
         return bld.toString();
     }
 
