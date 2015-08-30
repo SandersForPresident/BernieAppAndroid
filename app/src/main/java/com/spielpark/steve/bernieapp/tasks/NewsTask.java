@@ -121,9 +121,7 @@ public class NewsTask extends AsyncTask {
         }
         ImgTxtAdapter adapter = new ImgTxtAdapter(ctx, R.layout.list_news_item, articles);
         list.setAdapter(adapter);
-        if (Util.isOnWifi(ctx)) {
-            new FetchNewsThumbs(list.getAdapter()).execute();
-        }
+        new FetchNewsThumbs(list.getAdapter()).execute();
         list.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     }
