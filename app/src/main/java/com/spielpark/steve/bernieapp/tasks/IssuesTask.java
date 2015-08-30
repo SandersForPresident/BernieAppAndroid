@@ -78,9 +78,8 @@ public class IssuesTask extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        Log.d("OPE", "There are " + issues.size() + " events.");
         for (Issue i : issues) {
-            i.setVideo(vidLinks.get(i.getTitle()));
+            i.setVideo(vidLinks.get(i.getTitle().toLowerCase()));
             Log.d("Success!", i.getTitle() + "..." + i.getVideo());
         }
         new FetchThumbsTask().execute();
@@ -169,7 +168,7 @@ public class IssuesTask extends AsyncTask {
                     reader.skipValue();
                     reader.endObject();
                     reader.endObject();
-                    vidLinks.put(title, link.substring(link.lastIndexOf('=') + 1));
+                    vidLinks.put(title.toLowerCase(), link.substring(link.lastIndexOf('=') + 1));
                     break;
                 }
                 default: {
