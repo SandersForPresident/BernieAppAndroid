@@ -104,6 +104,7 @@ public class NewsTask extends AsyncTask {
         super.onPostExecute(o);
         Collections.sort(articles);
         NewsArticle a;
+        Log.d("#Articles", Integer.toString(articles.size()));
         boolean setSubheader = false;
         for (int i = 0; i < articles.size(); i++) {
             a = articles.get(i);
