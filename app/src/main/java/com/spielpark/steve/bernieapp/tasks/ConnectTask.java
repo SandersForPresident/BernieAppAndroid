@@ -108,6 +108,9 @@ public class ConnectTask extends AsyncTask {
         Log.d("JsonReader", "Beginning parsing");
         Event e = new Event();
         while (reader.hasNext()) {
+            if (isCancelled()) {
+                return;
+            }
             if (reader.peek() == JsonToken.END_OBJECT) {
                 Log.d("Adding..", "Adding event: " + e.getName());
                 formatDate(e);
