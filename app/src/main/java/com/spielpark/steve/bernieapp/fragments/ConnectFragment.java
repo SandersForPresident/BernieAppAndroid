@@ -207,19 +207,24 @@ public class ConnectFragment extends Fragment {
         cancelTask();
         if (fetchCountry) {
             mTask = new ConnectTask(getActivity(), getInstance());
+            mTask.execute();
         } else if (validZip()) {
             getView().findViewById(R.id.c_btnGo).setEnabled(false);
             getView().findViewById(R.id.c_btnGo).setBackgroundColor(Color.parseColor("#CCCCCC"));
             getView().findViewById(R.id.c_progress).setVisibility(View.VISIBLE);
             mTask = new ConnectTask(getActivity(), getInstance());
+            mTask.execute();
         } else {
             Toast.makeText(getActivity(), "Please enter a valid Zip Code!", Toast.LENGTH_SHORT).show();
         }
-        mTask.execute();
     }
 
     private boolean validZip() {
-        mZip = Integer.parseInt(((EditText) getView().findViewById(R.id.c_edtZip)).getText().toString());
+        try {
+            mZip = Integer.parseInt(((EditText) getView().findViewById(R.id.c_edtZip)).getText().toString());
+        } catch (NumberFormatException e) {
+                return false;
+            }
         return mZip > 9999;
     }
 
