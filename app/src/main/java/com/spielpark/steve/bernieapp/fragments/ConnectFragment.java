@@ -64,6 +64,14 @@ public class ConnectFragment extends Fragment {
         }
     }
 
+    public static void cancelTask() {
+        if (mTask != null) {
+            if (mTask.getStatus() == AsyncTask.Status.RUNNING) {
+                mTask.cancel(true);
+            }
+        }
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         getView().findViewById(R.id.c_btnRadius).setOnClickListener(new View.OnClickListener() {
@@ -196,9 +204,7 @@ public class ConnectFragment extends Fragment {
     }
 
     private void startTask() {
-        if (mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING) {
-            mTask.cancel(true);
-        }
+        cancelTask();
         if (fetchCountry) {
             mTask = new ConnectTask(getActivity(), getInstance());
         } else if (validZip()) {
