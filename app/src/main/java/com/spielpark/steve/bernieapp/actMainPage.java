@@ -68,6 +68,10 @@ public class actMainPage extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+        if (curFrag instanceof ConnectFragment) {
+            ConnectFragment.cancelTask(); //cancel loading the map.
+            Log.d("AMP - ONDIS", "Cancelled loading the map.");
+        }
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack("base", FragmentManager.POP_BACK_STACK_INCLUSIVE);
