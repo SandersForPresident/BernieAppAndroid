@@ -49,6 +49,14 @@ public class Util {
         int height = Math.round(metrics.heightPixels / metrics.density) / 3;
         return new int[] {width, height};
     }
+
+    public static int getFullScreenHeight(Activity ctx) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        ctx.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int height = Math.round(metrics.heightPixels / metrics.density);
+        return height;
+    }
+
     public static Bitmap getOGImage(String src, Context context, boolean thumb) {
         String key = context.getResources().getString(R.string.firesizeacc);
         String fireUrl = "https://" + key + ".firesize.com/" + (thumb ? "150x120" : "500x300") + "/g_none/";

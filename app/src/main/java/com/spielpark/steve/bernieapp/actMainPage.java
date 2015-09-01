@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.fragments.BernRateFragment;
 import com.spielpark.steve.bernieapp.fragments.ConnectFragment;
+import com.spielpark.steve.bernieapp.fragments.FeedbackFragment;
 import com.spielpark.steve.bernieapp.fragments.SingleNewsFragment;
 import com.spielpark.steve.bernieapp.fragments.IssuesFragment;
 import com.spielpark.steve.bernieapp.fragments.NavigationDrawerFragment;
@@ -95,6 +96,10 @@ public class actMainPage extends ActionBarActivity
             }
             case 4 : {
                 replacement = BernRateFragment.getInstance();
+                break;
+            }
+            case 5 : {
+                replacement = FeedbackFragment.getInstance();
                 break;
             }
             default:  {

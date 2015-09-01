@@ -6,6 +6,7 @@
     <string name="title_section3">Organize</string>
     <string name="title_section4">Connect</string>
     <string name="title_section5">BernRate</string>
+    <string name="title_section6">App Feedback</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
