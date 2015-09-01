@@ -131,6 +131,9 @@ public class actMainPage extends ActionBarActivity
             case 5:
                 mTitle = getString(R.string.title_section5);
                 break;
+            case 6:
+                mTitle = getString(R.string.title_section6);
+                break;
         }
     }
 
