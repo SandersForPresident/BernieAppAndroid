@@ -51,7 +51,7 @@ public class ConnectFragment extends Fragment {
     private static ConnectTask mTask;
     private static GoogleMap map;
     private HashMap<Marker, Integer> mHashMap;
-    public int mZip = 0;
+    public String mZip = "";
     public int mRadius = 50;
     public boolean fetchCountry = true;
     private static ConnectFragment mInstance;
@@ -220,12 +220,14 @@ public class ConnectFragment extends Fragment {
     }
 
     private boolean validZip() {
+        String text = ((EditText) getView().findViewById(R.id.c_edtZip)).getText().toString();
         try {
-            mZip = Integer.parseInt(((EditText) getView().findViewById(R.id.c_edtZip)).getText().toString());
+            Integer.parseInt(text);
         } catch (NumberFormatException e) {
-                return false;
-            }
-        return mZip > 9999;
+            return false;
+        }
+        mZip = text;
+        return text.length() == 5;
     }
 
     private void setRadius(int m) {
