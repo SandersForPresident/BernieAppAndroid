@@ -54,7 +54,7 @@ public class BernRateFragment extends Fragment {
         SharedPreferences p = ((actMainPage) getActivity()).getPrefs();
         Util.Preferences key = Util.Preferences.BERNRATE_DIALOGUE;
         if (p.getInt(key.name, key.value) == 1) {
-            Util.getShowAgainDialogue(getActivity(), p, key, "Welcome to BernRate. This section is dedicated to showing you how Bernie Sanders is doing with popularity in various Social Medias. Created by Arman, this contribution was made by volunteers, NOT the millionaire class.").show();
+            Util.getShowAgainDialogue(getActivity(), p, key, "Welcome to BernRate. This section is dedicated to showing you how Bernie Sanders is doing with popularity in various Social Medias. Created by Arman, this contribution was made by volunteers, NOT the billionaire class.").show();
         }
         displayWebViews(generateURLs());
     }
