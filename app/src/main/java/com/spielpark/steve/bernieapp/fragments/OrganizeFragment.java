@@ -48,7 +48,7 @@ public class OrganizeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Logging in -HTTP..", Toast.LENGTH_SHORT);
             }
         });
-        browser.loadUrl("https://berniecrowd.org/");
+        browser.loadUrl("https://berniecrowd.org/?utm_source=bernie-app&utm_medium=android&utm_campaign=bernie-app");
     }
 
     @Override
