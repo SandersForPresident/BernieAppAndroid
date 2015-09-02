@@ -35,9 +35,6 @@ public class BernRateFragment extends Fragment {
             "<iframe src=\"http://www.bernrate.com/embed?dataKey=reddit:sandersforpresident:visitors\"",
             "<iframe src=\"http://www.bernrate.com/embed?dataKey=reddit:sandersforpresident:subscriptions\""
     };
-    //private static final String[] urls = new String[]{
-    //        "<iframe src=\"http://www.bernrate.com/embed?dataKey=followers:berniesanders\"></iframe>"
-   // };
 
     public static BernRateFragment getInstance() {
         if (mInstance == null) {
