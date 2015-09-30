@@ -41,7 +41,7 @@
         android:layout_marginTop="-2dp"
         android:textStyle="bold"
         android:textSize="12sp"
-        android:text="Predictable filler text meant to fill a space. With the filler text, the text that fills, the text specifically designed to fill a blank space, filler text."
+        android:text=""
         android:scrollbars="vertical"
         android:maxLines="4"
         android:layout_below="@id/pic_header"
