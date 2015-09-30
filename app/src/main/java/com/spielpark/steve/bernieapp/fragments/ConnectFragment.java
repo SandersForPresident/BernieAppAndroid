@@ -322,6 +322,7 @@ public class ConnectFragment extends Fragment {
         View parent = getView();
         if (parent.findViewById(R.id.c_btnGo).getVisibility() == View.VISIBLE) {
             getActivity().finish();
+            cancelTask();
         } else {
             parent.findViewById(R.id.c_edtZip).setVisibility(View.VISIBLE);
             parent.findViewById(R.id.c_btnRadius).setVisibility(View.VISIBLE);
