@@ -57,20 +57,10 @@ public class SingleIssueFragment extends Fragment {
             //User exited the app and returned to it, but android cleared some stuff from memory...
             getActivity().getSupportFragmentManager().popBackStack("base", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
-        String time = mIssue.getPubDate();
-        String formattedDate = "";
-        try {
-            SimpleDateFormat ft = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.US);
-            final Date dateObj = ft.parse(time);
-            time = new SimpleDateFormat("h:mm a").format(dateObj);
-            formattedDate = new SimpleDateFormat("EEE, d MMM yyyy").format(dateObj);
-        } catch (final ParseException e) {
-            e.printStackTrace();
-        }
         final View root = getView();
         ((TextView) root.findViewById(R.id.i_txtTitle)).setText(mIssue.getTitle());
         ((TextView) root.findViewById(R.id.i_txtTitle)).setShadowLayer(13, 0, 0, Color.BLACK);
-        ((TextView) root.findViewById(R.id.i_txtDate)).setText("Published " + formattedDate + " at " + time);
+        ((TextView) root.findViewById(R.id.i_txtDate)).setText("Published " + mIssue.getPubDate());
         ((TextView) root.findViewById(R.id.i_txtDesc)).setText(Html.fromHtml(mIssue.getDesc()));
         ((TextView) root.findViewById(R.id.i_txtDesc)).setMovementMethod(new LinkMovementMethod());
         ((WebView) root.findViewById(R.id.i_video)).getSettings().setJavaScriptEnabled(true);
