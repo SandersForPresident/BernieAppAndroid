@@ -10,6 +10,7 @@ import com.spielpark.steve.bernieapp.misc.Util;
  * Created by Steve on 7/9/2015.
  */
 public class Issue implements ImgTxtItem {
+
     public String getHtmlTitle() {
         return htmlTitle;
     }
@@ -24,14 +25,6 @@ public class Issue implements ImgTxtItem {
 
     public void setDesc(String desc) {
         this.desc = desc;
-    }
-
-    public Bitmap getThumb() {
-        return thumb;
-    }
-
-    public void setThumb(Bitmap thumb) {
-        this.thumb = thumb;
     }
 
     public String getVideo() {
@@ -53,17 +46,17 @@ public class Issue implements ImgTxtItem {
         bld.append(this.getVideo());
         bld.append("\" frameborder=\"0\" allowfullscreen></iframe></body>");
         Log.d("Issue URL", bld.toString());
-
         return bld.toString();
     }
 
     private String pubDate;
     private String htmlTitle;
     private String desc;
-    private Bitmap thumb;
     private String Url;
     private String title;
     private String video;
+    private String imgSrc;
+
     public String getPubDate() {
         return pubDate;
     }
@@ -99,12 +92,13 @@ public class Issue implements ImgTxtItem {
     }
 
     @Override
-    public Bitmap getImg() {
-        return getThumb();
+    public String getImgSrc() {
+        return imgSrc;
     }
 
     @Override
-    public void setImg(Bitmap img) {
-        this.setThumb(img);
+    public void setImgSrc(String img) {
+        imgSrc = img;
     }
+
 }
