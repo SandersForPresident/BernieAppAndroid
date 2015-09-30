@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.spielpark.steve.bernieapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -31,6 +32,7 @@ import java.net.URL;
  */
 public class Util {
 
+    private static Picasso p;
     public enum Preferences {
         BERNRATE_DIALOGUE("BernRate_ShowDialogue", 1);
 
@@ -50,55 +52,18 @@ public class Util {
         return new int[] {width, height};
     }
 
+    public static Picasso getPicasso(Context ctx) {
+        if (p == null) {
+            p = new Picasso.Builder(ctx).build();
+        }
+        return p;
+    }
+
     public static int getFullScreenHeight(Activity ctx) {
         DisplayMetrics metrics = new DisplayMetrics();
         ctx.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int height = Math.round(metrics.heightPixels / metrics.density);
         return height;
-    }
-
-    public static Bitmap getOGImage(String src, Context context, boolean thumb) {
-        String key = context.getResources().getString(R.string.firesizeacc);
-        String fireUrl = "https://" + key + ".firesize.com/" + (thumb ? "150x120" : "500x300") + "/g_none/";
-        try {
-            HttpURLConnection conn = ((HttpURLConnection) (new URL(src)).openConnection());
-            conn.connect();
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String next = in.readLine();
-            while (next != null) {
-                int loc = next.indexOf("og:image");
-                if (loc > 0) {
-                    int start = next.indexOf("https", loc);
-                    Log.d("ImgURL", fireUrl + next.substring(start, next.lastIndexOf('\"')));
-                    return getBitmapFromURL(fireUrl + next.substring(start, next.lastIndexOf('\"')));
-                }
-                next = in.readLine();
-            }
-        } catch (IOException e) {
-            Log.d("ImageRetrieveFail", "Failed to load url. Using default.");
-            return BitmapFactory.decodeResource(context.getResources(), R.drawable.logo);
-        }
-        return null;
-    }
-    public static boolean isOnWifi(Context ctx) {
-        ConnectivityManager cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
-    }
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection;
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            return null;
-        }
     }
 
     public static AlertDialog getShowAgainDialogue(Context ctx, final SharedPreferences prefs, final Preferences p, String message) {
