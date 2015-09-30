@@ -1,10 +1,7 @@
 package com.spielpark.steve.bernieapp.wrappers;
 
-import android.graphics.Bitmap;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -17,15 +14,7 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem {
     private String pubdate;
     private String time;
     private String htmlTitle;
-    private Bitmap thumb;
-
-    public Bitmap getThumb() {
-        return thumb;
-    }
-
-    public void setThumb(Bitmap b) {
-        this.thumb = b;
-    }
+    private String imgSrc;
 
     public String getHtmlTitle() {
         return htmlTitle;
@@ -67,11 +56,11 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem {
         this.url = url;
     }
 
-    public String getPubdate() {
+    public String getPubDate() {
         return pubdate;
     }
 
-    public void setPubdate(String pubdate) {
+    public void setPubDate(String pubdate) {
         this.pubdate = pubdate;
     }
 
@@ -86,14 +75,15 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem {
     }
 
     @Override
-    public Bitmap getImg() {
-        return getThumb();
+    public String getImgSrc() {
+        return imgSrc;
     }
 
     @Override
-    public void setImg(Bitmap img) {
-        this.setThumb(img);
+    public void setImgSrc(String img) {
+        this.imgSrc = img;
     }
+
     public NewsArticle() {
 
     }
@@ -105,9 +95,9 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem {
         Date l;
         Date r;
         try {
-            l = ft.parse(this.getPubdate());
-            r = ft.parse(tNewsArticle.getPubdate());
-            ret = r.compareTo(l);
+            r = ft.parse(this.getPubDate());
+            l = ft.parse(tNewsArticle.getPubDate());
+            ret = l.compareTo(r);
         } catch (ParseException e) {
             e.printStackTrace();
             ret = -1;
