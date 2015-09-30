@@ -41,7 +41,7 @@ public class SingleNewsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String time = mEvent.getTime();
+        String time = mEvent.getPubDate();
         try {
             final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
             final Date dateObj = sdf.parse(time);
@@ -52,10 +52,10 @@ public class SingleNewsFragment extends Fragment {
         View root = getView();
         ((TextView) root.findViewById(R.id.e_txtTitle)).setText(mEvent.getTitle());
         ((TextView) root.findViewById(R.id.e_txtTitle)).setShadowLayer(13, 0, 0, Color.BLACK);
-        ((TextView) root.findViewById(R.id.e_txtDate)).setText(mEvent.getPubdate() + " at " + time);
+        ((TextView) root.findViewById(R.id.e_txtDate)).setText(mEvent.getPubDate() + " at " + time);
         ((TextView) root.findViewById(R.id.e_txtDesc)).setText(Html.fromHtml(mEvent.getDesc()));
         ((TextView) root.findViewById(R.id.e_txtDesc)).setMovementMethod(new LinkMovementMethod());
-        new getNewsPicTask(root.findViewById(R.id.e_imgLogo), mEvent.getUrl(), getActivity()).execute();
+        Util.getPicasso(getActivity()).load(mEvent.getImgSrc()).placeholder(R.drawable.logo).into((ImageView)root.findViewById(R.id.e_imgLogo));
         root.findViewById(R.id.e_btnWebsite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,30 +76,5 @@ public class SingleNewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.frag_event, container, false);
-    }
-
-    private static class getNewsPicTask extends AsyncTask {
-        private static ImageView view;
-        private static String url;
-        private static Context ctx;
-        private static Bitmap bmp;
-
-        public getNewsPicTask (View v, String url, Context ctx) {
-            view = (ImageView) v;
-            this.url = url;
-            this.ctx = ctx;
-        }
-
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            bmp =  Util.getOGImage(url, ctx, false);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            view.setImageBitmap(bmp);
-        }
     }
 }
