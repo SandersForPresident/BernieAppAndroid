@@ -10,8 +10,8 @@ public interface ImgTxtItem {
 
     public void setTxt(String txt);
 
-    public Bitmap getImg();
+    public String getImgSrc();
 
-    public void setImg(Bitmap img);
+    public void setImgSrc(String img);
 
 }
