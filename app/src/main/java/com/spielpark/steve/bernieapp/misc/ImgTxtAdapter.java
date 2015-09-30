@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.wrappers.ImgTxtItem;
+import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class ImgTxtAdapter extends ArrayAdapter {
     private Context ctx;
     private List list;
     private int layout;
+
     public ImgTxtAdapter(Context context, int resource, List objects) {
         super(context, resource, objects);
         this.ctx = context;
@@ -44,9 +47,7 @@ public class ImgTxtAdapter extends ArrayAdapter {
         } else {
             v = (ViewHolder) convertView.getTag();
         }
-        if (item.getImg() != null) {
-            v.img.setImageBitmap(item.getImg());
-        }
+        Util.getPicasso(ctx).load(item.getImgSrc()).into(v.img);
         v.txt.setTypeface(Typeface.createFromAsset(ctx.getAssets(), "Jubilat.otf"));
         v.txt.setText(Html.fromHtml(item.getTxt()));
         return convertView;
