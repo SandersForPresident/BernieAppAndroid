@@ -45,8 +45,6 @@ public class actMainPage extends ActionBarActivity
     @Override
     protected void onStop() {
         super.onStop();
-        IssuesTask.clear();
-        NewsTask.clear();
     }
 
     @Override
@@ -159,8 +157,10 @@ public class actMainPage extends ActionBarActivity
         if (curFrag instanceof ConnectFragment) {
             ((ConnectFragment) curFrag).backPressed();
             return;
-        } else if (curFrag instanceof NewsFragment) {
-
+        } else if (curFrag instanceof OrganizeFragment) {
+            if (((OrganizeFragment) curFrag).canGoBack()) {
+                return;
+            }
         }
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             this.finish();
