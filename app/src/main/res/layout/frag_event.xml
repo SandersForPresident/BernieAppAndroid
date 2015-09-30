@@ -17,32 +17,37 @@
                 android:src="@drawable/logo"
                 android:scaleType="fitXY"/>
 
-            <TextView
-                android:id="@+id/e_txtTitle"
+            <LinearLayout
+                android:id="@+id/e_infoContainer"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="2dp"
+                android:orientation="vertical"
                 android:layout_below="@id/e_imgLogo"
-                android:text="Title"
                 android:background="#147FD7"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="22sp"
-                android:gravity="center_horizontal"
-                android:tag="sticky"/>
+                android:tag="sticky">
+                <TextView
+                    android:id="@+id/e_txtTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="2dp"
+                    android:layout_below="@id/e_imgLogo"
+                    android:text="Title"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:textSize="22sp"
+                    android:gravity="center_horizontal"/>
 
-            <TextView
-                android:id="@+id/e_txtDate"
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:layout_below="@id/e_txtTitle"
-                android:text="Date"
-                android:background="#147FD7"
-                android:textColor="#FFC207"
-                android:textStyle="italic|bold"
-                android:textSize="18sp"
-                android:gravity="center_horizontal"
-                android:tag="sticky"/>
+                <TextView
+                    android:id="@+id/e_txtDate"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@id/e_txtTitle"
+                    android:text="Date"
+                    android:textColor="#FFC207"
+                    android:textStyle="italic|bold"
+                    android:textSize="18sp"
+                    android:gravity="center_horizontal" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/e_btnWebsite"
@@ -51,7 +56,7 @@
                 android:text="View\nWebsite"
                 android:textColor="#FFFFFF"
                 android:background="#AA147FD7"
-                android:layout_below="@id/e_txtDate"
+                android:layout_below="@id/e_infoContainer"
                 android:layout_alignParentRight="true"/>
 
             <TextView
