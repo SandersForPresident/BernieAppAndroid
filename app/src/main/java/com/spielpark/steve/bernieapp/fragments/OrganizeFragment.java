@@ -19,6 +19,7 @@ import com.spielpark.steve.bernieapp.R;
 public class OrganizeFragment extends Fragment {
 
     private static OrganizeFragment mInstance;
+    private static WebView browser;
     public static OrganizeFragment getInstance() {
         if (mInstance == null) {
             mInstance = new OrganizeFragment();
@@ -31,7 +32,7 @@ public class OrganizeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        WebView browser = (WebView) getView().findViewById(R.id.o_webView);
+        browser = (WebView) getView().findViewById(R.id.o_webView);
         browser.getSettings().setJavaScriptEnabled(true);
         browser.getSettings().setAppCachePath(getActivity().getCacheDir().getPath());
         browser.getSettings().setAppCacheEnabled(true);
@@ -54,9 +55,15 @@ public class OrganizeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.frag_organize, container, false);
     }
 
-
+    public static boolean canGoBack() {
+        if (browser.canGoBack()) {
+            browser.goBack();
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
