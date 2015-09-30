@@ -43,7 +43,9 @@ public class NewsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final ListView newsList = (ListView) view.findViewById(R.id.listNews);
         ((TextView) view.findViewById(R.id.txtSubHeader)).setMovementMethod(new ScrollingMovementMethod());
-        if (!(NewsTask.hasData())) {
+        new NewsTask(getActivity(), newsList, (ProgressBar) view.findViewById(R.id.progressBar), (TextView) view.findViewById(R.id.txtSubHeader), (TextView) view.findViewById(R.id.txtHeader)).execute();
+
+        /*if (!(NewsTask.hasData())) {
             new NewsTask(getActivity(), newsList, (ProgressBar) view.findViewById(R.id.progressBar), (TextView) view.findViewById(R.id.txtSubHeader), (TextView) view.findViewById(R.id.txtHeader)).execute();
         } else {
             for (NewsArticle a : NewsTask.getData()) {
@@ -53,18 +55,12 @@ public class NewsFragment extends Fragment {
                     s = s.length() > 42 ? s.substring(0, 42) + "..." : s;
                     ((TextView) view.findViewById(R.id.txtHeader)).setText(s);
                     break;
-                }
+                }\
             }
             newsList.setVisibility(View.VISIBLE);
             view.findViewById(R.id.progressBar).setVisibility(View.GONE);
             newsList.setAdapter(new ImgTxtAdapter(getActivity(), R.layout.list_news_item, NewsTask.getData()));
-        }
-        newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((actMainPage) getActivity()).loadEvent(NewsTask.getArticle(position));
-            }
-        });
+        }*/
     }
 
     @Override
