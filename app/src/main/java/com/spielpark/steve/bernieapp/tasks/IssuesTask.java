@@ -96,13 +96,9 @@ public class IssuesTask extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] params) {
         retrieveLinks();
-        for (Map.Entry<String, String> e : vidLinks.entrySet()) {
-            Log.d("K/V: ", e.getKey() + ".." + e.getValue());
-        }
             BufferedReader in = null;
             try {
                 URL url = new URL("https://search.berniesanders.tech/articles_en/berniesanders_com/_search?q=article_type%3A%28Issues%29&sort=created_at:desc&size=20");
-                Log.d("URL", url.toString());
                 in = new BufferedReader(new InputStreamReader(url.openStream()));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -182,7 +178,6 @@ public class IssuesTask extends AsyncTask {
                     }
                     if (reader.peek() == JsonToken.END_OBJECT) {
                         if (i.getTitle() != null) {
-                            Log.d("New NewsArticle: ", i.getTitle());
                             formatDate(i);
                             i.setTxt(getHTMLForTitle(i));
                             issues.add(i);
@@ -228,7 +223,6 @@ public class IssuesTask extends AsyncTask {
     }
 
     private void readReddit(JsonReader reader) throws IOException {
-        Log.d("JsonReader", "Beginning parsing");
         String title = "";
         String link = "";
         while (reader.hasNext()) {
