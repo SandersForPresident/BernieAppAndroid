@@ -58,7 +58,6 @@ public class NewsTask extends AsyncTask {
         BufferedReader in = null;
         try {
             URL url = new URL("https://search.berniesanders.tech/articles_en/berniesanders_com/_search?q=!article_type%3A%28ExternalLink%20OR%20Issues%29&sort=created_at:desc&size=20");
-            Log.d("URL", url.toString());
             in = new BufferedReader(new InputStreamReader(url.openStream()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -142,7 +141,6 @@ public class NewsTask extends AsyncTask {
                     }
                     if (reader.peek() == JsonToken.END_OBJECT) {
                         if (a.getTitle() != null) {
-                            Log.d("New NewsArticle: ", a.getTitle());
                             formatDate(a);
                             a.setTxt(getHTMLForTitle(a));
                             articles.add(a);
@@ -174,12 +172,14 @@ public class NewsTask extends AsyncTask {
         for (int i = 0; i < articles.size(); i++) {
             a = articles.get(i);
             if (!(setSubheader)) {
-                if (a.getUrl().contains("press-release")) {
-                    subHeader.setText(Html.fromHtml(a.getDesc()));
-                    String s = a.getTitle();
-                    s = s.length() > 40 ? s.substring(0, 40) + "..." : s;
-                    header.setText(s);
-                    setSubheader = true;
+                if (a.getUrl() != null) {
+                    if (a.getUrl().contains("press-release")) {
+                        subHeader.setText(Html.fromHtml(a.getDesc()));
+                        String s = a.getTitle();
+                        s = s.length() > 40 ? s.substring(0, 40) + "..." : s;
+                        header.setText(s);
+                        setSubheader = true;
+                    }
                 }
             }
         }
