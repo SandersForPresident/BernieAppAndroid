@@ -2,4 +2,5 @@
 build/*
 .gradle/*
 gradle/*
+*.iml
 app/src/main/res/values/key.xml
