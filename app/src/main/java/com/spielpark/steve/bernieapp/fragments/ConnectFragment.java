@@ -97,6 +97,12 @@ public class ConnectFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         setUpMap();
         MapsInitializer.initialize(getActivity().getApplicationContext());
