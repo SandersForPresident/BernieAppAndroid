@@ -79,7 +79,6 @@ public class ConnectFragment extends Fragment {
     @Bind(R.id.c_mapContainer) FrameLayout mapFrame;
     @Bind(R.id.cd_container) RelativeLayout container;
     @Bind(R.id.c_listEvents) ListView eventList;
-    @Bind(R.id.c_map) SupportMapFragment mapFragment;
 
     public static ConnectFragment getInstance() {
         if (mInstance == null) {
@@ -259,6 +258,7 @@ public class ConnectFragment extends Fragment {
         radiusButton.setText(mRadius + " miles");
     }
     private void setUpMap() {
+        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.c_map);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
