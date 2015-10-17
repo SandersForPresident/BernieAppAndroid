@@ -27,6 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
+
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -68,47 +71,42 @@ public class ConnectFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.frag_connect, container, false);
+        View view = inflater.inflate(R.layout.frag_connect, container, false);
+        ButterKnife.bind(this,view);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-
-        getView().findViewById(R.id.c_btnRadius).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                android.support.v7.app.AlertDialog.Builder bld = new android.support.v7.app.AlertDialog.Builder(getActivity());
-                bld.setTitle("Pick a Radius");
-                bld.setSingleChoiceItems(R.array.radius_choices, 1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        setRadius(i);
-                        dialogInterface.dismiss();
-                    }
-                });
-                bld.create().show();
-            }
-        });
-        getView().findViewById(R.id.c_btnGo).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fetchCountry = false;
-                startTask();
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
-        });
-        ((ListView) getView().findViewById(R.id.c_listEvents)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                listItemClicked(i, false);
-            }
-        });
-        fetchCountry = true;
         setUpMap();
         MapsInitializer.initialize(getActivity().getApplicationContext());
         super.onViewCreated(view, savedInstanceState);
     }
+
+    @OnClick(R.id.c_btnRadius) void onRadiusClicked(){
+        android.support.v7.app.AlertDialog.Builder bld = new android.support.v7.app.AlertDialog.Builder(getActivity());
+        bld.setTitle("Pick a Radius");
+        bld.setSingleChoiceItems(R.array.radius_choices, 1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                setRadius(i);
+                dialogInterface.dismiss();
+            }
+        });
+        bld.create().show();
+    }
+
+    @OnClick(R.id.c_btnGo) void onGoClicked(View view){
+        fetchCountry = false;
+        startTask();
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @OnItemClick(R.id.c_listEvents) void onEventsListClicked(int position){
+        listItemClicked(position,false);
+    }
+
 
     private void listItemClicked(int pos, boolean alreadyLoaded) {
         final View base = getView();
