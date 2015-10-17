@@ -231,7 +231,7 @@ public class ConnectFragment extends Fragment {
             mTask.execute();
         } else if (validZip()) {
             goButton.setEnabled(false);
-            goButton.setBackgroundColor(Color.parseColor("#CCCCCC"));
+            goButton.setBackgroundResource(R.color.fragment_connect_go_button_disabled);
             progressBar.setVisibility(View.VISIBLE);
             mTask = new ConnectTask(getActivity(), getInstance());
             mTask.execute();
@@ -261,7 +261,7 @@ public class ConnectFragment extends Fragment {
 
     private void setRadius(int m) {
         mRadius = m++ < 4 ? m*25 : ((m-2)*50);
-        radiusButton.setText(mRadius + " miles");
+        radiusButton.setText(String.format("%d miles", mRadius));
     }
     private void setUpMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.c_map);
@@ -271,7 +271,7 @@ public class ConnectFragment extends Fragment {
                 Log.d("Map Ready", "Bam.");
                 map = googleMap;
                 goButton.setEnabled(true);
-                goButton.setBackgroundColor(Color.parseColor("#147FD7"));
+                goButton.setBackgroundResource(R.color.fragment_connect_go_button_background);
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -334,7 +334,7 @@ public class ConnectFragment extends Fragment {
         mapFrame.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         goButton.setEnabled(true);
-        goButton.setBackgroundColor(Color.parseColor("#147FD7"));
+        goButton.setBackgroundResource(R.color.fragment_connect_go_button_background);
     }
 
     public void backPressed() {
