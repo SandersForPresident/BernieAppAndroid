@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.ButterKnife;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -55,6 +56,7 @@ public class ConnectFragment extends Fragment {
     public int mRadius = 50;
     public boolean fetchCountry = true;
     private static ConnectFragment mInstance;
+
     public static ConnectFragment getInstance() {
         if (mInstance == null) {
             mInstance = new ConnectFragment();
@@ -63,17 +65,15 @@ public class ConnectFragment extends Fragment {
             return mInstance;
         }
     }
-
-    public static void cancelTask() {
-        if (mTask != null) {
-            if (mTask.getStatus() == AsyncTask.Status.RUNNING) {
-                mTask.cancel(true);
-            }
-        }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.frag_connect, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
         getView().findViewById(R.id.c_btnRadius).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -219,6 +219,14 @@ public class ConnectFragment extends Fragment {
         }
     }
 
+    public static void cancelTask() {
+        if (mTask != null) {
+            if (mTask.getStatus() == AsyncTask.Status.RUNNING) {
+                mTask.cancel(true);
+            }
+        }
+    }
+
     private boolean validZip() {
         String text = ((EditText) getView().findViewById(R.id.c_edtZip)).getText().toString();
         try {
@@ -234,13 +242,6 @@ public class ConnectFragment extends Fragment {
         mRadius = m++ < 4 ? m*25 : ((m-2)*50);
         ((Button) getView().findViewById(R.id.c_btnRadius)).setText(mRadius + " miles");
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.frag_connect, container, false);
-    }
-
     private void setUpMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.c_map);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
