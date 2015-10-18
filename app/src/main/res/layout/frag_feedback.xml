@@ -1,14 +1,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.spielpark.steve.bernieapp.fragments.FeedbackFragment"
-    android:layout_marginBottom="60dp">
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_marginBottom="60dp"
+  tools:context="com.spielpark.steve.bernieapp.fragments.FeedbackFragment">
 
-    <WebView
-        android:id="@+id/feedback_webview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-    </WebView>
+  <WebView
+    android:id="@+id/feedback_webview"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"></WebView>
 
 </FrameLayout>

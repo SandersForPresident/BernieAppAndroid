@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="fragment_connect_go_button_background">#147FD7</color>
-    <color name="fragment_connect_go_button_disabled">#CCCCCC</color>
+  <color name="fragment_connect_go_button_background">#147FD7</color>
+  <color name="fragment_connect_go_button_disabled">#CCCCCC</color>
 </resources>
