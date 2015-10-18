@@ -7,9 +7,9 @@ android {
     defaultConfig {
         applicationId "com.spielpark.steve.bernieapp"
         minSdkVersion 14
-        targetSdkVersion 21
-        versionCode 13
-        versionName "1.3R"
+        targetSdkVersion 23
+        versionCode 14
+        versionName "1.5R"
     }
     buildTypes {
         release {

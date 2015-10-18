@@ -1,7 +1,5 @@
 package com.spielpark.steve.bernieapp.fragments;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,8 +13,6 @@ import android.widget.ProgressBar;
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.actMainPage;
 import com.spielpark.steve.bernieapp.tasks.IssuesTask;
-import com.spielpark.steve.bernieapp.tasks.NewsTask;
-import com.spielpark.steve.bernieapp.wrappers.Issue;
 
 
 /**

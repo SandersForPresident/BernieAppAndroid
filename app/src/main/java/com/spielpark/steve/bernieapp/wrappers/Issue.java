@@ -1,7 +1,6 @@
 package com.spielpark.steve.bernieapp.wrappers;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.spielpark.steve.bernieapp.misc.Util;

@@ -2,7 +2,6 @@ package com.spielpark.steve.bernieapp.wrappers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 
 /**

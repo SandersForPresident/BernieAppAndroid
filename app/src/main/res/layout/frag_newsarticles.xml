@@ -5,7 +5,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:layout_marginBottom="61dp"
+    android:layout_marginBottom="60dp"
     tools:context=".actMainPage$PlaceholderFragment">
 
 
@@ -21,7 +21,6 @@
         android:id="@+id/txtHeader"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="2dp"
         android:paddingLeft="8dp"
         android:paddingTop="4dp"
         android:layout_alignTop="@id/pic_header"
@@ -45,7 +44,8 @@
         android:scrollbars="vertical"
         android:maxLines="4"
         android:layout_below="@id/pic_header"
-        android:background="@drawable/news_header_border"/>
+        android:background="@drawable/news_header_border"
+        android:onClick="loadHeaderArticle"/>
 
     <ListView
         android:id="@+id/listNews"
