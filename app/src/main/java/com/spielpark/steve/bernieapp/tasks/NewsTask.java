@@ -31,7 +31,7 @@ import java.util.Locale;
 /**
  * Created by Steve on 7/8/2015.
  */
-public class NewsTask extends AsyncTask {
+public class NewsTask extends AsyncTask<Object, NewsArticle, Object> {
     private static ArrayList<NewsArticle> articles;
     private static ListView list;
     private static ProgressBar progressBar;
@@ -141,9 +141,8 @@ public class NewsTask extends AsyncTask {
                     if (reader.peek() == JsonToken.END_OBJECT) {
                         if (a.getTitle() != null) {
                             a.setTxt(getHTMLForTitle(a));
-                            articles.add(a);
+                            publishProgress(a);
                             a = new NewsArticle();
-                            publishProgress();
                         }
                         reader.endObject();
                     }
@@ -193,8 +192,9 @@ public class NewsTask extends AsyncTask {
     }
 
     @Override
-    protected void onProgressUpdate(Object[] values) {
-        super.onProgressUpdate(values);
+    protected void onProgressUpdate(NewsArticle[] a) {
+        super.onProgressUpdate(a);
+        articles.add(a[0]);
         ((ImgTxtAdapter) list.getAdapter()).notifyDataSetChanged();
     }
 

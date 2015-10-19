@@ -24,7 +24,7 @@ import java.util.HashMap;
 /**
  * Created by Steve on 7/9/2015.
  */
-public class IssuesTask extends AsyncTask {
+public class IssuesTask extends AsyncTask<Object, Issue, Object> {
     private static ArrayList<Issue> issues;
     private static ListView list;
     private static ProgressBar progressBar;
@@ -73,8 +73,9 @@ public class IssuesTask extends AsyncTask {
     }
 
     @Override
-    protected void onProgressUpdate(Object[] values) {
-        super.onProgressUpdate(values);
+    protected void onProgressUpdate(Issue[] i) {
+        super.onProgressUpdate(i);
+        issues.add(i[0]);
         ((ImgTxtAdapter) list.getAdapter()).notifyDataSetChanged();
     }
 
@@ -152,9 +153,8 @@ public class IssuesTask extends AsyncTask {
                     if (reader.peek() == JsonToken.END_OBJECT) {
                         if (i.getTitle() != null) {
                             i.setTxt(getHTMLForTitle(i));
-                            issues.add(i);
+                            publishProgress(i);
                             i = new Issue();
-                            publishProgress();
                         }
                         reader.endObject();
                     }
