@@ -103,6 +103,7 @@ public class actMainPage extends ActionBarActivity
                 replacement = NewsFragment.getInstance();
             }
         }
+        if (replacement.isAdded()) return;
         adjustNavBarText(position);
         curFrag = replacement;
         onSectionAttached(++position);
