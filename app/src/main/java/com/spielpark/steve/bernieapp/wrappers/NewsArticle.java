@@ -1,5 +1,7 @@
 package com.spielpark.steve.bernieapp.wrappers;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,7 +9,7 @@ import java.util.Date;
 /**
  * Created by Steve on 8/14/2015.
  */
-public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem {
+public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, Parcelable {
   private String title;
   private String desc;
   private String url;
@@ -99,4 +101,39 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem {
     }
     return ret;
   }
+
+  @Override public int describeContents() {
+    return 0;
+  }
+
+  @Override public void writeToParcel(Parcel dest, int flags) {
+    dest.writeString(this.title);
+    dest.writeString(this.desc);
+    dest.writeString(this.url);
+    dest.writeString(this.pubdate);
+    dest.writeString(this.time);
+    dest.writeString(this.htmlTitle);
+    dest.writeString(this.imgSrc);
+  }
+
+  protected NewsArticle(Parcel in) {
+    this.title = in.readString();
+    this.desc = in.readString();
+    this.url = in.readString();
+    this.pubdate = in.readString();
+    this.time = in.readString();
+    this.htmlTitle = in.readString();
+    this.imgSrc = in.readString();
+  }
+
+  public static final Parcelable.Creator<NewsArticle> CREATOR =
+      new Parcelable.Creator<NewsArticle>() {
+        public NewsArticle createFromParcel(Parcel source) {
+          return new NewsArticle(source);
+        }
+
+        public NewsArticle[] newArray(int size) {
+          return new NewsArticle[size];
+        }
+      };
 }

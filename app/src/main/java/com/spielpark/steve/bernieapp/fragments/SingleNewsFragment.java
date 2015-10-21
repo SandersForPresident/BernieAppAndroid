@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.misc.Util;
 import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
@@ -20,22 +23,34 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SingleNewsFragment extends Fragment {
-  private static NewsArticle mEvent;
-  private static SingleNewsFragment mInstance;
+  private static final String NEW_ARTICLE = "NEW_ARTICLE";
+  @Bind(R.id.e_txtTitle) TextView title;
+  @Bind(R.id.e_txtDate) TextView date;
+  @Bind(R.id.e_txtDesc) TextView description;
+  @Bind(R.id.e_imgLogo) ImageView logo;
+  private NewsArticle event;
 
-  public static SingleNewsFragment getInstance(NewsArticle e) {
-    mEvent = e;
-    if (mInstance == null) {
-      mInstance = new SingleNewsFragment();
-      return mInstance;
-    } else {
-      return mInstance;
+  public static SingleNewsFragment getInstance(NewsArticle newsArticle) {
+    SingleNewsFragment fragment = new SingleNewsFragment();
+    Bundle args = new Bundle();
+    args.putParcelable(NEW_ARTICLE, newsArticle);
+    return fragment;
+  }
+
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Bundle args = getArguments();
+    if (args != null) {
+      event = args.getParcelable(NEW_ARTICLE);
     }
   }
 
-  @Override public void onViewCreated(View view, Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    String time = mEvent.getPubDate();
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.frag_event, container, false);
+    ButterKnife.bind(this, view);
+
+    String time = event.getPubDate();
     try {
       final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
       final Date dateObj = sdf.parse(time);
@@ -43,32 +58,28 @@ public class SingleNewsFragment extends Fragment {
     } catch (final ParseException e) {
       e.printStackTrace();
     }
-    View root = getView();
-    ((TextView) root.findViewById(R.id.e_txtTitle)).setText(mEvent.getTitle());
-    ((TextView) root.findViewById(R.id.e_txtTitle)).setShadowLayer(13, 0, 0, Color.BLACK);
-    ((TextView) root.findViewById(R.id.e_txtDate)).setText(mEvent.getPubDate() + " at " + time);
-    ((TextView) root.findViewById(R.id.e_txtDesc)).setText(Html.fromHtml(mEvent.getDesc()));
-    ((TextView) root.findViewById(R.id.e_txtDesc)).setMovementMethod(new LinkMovementMethod());
-    Util.getPicasso(getActivity())
-        .load(mEvent.getImgSrc())
-        .placeholder(R.drawable.logo)
-        .into((ImageView) root.findViewById(R.id.e_imgLogo));
-    root.findViewById(R.id.e_btnWebsite).setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(mEvent.getUrl()));
-        startActivity(i);
-      }
-    });
+
+    title.setText(event.getTitle());
+    title.setShadowLayer(13, 0, 0, Color.BLACK);
+    date.setText(event.getPubDate() + " at " + time);
+    description.setText(Html.fromHtml(event.getDesc()));
+    description.setMovementMethod(new LinkMovementMethod());
+    return view;
   }
 
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    ButterKnife.unbind(this);
   }
 
-  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.frag_event, container, false);
+  @Override public void onViewCreated(View view, Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    Util.getPicasso(getActivity()).load(event.getImgSrc()).placeholder(R.drawable.logo).into(logo);
+  }
+
+  @OnClick(R.id.e_btnWebsite) void onWebsiteClicked() {
+    Intent i = new Intent(Intent.ACTION_VIEW);
+    i.setData(Uri.parse(event.getUrl()));
+    startActivity(i);
   }
 }
