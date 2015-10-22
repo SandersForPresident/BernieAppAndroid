@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.tasks.NewsTask;
 
@@ -22,29 +23,31 @@ import com.spielpark.steve.bernieapp.tasks.NewsTask;
  */
 public class NewsFragment extends Fragment {
 
-  private static NewsFragment mIntstance;
+    private static NewsFragment mIntstance;
 
-  public static NewsFragment getInstance() {
-    if (mIntstance == null) {
-      mIntstance = new NewsFragment();
-      return mIntstance;
-    } else {
-      return mIntstance;
+    public static NewsFragment getInstance() {
+        if (mIntstance == null) {
+            mIntstance = new NewsFragment();
+            return mIntstance;
+        } else {
+            return mIntstance;
+        }
     }
-  }
 
-  @Override public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    final ListView newsList = (ListView) view.findViewById(R.id.listNews);
-    ((TextView) view.findViewById(R.id.txtSubHeader)).setMovementMethod(
-        new ScrollingMovementMethod());
-    new NewsTask(getActivity(), newsList, (ProgressBar) view.findViewById(R.id.progressBar),
-        (TextView) view.findViewById(R.id.txtSubHeader),
-        (TextView) view.findViewById(R.id.txtHeader)).execute();
-  }
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final ListView newsList = (ListView) view.findViewById(R.id.listNews);
+        ((TextView) view.findViewById(R.id.txtSubHeader)).setMovementMethod(
+                new ScrollingMovementMethod());
+        new NewsTask(getActivity(), newsList, (ProgressBar) view.findViewById(R.id.progressBar),
+                (TextView) view.findViewById(R.id.txtSubHeader),
+                (TextView) view.findViewById(R.id.txtHeader)).execute();
+    }
 
-  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.frag_newsarticles, container, false);
-  }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.frag_newsarticles, container, false);
+    }
 }
