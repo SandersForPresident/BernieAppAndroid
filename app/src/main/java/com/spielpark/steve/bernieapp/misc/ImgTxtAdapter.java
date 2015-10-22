@@ -50,7 +50,7 @@ public class ImgTxtAdapter extends ArrayAdapter {
     return convertView;
   }
 
-  private static class ViewHolder {
+  public static class ViewHolder {
     @Bind(R.id.picThumb) TextView txt;
     @Bind(R.id.txtItem) ImageView img;
 
