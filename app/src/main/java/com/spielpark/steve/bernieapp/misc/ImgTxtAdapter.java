@@ -51,8 +51,8 @@ public class ImgTxtAdapter extends ArrayAdapter {
   }
 
   public static class ViewHolder {
-    @Bind(R.id.picThumb) TextView txt;
-    @Bind(R.id.txtItem) ImageView img;
+    @Bind(R.id.txtItem) TextView txt;
+    @Bind(R.id.picThumb) ImageView img;
 
     public ViewHolder(View convertView, Typeface typeface) {
       ButterKnife.bind(this, convertView);

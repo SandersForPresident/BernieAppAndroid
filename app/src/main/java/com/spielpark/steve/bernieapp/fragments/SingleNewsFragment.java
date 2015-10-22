@@ -34,6 +34,7 @@ public class SingleNewsFragment extends Fragment {
     SingleNewsFragment fragment = new SingleNewsFragment();
     Bundle args = new Bundle();
     args.putParcelable(NEW_ARTICLE, newsArticle);
+    fragment.setArguments(args);
     return fragment;
   }
 
@@ -50,18 +51,20 @@ public class SingleNewsFragment extends Fragment {
     View view = inflater.inflate(R.layout.frag_event, container, false);
     ButterKnife.bind(this, view);
 
-    String time = event.getPubDate();
+    StringBuilder dateTime = new StringBuilder(event.getPubDate());
     try {
       final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-      final Date dateObj = sdf.parse(time);
-      time = new SimpleDateFormat("h:mm a, z").format(dateObj);
+      final Date dateObj = sdf.parse(event.getPubDate());
+      String time = new SimpleDateFormat("h:mm a, z").format(dateObj);
+      dateTime.append(" at ");
+      dateTime.append(time);
     } catch (final ParseException e) {
       e.printStackTrace();
     }
 
     title.setText(event.getTitle());
     title.setShadowLayer(13, 0, 0, Color.BLACK);
-    date.setText(event.getPubDate() + " at " + time);
+    date.setText(dateTime.toString());
     description.setText(Html.fromHtml(event.getDesc()));
     description.setMovementMethod(new LinkMovementMethod());
     return view;
