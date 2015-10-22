@@ -11,7 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -226,8 +226,9 @@ public class NavigationDrawerFragment extends Fragment {
     return super.onOptionsItemSelected(item);
   }
 
+
   private ActionBar getActionBar() {
-    return ((AppCompatActivity) getActivity()).getSupportActionBar();
+    return ((ActionBarActivity) getActivity()).getSupportActionBar();
   }
 
   /**

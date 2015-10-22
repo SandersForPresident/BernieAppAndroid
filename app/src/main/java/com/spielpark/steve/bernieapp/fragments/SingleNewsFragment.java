@@ -1,8 +1,11 @@
 package com.spielpark.steve.bernieapp.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -18,9 +21,6 @@ import butterknife.OnClick;
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.misc.Util;
 import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class SingleNewsFragment extends Fragment {
   private static final String NEW_ARTICLE = "NEW_ARTICLE";
@@ -64,7 +64,7 @@ public class SingleNewsFragment extends Fragment {
 
     title.setText(event.getTitle());
     title.setShadowLayer(13, 0, 0, Color.BLACK);
-    date.setText(dateTime.toString());
+    date.setText(mEvent.getPubDate());
     description.setText(Html.fromHtml(event.getDesc()));
     description.setMovementMethod(new LinkMovementMethod());
     return view;

@@ -60,6 +60,52 @@ public class actMainPage extends ActionBarActivity
     adjustNavBarText(0);
   }
 
+    @Override
+    public void onNavigationDrawerItemSelected(int position) {
+        if (curFrag instanceof ConnectFragment) {
+            ConnectFragment.cancelTask(); //cancel loading the map.
+            Log.d("AMP - ONDIS", "Cancelled loading the map.");
+        }
+        // update the main content by replacing fragments
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack("base", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        Fragment replacement;
+        switch(position) {
+            case 0 : {
+                replacement = NewsFragment.getInstance();
+                break;
+            }
+            case 1 : {
+                replacement = IssuesFragment.getInstance();
+                break;
+            }
+            case 2 : {
+                replacement = OrganizeFragment.getInstance();
+                break;
+            }
+            case 3 : {
+                replacement = ConnectFragment.getInstance();
+                break;
+            }
+            case 4 : {
+                replacement = BernRateFragment.getInstance();
+                break;
+            }
+            case 5 : {
+                replacement = FeedbackFragment.getInstance();
+                break;
+            }
+            default:  {
+                replacement = NewsFragment.getInstance();
+            }
+        }
+        if (replacement.isAdded()) return;
+        adjustNavBarText(position);
+        curFrag = replacement;
+        onSectionAttached(++position);
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, replacement)
+                .commit();
   @Override public void onNavigationDrawerItemSelected(int position) {
     if (curFrag instanceof ConnectFragment) {
       ConnectFragment.cancelTask(); //cancel loading the map.
