@@ -24,115 +24,110 @@ import com.spielpark.steve.bernieapp.fragments.OrganizeFragment;
 import com.spielpark.steve.bernieapp.fragments.SingleIssueFragment;
 import com.spielpark.steve.bernieapp.fragments.SingleNewsFragment;
 import com.spielpark.steve.bernieapp.tasks.NewsTask;
-import com.spielpark.steve.bernieapp.wrappers.Issue;
-import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
+import com.spielpark.steve.bernieapp.model.Issue;
+import com.spielpark.steve.bernieapp.model.news.NewsArticle;
 
 public class actMainPage extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-    private static SharedPreferences preferences;
-    private static Fragment curFrag;
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence mTitle;
+    implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+  private static SharedPreferences preferences;
+  private static Fragment curFrag;
+  /**
+   * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
+   */
+  private NavigationDrawerFragment mNavigationDrawerFragment;
+  /**
+   * Used to store the last screen title. For use in {@link #restoreActionBar()}.
+   */
+  private CharSequence mTitle;
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
+  @Override protected void onStop() {
+    super.onStop();
+  }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_main_page);
-        mNavigationDrawerFragment =
-                (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(
-                        R.id.navigation_drawer);
-        mTitle = getTitle();
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
-        ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#147FD7")));
-        mTitle = "News";
-        preferences = getApplicationContext().getSharedPreferences("bernie_app_prefs", 0);
-        adjustNavBarText(0);
-    }
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        if (curFrag instanceof ConnectFragment) {
-            ConnectFragment.cancelTask(); //cancel loading the map.
-            Log.d("AMP - ONDIS", "Cancelled loading the map.");
-        }
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.popBackStack("base", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        Fragment replacement;
-        switch (position) {
-            case 0: {
-                replacement = NewsFragment.getInstance();
-                break;
-            }
-            case 1: {
-                replacement = IssuesFragment.getInstance();
-                break;
-            }
-            case 2: {
-                replacement = OrganizeFragment.getInstance();
-                break;
-            }
-            case 3: {
-                replacement = ConnectFragment.getInstance();
-                break;
-            }
-            case 4: {
-                replacement = BernRateFragment.getInstance();
-                break;
-            }
-            case 5: {
-                replacement = FeedbackFragment.getInstance();
-                break;
-            }
-            default: {
-                replacement = NewsFragment.getInstance();
-            }
-        }
-        if (replacement.isAdded()) return;
-        adjustNavBarText(position);
-        curFrag = replacement;
-        onSectionAttached(++position);
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, replacement)
-                .commit();
-    }
+    setContentView(R.layout.layout_main_page);
+    mNavigationDrawerFragment =
+        (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(
+            R.id.navigation_drawer);
+    mTitle = getTitle();
+    // Set up the drawer.
+    mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
+        (DrawerLayout) findViewById(R.id.drawer_layout));
+    ActionBar bar = getSupportActionBar();
+    bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#147FD7")));
+    mTitle = "News";
+    preferences = getApplicationContext().getSharedPreferences("bernie_app_prefs", 0);
+    adjustNavBarText(0);
+  }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-            case 4:
-                mTitle = getString(R.string.title_section4);
-                break;
-            case 5:
-                mTitle = getString(R.string.title_section5);
-                break;
-            case 6:
-                mTitle = getString(R.string.title_section6);
-                break;
-        }
+  @Override public void onNavigationDrawerItemSelected(int position) {
+    if (curFrag instanceof ConnectFragment) {
+      ConnectFragment.cancelTask(); //cancel loading the map.
+      Log.d("AMP - ONDIS", "Cancelled loading the map.");
     }
+    // update the main content by replacing fragments
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    fragmentManager.popBackStack("base", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    Fragment replacement;
+    switch (position) {
+      case 0: {
+        replacement = NewsFragment.getInstance();
+        break;
+      }
+      case 1: {
+        replacement = IssuesFragment.getInstance();
+        break;
+      }
+      case 2: {
+        replacement = OrganizeFragment.getInstance();
+        break;
+      }
+      case 3: {
+        replacement = ConnectFragment.getInstance();
+        break;
+      }
+      case 4: {
+        replacement = BernRateFragment.getInstance();
+        break;
+      }
+      case 5: {
+        replacement = FeedbackFragment.getInstance();
+        break;
+      }
+      default: {
+        replacement = NewsFragment.getInstance();
+      }
+    }
+    adjustNavBarText(position);
+    curFrag = replacement;
+    onSectionAttached(++position);
+    fragmentManager.beginTransaction().replace(R.id.container, replacement).commit();
+  }
+
+  public void onSectionAttached(int number) {
+    switch (number) {
+      case 1:
+        mTitle = getString(R.string.title_section1);
+        break;
+      case 2:
+        mTitle = getString(R.string.title_section2);
+        break;
+      case 3:
+        mTitle = getString(R.string.title_section3);
+        break;
+      case 4:
+        mTitle = getString(R.string.title_section4);
+        break;
+      case 5:
+        mTitle = getString(R.string.title_section5);
+        break;
+      case 6:
+        mTitle = getString(R.string.title_section6);
+        break;
+    }
+  }
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();

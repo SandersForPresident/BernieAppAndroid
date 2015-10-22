@@ -15,7 +15,14 @@ import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.misc.Util;
+<<<<<<< Updated upstream
 import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
+=======
+import com.spielpark.steve.bernieapp.model.news.NewsArticle;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+>>>>>>> Stashed changes
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

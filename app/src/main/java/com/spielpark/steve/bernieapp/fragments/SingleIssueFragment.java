@@ -13,7 +13,7 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
-import com.spielpark.steve.bernieapp.wrappers.Issue;
+import com.spielpark.steve.bernieapp.model.Issue;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

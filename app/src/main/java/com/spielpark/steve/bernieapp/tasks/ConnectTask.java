@@ -10,8 +10,12 @@ import android.widget.ArrayAdapter;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.fragments.ConnectFragment;
+<<<<<<< Updated upstream
 import com.spielpark.steve.bernieapp.wrappers.Event;
 
+=======
+import com.spielpark.steve.bernieapp.model.Event;
+>>>>>>> Stashed changes
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

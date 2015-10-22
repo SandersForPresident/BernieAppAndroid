@@ -12,8 +12,12 @@ import android.widget.ProgressBar;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
+<<<<<<< Updated upstream
 import com.spielpark.steve.bernieapp.wrappers.Issue;
 
+=======
+import com.spielpark.steve.bernieapp.model.Issue;
+>>>>>>> Stashed changes
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

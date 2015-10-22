@@ -12,8 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
+<<<<<<< Updated upstream
 import com.spielpark.steve.bernieapp.wrappers.ImgTxtItem;
 
+=======
+import com.spielpark.steve.bernieapp.model.ImgTxtItem;
+>>>>>>> Stashed changes
 import java.util.List;
 
 import butterknife.Bind;
@@ -53,6 +57,7 @@ public class ImgTxtAdapter extends ArrayAdapter {
         v.txt.setText(Html.fromHtml(item.getTxt()));
         return convertView;
     }
+<<<<<<< Updated upstream
 
     public static class ViewHolder {
         @Bind(R.id.txtItem) TextView txt;
@@ -62,5 +67,19 @@ public class ImgTxtAdapter extends ArrayAdapter {
             ButterKnife.bind(this, convertView);
             txt.setTypeface(typeface);
         }
+=======
+    Util.getPicasso(ctx).load(item.getImgSrc()).into(v.img);
+    v.txt.setText(Html.fromHtml(item.getTxt()));
+    return convertView;
+  }
+
+  public static class ViewHolder {
+    @Bind(R.id.picThumb) ImageView img;
+    @Bind(R.id.txtItem)  TextView txt;
+
+    public ViewHolder(View convertView, Typeface typeface) {
+      ButterKnife.bind(ViewHolder.this, convertView);
+      txt.setTypeface(typeface);
+>>>>>>> Stashed changes
     }
 }

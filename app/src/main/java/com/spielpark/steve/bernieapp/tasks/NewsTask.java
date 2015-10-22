@@ -15,8 +15,12 @@ import android.widget.TextView;
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.actMainPage;
 import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
+<<<<<<< Updated upstream
 import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
+=======
+import com.spielpark.steve.bernieapp.model.news.NewsArticle;
+>>>>>>> Stashed changes
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

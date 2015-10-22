@@ -40,7 +40,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.tasks.ConnectTask;
 import com.spielpark.steve.bernieapp.wrappers.Event;
-
+import com.spielpark.steve.bernieapp.model.Event;
 import java.util.ArrayList;
 import java.util.HashMap;
 
