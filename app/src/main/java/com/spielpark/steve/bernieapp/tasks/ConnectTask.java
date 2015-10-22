@@ -10,12 +10,8 @@ import android.widget.ArrayAdapter;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.fragments.ConnectFragment;
-<<<<<<< Updated upstream
-import com.spielpark.steve.bernieapp.wrappers.Event;
-
-=======
 import com.spielpark.steve.bernieapp.model.Event;
->>>>>>> Stashed changes
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,8 +31,8 @@ public class ConnectTask extends AsyncTask {
     private static ConnectFragment frag;
 
     public ConnectTask(Context ctx, ConnectFragment frag) {
-        this.frag = frag;
-        this.ctx = ctx;
+        ConnectTask.frag = frag;
+        ConnectTask.ctx = ctx;
     }
 
     public static ArrayList<Event> getEvents() {

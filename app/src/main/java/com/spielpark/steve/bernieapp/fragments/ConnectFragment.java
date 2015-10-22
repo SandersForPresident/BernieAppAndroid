@@ -38,9 +38,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.spielpark.steve.bernieapp.R;
-import com.spielpark.steve.bernieapp.tasks.ConnectTask;
-import com.spielpark.steve.bernieapp.wrappers.Event;
 import com.spielpark.steve.bernieapp.model.Event;
+import com.spielpark.steve.bernieapp.tasks.ConnectTask;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 

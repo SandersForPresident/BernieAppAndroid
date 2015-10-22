@@ -9,11 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-<<<<<<<Updated upstream:app/src/main/java/com/spielpark/steve/bernieapp/wrappers/NewsArticle.java
-
-        =======
-        >>>>>>>Stashed changes:app/src/main/java/com/spielpark/steve/bernieapp/model/news/NewsArticle.java
-
 /**
  * Created by Steve on 8/14/2015.
  */

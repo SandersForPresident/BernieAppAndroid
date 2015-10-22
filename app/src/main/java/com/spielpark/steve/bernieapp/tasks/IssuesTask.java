@@ -12,12 +12,8 @@ import android.widget.ProgressBar;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
-<<<<<<< Updated upstream
-import com.spielpark.steve.bernieapp.wrappers.Issue;
-
-=======
 import com.spielpark.steve.bernieapp.model.Issue;
->>>>>>> Stashed changes
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -36,9 +32,9 @@ public class IssuesTask extends AsyncTask<Object, Issue, Object> {
     private static HashMap<String, String> vidLinks;
 
     public IssuesTask(Context ctx, ListView listView, ProgressBar progressBar) {
-        this.list = listView;
-        this.ctx = ctx;
-        this.progressBar = progressBar;
+        list = listView;
+        IssuesTask.ctx = ctx;
+        IssuesTask.progressBar = progressBar;
     }
 
     public static Issue getIssue(int position) {
