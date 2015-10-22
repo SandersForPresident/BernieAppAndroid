@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+
 import com.spielpark.steve.bernieapp.misc.Util;
 
 /**
@@ -11,125 +12,131 @@ import com.spielpark.steve.bernieapp.misc.Util;
  */
 public class Issue implements ImgTxtItem, Parcelable {
 
-  public static final Parcelable.Creator<Issue> CREATOR = new Parcelable.Creator<Issue>() {
-    public Issue createFromParcel(Parcel source) {
-      return new Issue(source);
+    public static final Parcelable.Creator<Issue> CREATOR = new Parcelable.Creator<Issue>() {
+        public Issue createFromParcel(Parcel source) {
+            return new Issue(source);
+        }
+
+        public Issue[] newArray(int size) {
+            return new Issue[size];
+        }
+    };
+    private String pubDate;
+    private String htmlTitle;
+    private String desc;
+    private String url;
+    private String title;
+    private String video;
+    private String imgSrc;
+
+    public Issue() {
     }
 
-    public Issue[] newArray(int size) {
-      return new Issue[size];
+    protected Issue(Parcel in) {
+        this.pubDate = in.readString();
+        this.htmlTitle = in.readString();
+        this.desc = in.readString();
+        this.url = in.readString();
+        this.title = in.readString();
+        this.video = in.readString();
+        this.imgSrc = in.readString();
     }
-  };
-  private String pubDate;
-  private String htmlTitle;
-  private String desc;
-  private String url;
-  private String title;
-  private String video;
-  private String imgSrc;
 
-  public Issue() {
-  }
+    public String getHtmlTitle() {
+        return htmlTitle;
+    }
 
-  protected Issue(Parcel in) {
-    this.pubDate = in.readString();
-    this.htmlTitle = in.readString();
-    this.desc = in.readString();
-    this.url = in.readString();
-    this.title = in.readString();
-    this.video = in.readString();
-    this.imgSrc = in.readString();
-  }
+    public void setHtmlTitle(String title) {
+        this.htmlTitle = title;
+    }
 
-  public String getHtmlTitle() {
-    return htmlTitle;
-  }
+    public String getDesc() {
+        return desc;
+    }
 
-  public void setHtmlTitle(String title) {
-    this.htmlTitle = title;
-  }
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
-  public String getDesc() {
-    return desc;
-  }
+    public String getVideo() {
+        return video;
+    }
 
-  public void setDesc(String desc) {
-    this.desc = desc;
-  }
+    public void setVideo(String videos) {
+        this.video = videos;
+    }
 
-  public String getVideo() {
-    return video;
-  }
+    public String getEmbedURL(Activity ctx) {
+        StringBuilder bld = new StringBuilder();
+        int[] wh = Util.getScreenWidthHeight(ctx);
+        bld.append("<body style=\"margin: 0; padding: 0\"> <iframe width=\"");
+        bld.append(wh[0] + 24);
+        bld.append("\" height=\"");
+        bld.append(wh[1]);
+        bld.append("\" src=\"https://www.youtube.com/embed/");
+        bld.append(this.getVideo());
+        bld.append("\" frameborder=\"0\" allowfullscreen></iframe></body>");
+        Log.d("Issue URL", bld.toString());
+        return bld.toString();
+    }
 
-  public void setVideo(String videos) {
-    this.video = videos;
-  }
+    public String getPubDate() {
+        return pubDate;
+    }
 
-  public String getEmbedURL(Activity ctx) {
-    StringBuilder bld = new StringBuilder();
-    int[] wh = Util.getScreenWidthHeight(ctx);
-    bld.append("<body style=\"margin: 0; padding: 0\"> <iframe width=\"");
-    bld.append(wh[0] + 24);
-    bld.append("\" height=\"");
-    bld.append(wh[1]);
-    bld.append("\" src=\"https://www.youtube.com/embed/");
-    bld.append(this.getVideo());
-    bld.append("\" frameborder=\"0\" allowfullscreen></iframe></body>");
-    Log.d("Issue URL", bld.toString());
-    return bld.toString();
-  }
+    public void setPubDate(String pubDate) {
+        this.pubDate = pubDate;
+    }
 
-  public String getPubDate() {
-    return pubDate;
-  }
+    public String getTitle() {
+        return this.title;
+    }
 
-  public void setPubDate(String pubDate) {
-    this.pubDate = pubDate;
-  }
+    public void setTitle(String t) {
+        this.title = t;
+    }
 
-  public String getTitle() {
-    return this.title;
-  }
+    public String getUrl() {
+        return url;
+    }
 
-  public void setTitle(String t) {
-    this.title = t;
-  }
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-  public String getUrl() {
-    return url;
-  }
+    @Override
+    public String getTxt() {
+        return getHtmlTitle();
+    }
 
-  public void setUrl(String url) {
-    this.url = url;
-  }
+    @Override
+    public void setTxt(String txt) {
+        this.setHtmlTitle(txt);
+    }
 
-  @Override public String getTxt() {
-    return getHtmlTitle();
-  }
+    @Override
+    public String getImgSrc() {
+        return imgSrc;
+    }
 
-  @Override public void setTxt(String txt) {
-    this.setHtmlTitle(txt);
-  }
+    @Override
+    public void setImgSrc(String img) {
+        imgSrc = img;
+    }
 
-  @Override public String getImgSrc() {
-    return imgSrc;
-  }
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-  @Override public void setImgSrc(String img) {
-    imgSrc = img;
-  }
-
-  @Override public int describeContents() {
-    return 0;
-  }
-
-  @Override public void writeToParcel(Parcel dest, int flags) {
-    dest.writeString(this.pubDate);
-    dest.writeString(this.htmlTitle);
-    dest.writeString(this.desc);
-    dest.writeString(this.url);
-    dest.writeString(this.title);
-    dest.writeString(this.video);
-    dest.writeString(this.imgSrc);
-  }
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.pubDate);
+        dest.writeString(this.htmlTitle);
+        dest.writeString(this.desc);
+        dest.writeString(this.url);
+        dest.writeString(this.title);
+        dest.writeString(this.video);
+        dest.writeString(this.imgSrc);
+    }
 }

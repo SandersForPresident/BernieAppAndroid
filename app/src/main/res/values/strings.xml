@@ -1,29 +1,30 @@
 <resources>
-  <string name="app_name">Bernie App</string>
+    <string name="app_name">Bernie App</string>
 
-  <string name="title_section1">News</string>
-  <string name="title_section2">Issues</string>
-  <string name="title_section3">Organize</string>
-  <string name="title_section4">Connect</string>
-  <string name="title_section5">BernRate</string>
-  <string name="title_section6">App Feedback</string>
+    <string name="title_section1">News</string>
+    <string name="title_section2">Issues</string>
+    <string name="title_section3">Organize</string>
+    <string name="title_section4">Connect</string>
+    <string name="title_section5">BernRate</string>
+    <string name="title_section6">App Feedback</string>
 
-  <string name="navigation_drawer_open">Open navigation drawer</string>
-  <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
-  <string name="action_example">Example action</string>
+    <string name="action_example">Example action</string>
 
-  <string name="action_settings">Settings</string>
+    <string name="action_settings">Settings</string>
 
-  <!-- TODO: Remove or change this placeholder text -->
-  <string name="hello_blank_fragment">Hello blank fragment</string>
-  <string-array name="radius_choices">
-    <item>25</item>
-    <item>50</item>
-    <item>75</item>
-    <item>100</item>
-    <item>150</item>
-    <item>200</item>
-    <item>250</item>
-  </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_bern_rate_intro">Welcome to BernRate. This section is dedicated to showing you how Bernie Sanders is doing with popularity in various Social Medias. Created by Arman, this contribution was made by volunteers, NOT the billionaire class.</string>
+    <string-array name="radius_choices">
+        <item>25</item>
+        <item>50</item>
+        <item>75</item>
+        <item>100</item>
+        <item>150</item>
+        <item>200</item>
+        <item>250</item>
+    </string-array>
 </resources>
