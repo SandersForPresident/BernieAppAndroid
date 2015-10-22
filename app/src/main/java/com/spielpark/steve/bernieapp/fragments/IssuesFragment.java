@@ -34,8 +34,7 @@ public class IssuesFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final ListView newsList = (ListView) view.findViewById(R.id.listIssues);
-        new IssuesTask(getActivity(), newsList,
-                (ProgressBar) view.findViewById(R.id.progressBar)).execute();
+        new IssuesTask(getActivity(), newsList, (ProgressBar) view.findViewById(R.id.progressBar)).execute();
         newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

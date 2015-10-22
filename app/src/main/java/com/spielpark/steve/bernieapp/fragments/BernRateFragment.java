@@ -45,9 +45,7 @@ public class BernRateFragment extends Fragment {
         SharedPreferences p = ((actMainPage) getActivity()).getPrefs();
         Util.Preferences key = Util.Preferences.BERNRATE_DIALOGUE;
         if (p.getInt(key.name, key.value) == 1) {
-            Util.getShowAgainDialogue(getActivity(), p, key,
-                    "Welcome to BernRate. This section is dedicated to showing you how Bernie Sanders is doing with popularity in various Social Medias. Created by Arman, this contribution was made by volunteers, NOT the billionaire class.")
-                    .show();
+            Util.getShowAgainDialogue(getActivity(), p, key, getString(R.string.fragment_bern_rate_intro)).show();
         }
         displayWebViews(generateURLs());
     }
@@ -56,16 +54,14 @@ public class BernRateFragment extends Fragment {
         String[] gen = new String[urls.length];
         int[] heightWidth = Util.getScreenWidthHeight(getActivity());
         for (int i = 0; i < gen.length; i++) {
-            gen[i] = urls[i].concat(
-                    " width=\"" + heightWidth[0] + "px\" height=\"" + heightWidth[1] + "px\"></iframe>");
+            gen[i] = urls[i].concat(" width=\"" + heightWidth[0] + "px\" height=\"" + heightWidth[1] + "px\"></iframe>");
         }
         return gen;
     }
 
     private void displayWebViews(String[] urls) {
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                        RelativeLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT);
         LinearLayout parent = (LinearLayout) getView().findViewById(R.id.layoutBernRate);
         params.setMargins(8, 8, 8, 8);
         params.gravity = Gravity.CENTER_HORIZONTAL;
