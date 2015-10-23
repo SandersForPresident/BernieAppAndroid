@@ -63,6 +63,18 @@ public class NewsFragment extends Fragment {
         new NewsTask(getActivity(), newsList, (ProgressBar) view.findViewById(R.id.progressBar),
                 (TextView) view.findViewById(R.id.txtSubHeader),
                 (TextView) view.findViewById(R.id.txtHeader)).execute();
+
+        NewsManager.get().getNews().observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<List<NewsArticle>>() {
+            @Override
+            public void call(List<NewsArticle> newsArticles) {
+                Collections.sort(newsArticles);
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                Log.e("NewsFragment", "Failed to get news", throwable);
+            }
+        });
     }
 
     @Override
