@@ -7,23 +7,29 @@ package com.spielpark.steve.bernieapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
+import com.spielpark.steve.bernieapp.actMainPage;
+import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
 import com.spielpark.steve.bernieapp.model.news.NewsArticle;
 import com.spielpark.steve.bernieapp.model.news.NewsManager;
-import com.spielpark.steve.bernieapp.tasks.NewsTask;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -35,6 +41,11 @@ public class NewsFragment extends Fragment {
 
 
     private static NewsFragment mIntstance;
+    @Bind(R.id.listNews) ListView list;
+    @Bind(R.id.progressBar) ProgressBar progressBar;
+    @Bind(R.id.txtSubHeader) TextView subHeader;
+    @Bind(R.id.txtHeader) TextView header;
+    ImgTxtAdapter adapter;
     private Subscription newsSubscription;
 
     public static NewsFragment getInstance() {
@@ -55,26 +66,10 @@ public class NewsFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final ListView newsList = (ListView) view.findViewById(R.id.listNews);
-        ((TextView) view.findViewById(R.id.txtSubHeader)).setMovementMethod(
-                new ScrollingMovementMethod());
-
-
-        new NewsTask(getActivity(), newsList, (ProgressBar) view.findViewById(R.id.progressBar),
-                (TextView) view.findViewById(R.id.txtSubHeader),
-                (TextView) view.findViewById(R.id.txtHeader)).execute();
-
-        NewsManager.get().getNews().observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<List<NewsArticle>>() {
-            @Override
-            public void call(List<NewsArticle> newsArticles) {
-                Collections.sort(newsArticles);
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                Log.e("NewsFragment", "Failed to get news", throwable);
-            }
-        });
+        ButterKnife.bind(this, view);
+        subHeader.setMovementMethod(new ScrollingMovementMethod());
+        adapter = new ImgTxtAdapter(view.getContext(), R.layout.list_news_item, new ArrayList());
+        list.setAdapter(adapter);
     }
 
     @Override
@@ -85,6 +80,33 @@ public class NewsFragment extends Fragment {
                     @Override
                     public void call(List<NewsArticle> newsArticles) {
                         Collections.sort(newsArticles);
+                        adapter.addAll(newsArticles);
+                        NewsArticle a;
+                        boolean setSubheader = false;
+                        for (int i = 0; i < adapter.getCount(); i++) {
+                            a = (NewsArticle) adapter.getItem(i);
+                            if (!(setSubheader)) {
+                                if (a.getPermalink() != null) {
+                                    if (a.getPermalink().contains("press-release")) {
+                                        subHeader.setText(Html.fromHtml(a.getContent()));
+                                        String s = a.getTitle();
+                                        s = s.length() > 40 ? s.substring(0, 40) + "..." : s;
+                                        header.setText(s);
+                                        setSubheader = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        ((ImgTxtAdapter) list.getAdapter()).notifyDataSetChanged();
+                        list.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                ((actMainPage) getActivity()).loadEvent((NewsArticle) list.getAdapter().getItem(position));
+                            }
+                        });
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -97,7 +119,7 @@ public class NewsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (!newsSubscription.isUnsubscribed())
+        if (newsSubscription != null && !newsSubscription.isUnsubscribed())
             newsSubscription.unsubscribe();
     }
 }

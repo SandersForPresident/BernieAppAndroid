@@ -9,6 +9,6 @@ import rx.Observable;
 
 public interface BernieApi {
 
-    @GET("/_search?q=!article_type%3A%28ExternalLink%20OR%20Issues%29&sort=created_at:desc&size=20")
+    @GET("https://berniesanders.com/?json=true&which=news&limit=12")
     Observable<List<NewsArticle>> getNews();
 }

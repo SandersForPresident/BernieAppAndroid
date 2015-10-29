@@ -23,12 +23,12 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, P
                     return new NewsArticle[size];
                 }
             };
+    private static String NULL_IMAGE = "https://s.bsd.net/bernie16/main/page/-/website/fb-share.png";
     private String title;
-    private String desc;
-    private String url;
-    private String pubdate;
+    private String content;
+    private String permalink;
+    private String date;
     private String time;
-    private String htmlTitle;
     private String imgSrc;
 
     public NewsArticle() {
@@ -37,20 +37,11 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, P
 
     protected NewsArticle(Parcel in) {
         this.title = in.readString();
-        this.desc = in.readString();
-        this.url = in.readString();
-        this.pubdate = in.readString();
+        this.content = in.readString();
+        this.permalink = in.readString();
+        this.date = in.readString();
         this.time = in.readString();
-        this.htmlTitle = in.readString();
         this.imgSrc = in.readString();
-    }
-
-    public String getHtmlTitle() {
-        return htmlTitle;
-    }
-
-    public void setHtmlTitle(String htmlTitle) {
-        this.htmlTitle = htmlTitle;
     }
 
     public String getTime() {
@@ -69,43 +60,43 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, P
         this.title = title;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getContent() {
+        return content;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPermalink() {
+        return permalink;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPermalink(String permalink) {
+        this.permalink = permalink;
     }
 
     public String getPubDate() {
-        return pubdate;
+        return date;
     }
 
     public void setPubDate(String pubdate) {
-        this.pubdate = pubdate;
+        this.date = pubdate;
     }
 
     @Override
     public String getTxt() {
-        return getHtmlTitle();
+        return getTitle();
     }
 
     @Override
     public void setTxt(String txt) {
-        this.setHtmlTitle(txt);
+        this.setTitle(txt);
     }
 
     @Override
     public String getImgSrc() {
-        return imgSrc;
+        return imgSrc == null ? NULL_IMAGE : imgSrc;
     }
 
     @Override
@@ -138,11 +129,10 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, P
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.title);
-        dest.writeString(this.desc);
-        dest.writeString(this.url);
-        dest.writeString(this.pubdate);
+        dest.writeString(this.content);
+        dest.writeString(this.permalink);
+        dest.writeString(this.date);
         dest.writeString(this.time);
-        dest.writeString(this.htmlTitle);
         dest.writeString(this.imgSrc);
     }
 }

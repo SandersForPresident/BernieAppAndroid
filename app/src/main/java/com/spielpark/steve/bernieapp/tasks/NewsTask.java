@@ -65,8 +65,8 @@ public class NewsTask extends AsyncTask<Object, NewsArticle, Object> {
                 if (in == null) {
                     Log.d("reader null", "no events, null reader,");
                     NewsArticle a = new NewsArticle();
-                    a.setHtmlTitle("Unable to Load News");
-                    a.setDesc("Check your internet connection?");
+                    a.setTitle("Unable to Load News");
+                    a.setContent("Check your internet connection?");
                     articles.add(a);
                     return null;
                 }
@@ -106,7 +106,7 @@ public class NewsTask extends AsyncTask<Object, NewsArticle, Object> {
                     break;
                 }
                 case "permalink": {
-                    a.setUrl(reader.nextString());
+                    a.setPermalink(reader.nextString());
                     break;
                 }
                 case "date": {
@@ -118,7 +118,7 @@ public class NewsTask extends AsyncTask<Object, NewsArticle, Object> {
                     if (content.contains("<style>") && content.contains("</style")) {
                         content = content.substring(content.indexOf("</style") + "</style>".length());
                     }
-                    a.setDesc(content);
+                    a.setContent(content);
                     break;
                 }
                 case "og_image": {
@@ -165,9 +165,9 @@ public class NewsTask extends AsyncTask<Object, NewsArticle, Object> {
         for (int i = 0; i < articles.size(); i++) {
             a = articles.get(i);
             if (!(setSubheader)) {
-                if (a.getUrl() != null) {
-                    if (a.getUrl().contains("press-release")) {
-                        subHeader.setText(Html.fromHtml(a.getDesc()));
+                if (a.getPermalink() != null) {
+                    if (a.getPermalink().contains("press-release")) {
+                        subHeader.setText(Html.fromHtml(a.getContent()));
                         String s = a.getTitle();
                         s = s.length() > 40 ? s.substring(0, 40) + "..." : s;
                         header.setText(s);

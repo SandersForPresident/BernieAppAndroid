@@ -23,9 +23,9 @@ import com.spielpark.steve.bernieapp.fragments.NewsFragment;
 import com.spielpark.steve.bernieapp.fragments.OrganizeFragment;
 import com.spielpark.steve.bernieapp.fragments.SingleIssueFragment;
 import com.spielpark.steve.bernieapp.fragments.SingleNewsFragment;
-import com.spielpark.steve.bernieapp.tasks.NewsTask;
 import com.spielpark.steve.bernieapp.model.Issue;
 import com.spielpark.steve.bernieapp.model.news.NewsArticle;
+import com.spielpark.steve.bernieapp.tasks.NewsTask;
 
 public class actMainPage extends ActionBarActivity
     implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -151,7 +151,7 @@ public class actMainPage extends ActionBarActivity
             ((ConnectFragment) curFrag).backPressed();
             return;
         } else if (curFrag instanceof OrganizeFragment) {
-            if (((OrganizeFragment) curFrag).canGoBack()) {
+            if (OrganizeFragment.canGoBack()) {
                 return;
             }
         }
@@ -181,13 +181,13 @@ public class actMainPage extends ActionBarActivity
     }
 
     public SharedPreferences getPrefs() {
-        return this.preferences;
+        return preferences;
     }
 
     public void loadHeaderArticle(View view) {
         if (NewsTask.getData() != null) {
             for (NewsArticle a : NewsTask.getData()) {
-                if (a.getUrl().contains("press-release")) {
+                if (a.getPermalink().contains("press-release")) {
                     this.loadEvent(a);
                     break;
                 }

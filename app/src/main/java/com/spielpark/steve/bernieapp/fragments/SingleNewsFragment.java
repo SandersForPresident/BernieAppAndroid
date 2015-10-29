@@ -54,7 +54,7 @@ public class SingleNewsFragment extends Fragment {
         title.setText(event.getTitle());
         title.setShadowLayer(13, 0, 0, Color.BLACK);
         date.setText(event.getPubDate());
-        description.setText(Html.fromHtml(event.getDesc()));
+        description.setText(Html.fromHtml(event.getContent()));
         description.setMovementMethod(new LinkMovementMethod());
         return view;
     }
@@ -74,7 +74,7 @@ public class SingleNewsFragment extends Fragment {
     @OnClick(R.id.e_btnWebsite)
     void onWebsiteClicked() {
         Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(event.getUrl()));
+        i.setData(Uri.parse(event.getPermalink()));
         startActivity(i);
     }
 }

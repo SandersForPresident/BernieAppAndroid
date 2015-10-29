@@ -24,6 +24,7 @@ public class NewsManager {
     }
 
     public Observable<List<NewsArticle>> getNews() {
+        getNewsFromApi();
         return newsArticleSubject.asObservable();
     }
 
