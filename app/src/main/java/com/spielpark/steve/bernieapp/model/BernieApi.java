@@ -5,13 +5,13 @@ import com.spielpark.steve.bernieapp.model.news.NewsArticle;
 import java.util.List;
 
 import retrofit.http.GET;
-import retrofit.http.Path;
+import retrofit.http.Query;
 import rx.Observable;
 
 public interface BernieApi {
     String NEWS = "news";
     String DAILY = "daily";
 
-    @GET("https://berniesanders.com/?json=true&which={which}&limit=12")
-    Observable<List<NewsArticle>> getNews(@Path("which") String newsType);
+    @GET("https://berniesanders.com/?json=true&limit=12")
+    Observable<List<NewsArticle>> getNews(@Query("which") String newsType);
 }

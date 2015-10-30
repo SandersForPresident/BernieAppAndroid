@@ -13,7 +13,6 @@
         android:id="@+id/pic_header"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:onClick="loadHeaderArticle"
         android:scaleType="fitXY"
         android:src="@drawable/vermont_state_house" />
 
@@ -39,7 +38,6 @@
         android:layout_marginTop="-2dp"
         android:background="@drawable/news_header_border"
         android:maxLines="4"
-        android:onClick="loadHeaderArticle"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:scrollbars="vertical"
