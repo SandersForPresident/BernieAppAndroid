@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.actMainPage;
 import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
+import com.spielpark.steve.bernieapp.model.news.Category;
 import com.spielpark.steve.bernieapp.model.news.NewsArticle;
 import com.spielpark.steve.bernieapp.model.news.NewsManager;
 
@@ -30,17 +31,19 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
- * A placeholder fragment containing a simple view.
+ * A placeholder instance containing a simple view.
  */
 public class NewsFragment extends Fragment {
 
 
-    private static NewsFragment mIntstance;
+    private static NewsFragment instance;
     @Bind(R.id.listNews) ListView list;
     @Bind(R.id.progressBar) ProgressBar progressBar;
     @Bind(R.id.txtSubHeader) TextView subHeader;
@@ -49,11 +52,11 @@ public class NewsFragment extends Fragment {
     private Subscription newsSubscription;
 
     public static NewsFragment getInstance() {
-        if (mIntstance == null) {
-            mIntstance = new NewsFragment();
-            return mIntstance;
+        if (instance == null) {
+            instance = new NewsFragment();
+            return instance;
         } else {
-            return mIntstance;
+            return instance;
         }
     }
 
@@ -75,7 +78,28 @@ public class NewsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        newsSubscription = NewsManager.get().getNews().observeOn(AndroidSchedulers.mainThread()).subscribe(
+        newsSubscription = NewsManager.get().getNews().compose(new Observable.Transformer<List<NewsArticle>, List<NewsArticle>>() {
+            @Override
+            public Observable<List<NewsArticle>> call(Observable<List<NewsArticle>> listObservable) {
+                listObservable.flatMapIterable(new Func1<List<NewsArticle>, Iterable<NewsArticle>>() {
+                    @Override
+                    public Iterable<NewsArticle> call(List<NewsArticle> newsArticles) {
+                        return newsArticles;
+                    }
+                }).filter(new Func1<NewsArticle, Boolean>() {
+                    @Override
+                    public Boolean call(NewsArticle newsArticle) {
+                        return newsArticle.getCategories().contains(Category.PressRelease);
+                    }
+                }).first().subscribe(new Action1<NewsArticle>() {
+                    @Override
+                    public void call(NewsArticle newsArticle) {
+
+                    }
+                });
+                return listObservable;
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(
                 new Action1<List<NewsArticle>>() {
                     @Override
                     public void call(List<NewsArticle> newsArticles) {

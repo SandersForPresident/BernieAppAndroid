@@ -3,11 +3,13 @@ package com.spielpark.steve.bernieapp.model.news;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
 import com.spielpark.steve.bernieapp.model.ImgTxtItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Steve on 8/14/2015.
@@ -23,13 +25,14 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, P
                     return new NewsArticle[size];
                 }
             };
-    private static String NULL_IMAGE = "https://s.bsd.net/bernie16/main/page/-/website/fb-share.png";
+    private static final String NULL_IMAGE = "https://s.bsd.net/bernie16/main/page/-/website/fb-share.png";
     private String title;
     private String content;
     private String permalink;
     private String date;
-    private String time;
-    private String imgSrc;
+    @SerializedName("og_image")
+    private String image;
+    private List<Category> categories;
 
     public NewsArticle() {
 
@@ -40,17 +43,9 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, P
         this.content = in.readString();
         this.permalink = in.readString();
         this.date = in.readString();
-        this.time = in.readString();
-        this.imgSrc = in.readString();
+        this.image = in.readString();
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     public String getTitle() {
         return title;
@@ -84,6 +79,10 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, P
         this.date = pubdate;
     }
 
+    public List<Category> getCategories() {
+        return categories;
+    }
+
     @Override
     public String getTxt() {
         return getTitle();
@@ -96,12 +95,12 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, P
 
     @Override
     public String getImgSrc() {
-        return imgSrc == null ? NULL_IMAGE : imgSrc;
+        return image == null ? NULL_IMAGE : image;
     }
 
     @Override
     public void setImgSrc(String img) {
-        this.imgSrc = img;
+        this.image = img;
     }
 
     @Override
@@ -132,7 +131,6 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, P
         dest.writeString(this.content);
         dest.writeString(this.permalink);
         dest.writeString(this.date);
-        dest.writeString(this.time);
-        dest.writeString(this.imgSrc);
+        dest.writeString(this.image);
     }
 }
