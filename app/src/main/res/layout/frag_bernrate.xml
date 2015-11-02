@@ -1,10 +1,10 @@
 <ScrollView
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.spielpark.steve.bernieapp.fragments.BernRateFragment"
-    android:layout_marginBottom="60dp">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginBottom="60dp"
+    tools:context="com.spielpark.steve.bernieapp.fragments.BernRateFragment">
 
     <LinearLayout
         android:id="@+id/layoutBernRate"

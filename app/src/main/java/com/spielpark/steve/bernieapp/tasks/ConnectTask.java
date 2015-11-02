@@ -31,8 +31,8 @@ public class ConnectTask extends AsyncTask {
     private static ConnectFragment frag;
 
     public ConnectTask(Context ctx, ConnectFragment frag) {
-        this.frag = frag;
-        this.ctx = ctx;
+        ConnectTask.frag = frag;
+        ConnectTask.ctx = ctx;
     }
 
     public static ArrayList<Event> getEvents() {
@@ -122,8 +122,8 @@ public class ConnectTask extends AsyncTask {
                 reader.beginObject();
             }
             String next = reader.nextName();
-            switch(next.toLowerCase().trim()) {
-                case "results" : {
+            switch (next.toLowerCase().trim()) {
+                case "results": {
                     reader.beginArray();
                     if (reader.peek() == JsonToken.END_ARRAY) {
                         //There's no events~!
@@ -135,72 +135,72 @@ public class ConnectTask extends AsyncTask {
                     reader.beginObject();
                     break;
                 }
-                case "name" : {
+                case "name": {
                     e.setName(reader.nextString());
                     break;
                 }
-                case "start_day" : {
+                case "start_day": {
                     e.setDate(reader.nextString());
                     break;
                 }
-                case "start_time" : {
+                case "start_time": {
                     e.setTime(reader.nextString());
                     break;
                 }
-                case "url" : {
+                case "url": {
                     e.setUrl(reader.nextString().replaceAll("\\\\", ""));
                     break;
                 }
-                case "timezone" : {
+                case "timezone": {
                     e.setTimezone(reader.nextString());
                     break;
                 }
-                case "description" : {
+                case "description": {
                     e.setDescription(reader.nextString());
                     break;
                 }
-                case "event_type_name" : {
+                case "event_type_name": {
                     e.setEventType(reader.nextString());
                     break;
                 }
-                case "venue_name" : {
+                case "venue_name": {
                     e.setVenue(reader.nextString());
                     break;
                 }
-                case "venue_state_cd" : {
+                case "venue_state_cd": {
                     e.setState(reader.nextString());
                     break;
                 }
-                case "venue_addr1" : {
+                case "venue_addr1": {
                     e.setVenue_addr(reader.nextString());
                     break;
                 }
-                case "venue_city" : {
+                case "venue_city": {
                     e.setVenue_city(reader.nextString());
                     break;
                 }
-                case "venue_zip" : {
+                case "venue_zip": {
                     String zipped = reader.nextString().substring(0, 5);
                     e.setZip(Integer.parseInt(zipped));
                     break;
                 }
-                case "capacity" : {
+                case "capacity": {
                     e.setCapacity(reader.nextInt());
                     break;
                 }
-                case "latitude" : {
+                case "latitude": {
                     e.setLatitude(reader.nextDouble());
                     break;
                 }
-                case "longitude" : {
+                case "longitude": {
                     e.setLongitude(reader.nextDouble());
                     break;
                 }
-                case "is_official" : {
+                case "is_official": {
                     e.setOfficial(reader.nextInt() == 1);
                     break;
                 }
-                case "closed_msg" : {
+                case "closed_msg": {
                     reader.skipValue(); //consume and throw away
                     if (reader.peek() == JsonToken.END_OBJECT) {
                         formatDate(e);
@@ -210,7 +210,7 @@ public class ConnectTask extends AsyncTask {
                     }
                     break;
                 }
-                case "attendee_count" : {
+                case "attendee_count": {
                     e.setAttendee_count(reader.nextInt());
                     formatDate(e);
                     events.add(e);
@@ -234,7 +234,7 @@ public class ConnectTask extends AsyncTask {
 
         @Override
         public Object getItem(int position) {
-            return Html.fromHtml( (String) super.getItem(position));
+            return Html.fromHtml((String) super.getItem(position));
         }
 
     }

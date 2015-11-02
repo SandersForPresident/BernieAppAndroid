@@ -1,17 +1,15 @@
 package com.spielpark.steve.bernieapp.wrappers;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by Steve on 8/17/2015.
  */
 public interface ImgTxtItem {
-    public String getTxt();
+    String getTxt();
 
-    public void setTxt(String txt);
+    void setTxt(String txt);
 
-    public String getImgSrc();
+    String getImgSrc();
 
-    public void setImgSrc(String img);
+    void setImgSrc(String img);
 
 }

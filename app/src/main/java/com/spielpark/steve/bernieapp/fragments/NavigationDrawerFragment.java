@@ -1,16 +1,16 @@
 package com.spielpark.steve.bernieapp.fragments;
 
-import android.content.Context;
 import android.app.Activity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -41,32 +41,28 @@ public class NavigationDrawerFragment extends Fragment {
      * expands it. This shared preference tracks this.
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-
+    private static ListView mDrawerListView;
+    private static int mCurrentSelectedPosition = 0;
     /**
      * A pointer to the current callbacks instance (the Activity).
      */
     private NavigationDrawerCallbacks mCallbacks;
-
     /**
      * Helper component that ties the action bar to the navigation drawer.
      */
     private ActionBarDrawerToggle mDrawerToggle;
-
     private DrawerLayout mDrawerLayout;
-    private static ListView mDrawerListView;
     private View mFragmentContainerView;
-
-    private static int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+
+    public NavigationDrawerFragment() {
+    }
 
     public static void setSelected(int i) {
         mCurrentSelectedPosition = i;
         mDrawerListView.setSelection(i);
         mDrawerListView.setItemChecked(i, true);
-    }
-
-    public NavigationDrawerFragment() {
     }
 
     @Override
@@ -105,7 +101,7 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        NavDrawerItem[] datas = new NavDrawerItem[] {
+        NavDrawerItem[] datas = new NavDrawerItem[]{
                 new NavDrawerItem(R.drawable.ic_public_white_24dp, getString(R.string.title_section1)),
                 new NavDrawerItem(R.drawable.ic_event_note_white_24dp, getString(R.string.title_section2)),
                 new NavDrawerItem(R.drawable.ic_people_white_24dp, getString(R.string.title_section3)),
@@ -260,34 +256,33 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private static class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
-            private final Context context;
-            private final int layoutResourceId;
-            private NavDrawerItem data[] = null;
+        private final Context context;
+        private final int layoutResourceId;
+        private NavDrawerItem data[] = null;
 
-            public NavDrawerAdapter(Context context, int layoutResourceId, NavDrawerItem [] data)
-            {
-                super(context, layoutResourceId, data);
-                this.context = context;
-                this.layoutResourceId = layoutResourceId;
-                this.data = data;
-            }
+        public NavDrawerAdapter(Context context, int layoutResourceId, NavDrawerItem[] data) {
+            super(context, layoutResourceId, data);
+            this.context = context;
+            this.layoutResourceId = layoutResourceId;
+            this.data = data;
+        }
 
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
 
-                View v = inflater.inflate(layoutResourceId, parent, false);
+            View v = inflater.inflate(layoutResourceId, parent, false);
 
-                ImageView imageView = (ImageView) v.findViewById(R.id.navDrawerImageView);
-                TextView textView = (TextView) v.findViewById(R.id.navDrawerTextView);
+            ImageView imageView = (ImageView) v.findViewById(R.id.navDrawerImageView);
+            TextView textView = (TextView) v.findViewById(R.id.navDrawerTextView);
 
-                NavDrawerItem choice = data[position];
+            NavDrawerItem choice = data[position];
 
-                imageView.setImageResource(choice.icon);
-                textView.setText(choice.name);
+            imageView.setImageResource(choice.icon);
+            textView.setText(choice.name);
 
-                return v;
-            }
+            return v;
         }
     }
+}
 

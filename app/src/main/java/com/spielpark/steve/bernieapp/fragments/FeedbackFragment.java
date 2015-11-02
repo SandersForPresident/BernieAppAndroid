@@ -16,6 +16,14 @@ import com.spielpark.steve.bernieapp.misc.Util;
  */
 public class FeedbackFragment extends Fragment {
     private static FeedbackFragment mInstance;
+
+    public static FeedbackFragment getInstance() {
+        if (mInstance == null) {
+            mInstance = new FeedbackFragment();
+        }
+        return mInstance;
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -28,13 +36,6 @@ public class FeedbackFragment extends Fragment {
         bld.append(Util.getFullScreenHeight(getActivity()));
         bld.append("frameborder=\"0\" marginheight=\"0\" marginwidth=\"0\">Loading...</iframe>");
         wv.loadData(bld.toString(), "text/Html", "UTF-8");
-    }
-
-    public static FeedbackFragment getInstance() {
-        if (mInstance == null) {
-            mInstance = new FeedbackFragment();
-        }
-        return mInstance;
     }
 
     @Override

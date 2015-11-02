@@ -4,10 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -18,38 +14,19 @@ import android.widget.CheckBox;
 import com.spielpark.steve.bernieapp.R;
 import com.squareup.picasso.Picasso;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 /**
  * Created by Steve on 8/14/2015.
  */
 public class Util {
 
     private static Picasso p;
-    public enum Preferences {
-        BERNRATE_DIALOGUE("BernRate_ShowDialogue", 1);
-
-        Preferences(String s, int i) {
-            this.value = i;
-            this.name = s;
-        }
-        public int value;
-        public String name;
-    }
 
     public static int[] getScreenWidthHeight(Activity ctx) {
         DisplayMetrics metrics = new DisplayMetrics();
         ctx.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = Math.round(metrics.widthPixels / metrics.density) - 24;
         int height = Math.round(metrics.heightPixels / metrics.density) / 3;
-        return new int[] {width, height};
+        return new int[]{width, height};
     }
 
     public static Picasso getPicasso(Context ctx) {
@@ -91,5 +68,17 @@ public class Util {
                 })
                 .setView(view);
         return bld.create();
+    }
+
+    public enum Preferences {
+        BERNRATE_DIALOGUE("BernRate_ShowDialogue", 1);
+
+        public int value;
+        public String name;
+
+        Preferences(String s, int i) {
+            this.value = i;
+            this.name = s;
+        }
     }
 }

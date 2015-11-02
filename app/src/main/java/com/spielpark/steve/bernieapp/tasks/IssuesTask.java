@@ -2,26 +2,16 @@ package com.spielpark.steve.bernieapp.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.text.Html;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
-import android.util.Xml;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
-import com.spielpark.steve.bernieapp.misc.Util;
-import com.spielpark.steve.bernieapp.wrappers.Event;
-import com.spielpark.steve.bernieapp.wrappers.ImgTxtItem;
 import com.spielpark.steve.bernieapp.wrappers.Issue;
-import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,11 +20,9 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by Steve on 7/9/2015.
@@ -45,10 +33,11 @@ public class IssuesTask extends AsyncTask {
     private static ProgressBar progressBar;
     private static Context ctx;
     private static HashMap<String, String> vidLinks;
+
     public IssuesTask(Context ctx, ListView listView, ProgressBar progressBar) {
-        this.list = listView;
-        this.ctx = ctx;
-        this.progressBar = progressBar;
+        list = listView;
+        IssuesTask.ctx = ctx;
+        IssuesTask.progressBar = progressBar;
     }
 
     public static Issue getIssue(int position) {
@@ -96,29 +85,29 @@ public class IssuesTask extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] params) {
         retrieveLinks();
-            BufferedReader in = null;
-            try {
-                URL url = new URL("https://search.berniesanders.tech/articles_en/berniesanders_com/_search?q=article_type%3A%28Issues%29&sort=created_at:desc&size=20");
-                in = new BufferedReader(new InputStreamReader(url.openStream()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (in == null) {
-                Log.d("reader null", "no events, null reader,");
-                Issue i = new Issue();
-                i.setHtmlTitle("Unable to Load News");
-                i.setDesc("Check your internet connection?");
-                issues.add(i);
-                return null;
-            }
-            JsonReader reader = new JsonReader(in);
-            try {
-                readObjects(reader);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        BufferedReader in = null;
+        try {
+            URL url = new URL("https://search.berniesanders.tech/articles_en/berniesanders_com/_search?q=article_type%3A%28Issues%29&sort=created_at:desc&size=20");
+            in = new BufferedReader(new InputStreamReader(url.openStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (in == null) {
+            Log.d("reader null", "no events, null reader,");
+            Issue i = new Issue();
+            i.setHtmlTitle("Unable to Load News");
+            i.setDesc("Check your internet connection?");
+            issues.add(i);
             return null;
         }
+        JsonReader reader = new JsonReader(in);
+        try {
+            readObjects(reader);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     private void readObjects(JsonReader reader) throws IOException {
         Issue i = new Issue();
@@ -136,8 +125,8 @@ public class IssuesTask extends AsyncTask {
                 reader.endArray();
             }
             String next = reader.nextName();
-            switch(next.toLowerCase().trim()) {
-                case "hits" : {
+            switch (next.toLowerCase().trim()) {
+                case "hits": {
                     if (reader.peek() == JsonToken.BEGIN_ARRAY) {
                         reader.beginArray();
                     } else {
@@ -145,27 +134,27 @@ public class IssuesTask extends AsyncTask {
                     }
                     break;
                 }
-                case "_source" : {
+                case "_source": {
                     reader.beginObject();
                     break;
                 }
-                case "title" : {
+                case "title": {
                     i.setTitle(reader.nextString());
                     break;
                 }
-                case "url" : {
+                case "url": {
                     i.setUrl(reader.nextString());
                     break;
                 }
-                case "inserted_at" : {
+                case "inserted_at": {
                     i.setPubDate(reader.nextString());
                     break;
                 }
-                case "body" : {
+                case "body": {
                     i.setDesc(reader.nextString());
                     break;
                 }
-                case "_id" : {
+                case "_id": {
                     reader.skipValue();
                     if (reader.peek() == JsonToken.END_OBJECT) {
                         reader.endObject();
@@ -202,6 +191,7 @@ public class IssuesTask extends AsyncTask {
             e1.printStackTrace();
         }
     }
+
     private void retrieveLinks() {
         BufferedReader in = null;
         vidLinks = new HashMap<>();
@@ -230,21 +220,21 @@ public class IssuesTask extends AsyncTask {
                 reader.beginObject();
             }
             String next = reader.nextName();
-            switch(next.toLowerCase().trim()) {
-                case "children" : {
+            switch (next.toLowerCase().trim()) {
+                case "children": {
                     reader.beginArray();
                     reader.beginObject();
                     break;
                 }
-                case "data" : {
+                case "data": {
                     reader.beginObject();
                     break;
                 }
-                case "title" : {
+                case "title": {
                     title = reader.nextString().replaceAll("&amp;", "&");
                     break;
                 }
-                case "url" : {
+                case "url": {
                     link = reader.nextString();
                     break;
                 }

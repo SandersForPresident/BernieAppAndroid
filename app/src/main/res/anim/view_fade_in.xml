@@ -5,9 +5,9 @@
     android:shareInterpolator="true">
 
     <alpha
-        android:toAlpha="1.0"
-        android:fromAlpha="0.0"
         android:duration="1000"
-        android:startOffset="500"/>
+        android:fromAlpha="0.0"
+        android:startOffset="500"
+        android:toAlpha="1.0"/>
 
 </set>

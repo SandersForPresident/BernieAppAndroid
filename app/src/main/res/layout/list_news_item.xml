@@ -3,28 +3,28 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:layout_marginBottom="2dp"
     android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp">
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/picThumb"
         android:layout_width="96dp"
         android:layout_height="74dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:src="@drawable/logo"
         android:layout_centerVertical="true"
-        android:scaleType="fitXY"/>
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo"/>
 
     <TextView
         android:id="@+id/txtItem"
-        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
         android:layout_toRightOf="@id/picThumb"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:textSize="14sp"/>
 
 
 </RelativeLayout>

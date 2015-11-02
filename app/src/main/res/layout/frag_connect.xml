@@ -1,52 +1,52 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="60dp">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="60dp">
 
     <EditText
         android:id="@+id/c_edtZip"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:paddingTop="2dp"
-        android:hint="ZIP Code"
-        android:background="@drawable/search_border"
-        android:drawableLeft="@android:drawable/ic_menu_search"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:textColorHint="#555555"
-        android:textColor="#555555"
-        android:textSize="16sp"
+        android:background="@drawable/search_border"
+        android:drawableLeft="@android:drawable/ic_menu_search"
+        android:hint="ZIP Code"
+        android:inputType="number"
         android:maxLength="5"
-        android:inputType="number"/>
+        android:paddingTop="2dp"
+        android:textColor="#555555"
+        android:textColorHint="#555555"
+        android:textSize="16sp"/>
 
     <Button
         android:id="@+id/c_btnRadius"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/c_edtZip"
         android:layout_alignBottom="@id/c_edtZip"
+        android:layout_alignTop="@id/c_edtZip"
+        android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/c_edtZip"
         android:background="@drawable/search_border"
-        android:textColor="#147FD7"
-        android:layout_marginLeft="8dp"
+        android:gravity="center"
         android:text="50 Miles"
-        android:textSize="16sp"
-        android:gravity="center"/>
+        android:textColor="#147FD7"
+        android:textSize="16sp"/>
 
     <Button
         android:id="@+id/c_btnGo"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="8dp"
-        android:layout_alignTop="@id/c_edtZip"
         android:layout_alignBottom="@id/c_edtZip"
+        android:layout_alignTop="@id/c_edtZip"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_toRightOf="@id/c_btnRadius"
         android:background="#CCCCCC"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
         android:enabled="false"
-        android:text="Go"/>
+        android:text="Go"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"/>
 
     <FrameLayout
         android:id="@+id/c_mapContainer"
@@ -58,19 +58,20 @@
         android:layout_marginTop="4dp"
         android:visibility="invisible">
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        <fragment
             android:id="@+id/c_map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            class="com.google.android.gms.maps.SupportMapFragment"/>
+            android:layout_height="match_parent"/>
     </FrameLayout>
 
     <ProgressBar
         android:id="@+id/c_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/c_edtZip"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="92dp"
         android:visibility="visible"/>
 
@@ -78,9 +79,9 @@
         android:id="@+id/c_listEvents"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_below="@id/c_mapContainer"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_below="@id/c_mapContainer" />
+        android:layout_marginRight="@dimen/activity_horizontal_margin"/>
 
     <RelativeLayout
         android:id="@+id/cd_container"
@@ -102,29 +103,29 @@
             android:id="@+id/cd_btnRSVP"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/c_centerMark"
+            android:background="#F55B5B"
+            android:drawableLeft="@drawable/ic_check_circle_black_24dp"
             android:paddingLeft="8dp"
             android:paddingRight="16dp"
-            android:layout_toLeftOf="@id/c_centerMark"
-            android:textAlignment="center"
-            android:background="#F55B5B"
-            android:textSize="16dp"
             android:text="RSVP"
-            android:drawableLeft="@drawable/ic_check_circle_black_24dp"
+            android:textAlignment="center"
+            android:textSize="16dp"
             />
 
         <Button
             android:id="@+id/cd_btnDirections"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
             android:layout_toRightOf="@id/c_centerMark"
-            android:textAlignment="center"
             android:background="#147FD7"
-            android:textSize="16dp"
-            android:text="Directions"
             android:drawableLeft="@drawable/ic_navigation_black_24dp"
             android:drawablePadding="6dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Directions"
+            android:textAlignment="center"
+            android:textSize="16dp"
             />
 
         <TextView
@@ -132,10 +133,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/cd_btnRSVP"
-            android:textSize="18sp"
+            android:text="Filler Title"
             android:textColor="#27557C"
-            android:textStyle="bold"
-            android:text="Filler Title"/>
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/cd_txtDate"
@@ -143,12 +144,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/cd_txtTitle"
             android:layout_marginTop="4dp"
-            android:textSize="16sp"
-            android:textColor="#F55B5B"
-            android:textStyle="bold"
-            android:text="Filler Date"
+            android:drawableLeft="@drawable/ic_event_black_24dp"
             android:drawablePadding="4dp"
-            android:drawableLeft="@drawable/ic_event_black_24dp"/>
+            android:text="Filler Date"
+            android:textColor="#F55B5B"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/cd_txtRSVP"
@@ -156,11 +157,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/cd_txtDate"
             android:layout_marginTop="4dp"
-            android:textSize="16sp"
-            android:textColor="#27557C"
-            android:text="Filler RSVP"
+            android:drawableLeft="@drawable/ic_face_black_24dp"
             android:drawablePadding="4dp"
-            android:drawableLeft="@drawable/ic_face_black_24dp"/>
+            android:text="Filler RSVP"
+            android:textColor="#27557C"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/cd_txtLocation"
@@ -168,11 +169,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/cd_txtRSVP"
             android:layout_marginTop="4dp"
-            android:textSize="16sp"
-            android:textColor="#27557C"
-            android:text="Filler Location"
+            android:drawableLeft="@drawable/ic_place_black_24dp"
             android:drawablePadding="4dp"
-            android:drawableLeft="@drawable/ic_place_black_24dp"/>
+            android:text="Filler Location"
+            android:textColor="#27557C"
+            android:textSize="16sp"/>
 
 
         <TextView
@@ -180,11 +181,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/cd_txtLocation"
-            android:layout_marginTop="2dp"
             android:layout_marginLeft="4dp"
+            android:layout_marginTop="2dp"
             android:scrollbars="vertical"
-            android:textSize="14sp"
-            android:text="Filler Content"/>
+            android:text="Filler Content"
+            android:textSize="14sp"/>
 
     </RelativeLayout>
 

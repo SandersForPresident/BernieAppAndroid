@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.spielpark.steve.bernieapp.fragments.OrganizeFragment"
-    android:layout_marginBottom="60dp">
+    android:layout_marginBottom="60dp"
+    tools:context="com.spielpark.steve.bernieapp.fragments.OrganizeFragment">
 
     <WebView
         android:id="@+id/o_webView"

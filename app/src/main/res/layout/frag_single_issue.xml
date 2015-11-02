@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.spielpark.steve.bernieapp.fragments.SingleNewsFragment"
-    android:layout_marginBottom="60dp">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="60dp"
+                tools:context="com.spielpark.steve.bernieapp.fragments.SingleNewsFragment">
 
     <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
         android:layout_width="fill_parent"
@@ -14,57 +14,57 @@
             android:layout_height="fill_parent">
 
             <WebView
-            android:id="@+id/i_video"
-            android:layout_width="fill_parent"
-            android:layout_height="200dp"
-            android:scaleType="fitCenter"
-            android:background="@android:drawable/dialog_holo_dark_frame"/>
+                android:id="@+id/i_video"
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:background="@android:drawable/dialog_holo_dark_frame"
+                android:scaleType="fitCenter"/>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/layoutSticky"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/layoutSticky"
-                android:tag="sticky"
-                android:layout_below="@id/i_video">
+                android:layout_below="@id/i_video"
+                android:orientation="vertical"
+                android:tag="sticky">
 
                 <TextView
                     android:id="@+id/i_txtTitle"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:background="#147FD7"
+                    android:gravity="center_horizontal"
                     android:paddingTop="2dp"
                     android:text="Title"
-                    android:background="#147FD7"
                     android:textColor="#FFFFFF"
-                    android:textStyle="bold"
                     android:textSize="22sp"
-                    android:gravity="center_horizontal"/>
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/i_txtDate"
                     android:layout_width="fill_parent"
                     android:layout_height="30dp"
-                    android:text="Date"
                     android:background="#147FD7"
+                    android:gravity="center_horizontal"
+                    android:text="Date"
                     android:textColor="#FFC207"
-                    android:textStyle="italic|bold"
                     android:textSize="18sp"
-                    android:gravity="center_horizontal"/>
-                </LinearLayout>
+                    android:textStyle="italic|bold"/>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/i_txtDesc"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/layoutSticky"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit amet dui varius mauris ullamcorper pretium. Morbi pellentesque vitae leo sit amet ullamcorper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Quisque efficitur eu ipsum et mollis. Donec ante quam, semper mattis ornare et, pharetra eget eros. Aliquam quis augue congue mi commodo vehicula. Maecenas nec sodales ipsum, et posuere nisl. Morbi nec felis nisi. Etiam euismod, neque vitae pharetra iaculis, lorem dolor rutrum metus, sit amet consectetur libero dolor at purus. Nunc varius volutpat lorem a sollicitudin. Mauris lacinia eleifend leo, nec venenatis erat hendrerit id. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; "
-                android:textSize="18sp"
-                android:scrollbars="vertical"
-                android:layout_below="@id/layoutSticky"
+                android:clickable="true"
                 android:linksClickable="true"
-                android:clickable="true"/>
+                android:scrollbars="vertical"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit amet dui varius mauris ullamcorper pretium. Morbi pellentesque vitae leo sit amet ullamcorper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Quisque efficitur eu ipsum et mollis. Donec ante quam, semper mattis ornare et, pharetra eget eros. Aliquam quis augue congue mi commodo vehicula. Maecenas nec sodales ipsum, et posuere nisl. Morbi nec felis nisi. Etiam euismod, neque vitae pharetra iaculis, lorem dolor rutrum metus, sit amet consectetur libero dolor at purus. Nunc varius volutpat lorem a sollicitudin. Mauris lacinia eleifend leo, nec venenatis erat hendrerit id. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; "
+                android:textSize="18sp"/>
 
         </RelativeLayout>
     </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
