@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.fragments.ConnectFragment;
-import com.spielpark.steve.bernieapp.wrappers.Event;
+import com.spielpark.steve.bernieapp.model.Event;
 
 import java.io.BufferedReader;
 import java.io.IOException;

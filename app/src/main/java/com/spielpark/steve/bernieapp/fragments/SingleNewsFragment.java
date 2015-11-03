@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.misc.Util;
-import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
+import com.spielpark.steve.bernieapp.model.news.NewsArticle;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,14 +56,14 @@ public class SingleNewsFragment extends Fragment {
         ((TextView) root.findViewById(R.id.e_txtTitle)).setText(event.getTitle());
         ((TextView) root.findViewById(R.id.e_txtTitle)).setShadowLayer(13, 0, 0, Color.BLACK);
         ((TextView) root.findViewById(R.id.e_txtDate)).setText(event.getPubDate() + " at " + time);
-        ((TextView) root.findViewById(R.id.e_txtDesc)).setText(Html.fromHtml(event.getDesc()));
+        ((TextView) root.findViewById(R.id.e_txtDesc)).setText(Html.fromHtml(event.getContent()));
         ((TextView) root.findViewById(R.id.e_txtDesc)).setMovementMethod(new LinkMovementMethod());
         Util.getPicasso(getActivity()).load(event.getImgSrc()).placeholder(R.drawable.logo).into((ImageView) root.findViewById(R.id.e_imgLogo));
         root.findViewById(R.id.e_btnWebsite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(event.getUrl()));
+                i.setData(Uri.parse(event.getPermalink()));
                 startActivity(i);
             }
         });
@@ -87,7 +87,7 @@ public class SingleNewsFragment extends Fragment {
         title.setText(event.getTitle());
         title.setShadowLayer(13, 0, 0, Color.BLACK);
         date.setText(event.getPubDate());
-        description.setText(Html.fromHtml(event.getDesc()));
+        description.setText(Html.fromHtml(event.getContent()));
         description.setMovementMethod(new LinkMovementMethod());
         return view;
     }
@@ -101,7 +101,7 @@ public class SingleNewsFragment extends Fragment {
     @OnClick(R.id.e_btnWebsite)
     void onWebsiteClicked() {
         Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(event.getUrl()));
+        i.setData(Uri.parse(event.getPermalink()));
         startActivity(i);
     }
 }

@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
-import com.spielpark.steve.bernieapp.wrappers.NavDrawerItem;
+import com.spielpark.steve.bernieapp.model.NavDrawerItem;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.

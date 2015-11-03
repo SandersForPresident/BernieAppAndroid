@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
-import com.spielpark.steve.bernieapp.wrappers.ImgTxtItem;
+import com.spielpark.steve.bernieapp.model.ImgTxtItem;
 
 import java.util.List;
 
@@ -55,11 +55,11 @@ public class ImgTxtAdapter extends ArrayAdapter {
     }
 
     public static class ViewHolder {
-        @Bind(R.id.txtItem) TextView txt;
         @Bind(R.id.picThumb) ImageView img;
+        @Bind(R.id.txtItem) TextView txt;
 
         public ViewHolder(View convertView, Typeface typeface) {
-            ButterKnife.bind(this, convertView);
+            ButterKnife.bind(ViewHolder.this, convertView);
             txt.setTypeface(typeface);
         }
     }

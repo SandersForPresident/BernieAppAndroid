@@ -1,11 +1,15 @@
-package com.spielpark.steve.bernieapp.wrappers;
+package com.spielpark.steve.bernieapp.model.news;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+import com.spielpark.steve.bernieapp.model.ImgTxtItem;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Steve on 8/14/2015.
@@ -21,43 +25,32 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, P
                     return new NewsArticle[size];
                 }
             };
+    private static final String NULL_IMAGE = "https://s.bsd.net/bernie16/main/page/-/website/fb-share.png";
     private String title;
-    private String desc;
-    private String url;
-    private String pubdate;
-    private String time;
-    private String htmlTitle;
-    private String imgSrc;
+    private String content;
+    private String permalink;
+    private String date;
+    @SerializedName("og_image")
+    private String image;
+    private List<Category> categories;
 
     public NewsArticle() {
 
     }
 
+    public NewsArticle(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
     protected NewsArticle(Parcel in) {
         this.title = in.readString();
-        this.desc = in.readString();
-        this.url = in.readString();
-        this.pubdate = in.readString();
-        this.time = in.readString();
-        this.htmlTitle = in.readString();
-        this.imgSrc = in.readString();
+        this.content = in.readString();
+        this.permalink = in.readString();
+        this.date = in.readString();
+        this.image = in.readString();
     }
 
-    public String getHtmlTitle() {
-        return htmlTitle;
-    }
-
-    public void setHtmlTitle(String htmlTitle) {
-        this.htmlTitle = htmlTitle;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     public String getTitle() {
         return title;
@@ -67,48 +60,52 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, P
         this.title = title;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getContent() {
+        return content;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPermalink() {
+        return permalink;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPermalink(String permalink) {
+        this.permalink = permalink;
     }
 
     public String getPubDate() {
-        return pubdate;
+        return date;
     }
 
     public void setPubDate(String pubdate) {
-        this.pubdate = pubdate;
+        this.date = pubdate;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
     }
 
     @Override
     public String getTxt() {
-        return getHtmlTitle();
+        return getTitle();
     }
 
     @Override
     public void setTxt(String txt) {
-        this.setHtmlTitle(txt);
+        this.setTitle(txt);
     }
 
     @Override
     public String getImgSrc() {
-        return imgSrc;
+        return image == null ? NULL_IMAGE : image;
     }
 
     @Override
     public void setImgSrc(String img) {
-        this.imgSrc = img;
+        this.image = img;
     }
 
     @Override
@@ -136,11 +133,9 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, P
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.title);
-        dest.writeString(this.desc);
-        dest.writeString(this.url);
-        dest.writeString(this.pubdate);
-        dest.writeString(this.time);
-        dest.writeString(this.htmlTitle);
-        dest.writeString(this.imgSrc);
+        dest.writeString(this.content);
+        dest.writeString(this.permalink);
+        dest.writeString(this.date);
+        dest.writeString(this.image);
     }
 }

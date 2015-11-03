@@ -1,4 +1,4 @@
-package com.spielpark.steve.bernieapp.wrappers;
+package com.spielpark.steve.bernieapp.model;
 
 import android.app.Activity;
 import android.os.Parcel;

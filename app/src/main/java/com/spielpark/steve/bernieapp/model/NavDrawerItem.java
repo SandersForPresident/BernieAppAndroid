@@ -1,4 +1,4 @@
-package com.spielpark.steve.bernieapp.wrappers;
+package com.spielpark.steve.bernieapp.model;
 
 /**
  * Created by Steve on 8/16/2015.

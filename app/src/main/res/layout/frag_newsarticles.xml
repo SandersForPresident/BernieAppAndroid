@@ -13,7 +13,6 @@
         android:id="@+id/pic_header"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:onClick="loadHeaderArticle"
         android:scaleType="fitXY"
         android:src="@drawable/vermont_state_house"/>
 

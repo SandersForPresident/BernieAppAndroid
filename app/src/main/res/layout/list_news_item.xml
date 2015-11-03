@@ -14,8 +14,8 @@
         android:layout_centerVertical="true"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/logo"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo" />
 
     <TextView
         android:id="@+id/txtItem"
