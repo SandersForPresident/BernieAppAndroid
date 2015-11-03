@@ -97,7 +97,7 @@
             android:id="@+id/c_centerMark"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_centerInParent="true"></View>
+            android:layout_centerInParent="true"/>
 
         <Button
             android:id="@+id/cd_btnRSVP"
