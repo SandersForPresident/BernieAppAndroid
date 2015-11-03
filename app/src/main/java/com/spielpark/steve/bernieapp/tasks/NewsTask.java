@@ -21,23 +21,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by Steve on 7/8/2015.
  */
-public class NewsTask extends AsyncTask {
+public class NewsTask extends AsyncTask<Object, NewsArticle, Object> {
     private static ArrayList<NewsArticle> articles;
     private static ListView list;
     private static ProgressBar progressBar;
     private static Context ctx;
     private static TextView subHeader;
     private static TextView header;
+    private static String NULL_IMAGE = "https://s.bsd.net/bernie16/main/page/-/website/fb-share.png";
 
     public NewsTask(Context ctx, ListView listView, ProgressBar progressBar, TextView subHeader, TextView header) {
         list = listView;
@@ -57,29 +54,35 @@ public class NewsTask extends AsyncTask {
 
     @Override
     protected Object doInBackground(Object[] params) {
-        BufferedReader in = null;
+        BufferedReader in;
         try {
-            URL url = new URL("https://search.berniesanders.tech/articles_en/berniesanders_com/_search?q=!article_type%3A%28ExternalLink%20OR%20Issues%29&sort=created_at:desc&size=20");
-            in = new BufferedReader(new InputStreamReader(url.openStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (in == null) {
-            Log.d("reader null", "no events, null reader,");
-            NewsArticle a = new NewsArticle();
-            a.setHtmlTitle("Unable to Load News");
-            a.setDesc("Check your internet connection?");
-            articles.add(a);
-            return null;
-        }
-        JsonReader reader = new JsonReader(in);
-        try {
-            readObjects(reader);
+            URL[] urls = new URL[]{
+                    (new URL("https://berniesanders.com/?json=true&which=news&limit=12")),
+                    (new URL("https://berniesanders.com/?json=true&which=daily&limit=12"))
+            };
+            for (URL u : urls) {
+                in = new BufferedReader(new InputStreamReader(u.openStream()));
+                if (in == null) {
+                    Log.d("reader null", "no events, null reader,");
+                    NewsArticle a = new NewsArticle();
+                    a.setHtmlTitle("Unable to Load News");
+                    a.setDesc("Check your internet connection?");
+                    articles.add(a);
+                    return null;
+                }
+                JsonReader reader = new JsonReader(in);
+                try {
+                    readObjects(reader);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
+
 
     private void readObjects(JsonReader reader) throws IOException {
         NewsArticle a = new NewsArticle();
@@ -87,54 +90,44 @@ public class NewsTask extends AsyncTask {
             if (isCancelled()) {
                 return;
             }
-            if (reader.peek() == JsonToken.BEGIN_OBJECT) {
-                reader.beginObject();
-            }
             if (reader.peek() == JsonToken.BEGIN_ARRAY) {
                 reader.beginArray();
+            }
+            if (reader.peek() == JsonToken.BEGIN_OBJECT) {
+                reader.beginObject();
             }
             if (reader.peek() == JsonToken.END_ARRAY) {
                 reader.endArray();
             }
             String next = reader.nextName();
             switch (next.toLowerCase().trim()) {
-                case "hits": {
-                    if (reader.peek() == JsonToken.BEGIN_ARRAY) {
-                        reader.beginArray();
-                    } else {
-                        reader.beginObject();
-                    }
-                    break;
-                }
-                case "_source": {
-                    reader.beginObject();
-                    break;
-                }
                 case "title": {
                     a.setTitle(reader.nextString());
                     break;
                 }
-                case "url": {
+                case "permalink": {
                     a.setUrl(reader.nextString());
                     break;
                 }
-                case "inserted_at": {
+                case "date": {
                     a.setPubDate(reader.nextString());
                     break;
                 }
-                case "body_html": {
-                    a.setDesc(reader.nextString());
-                    break;
-                }
-                case "_id": {
-                    reader.skipValue();
-                    if (reader.peek() == JsonToken.END_OBJECT) {
-                        reader.endObject();
+                case "content": {
+                    String content = reader.nextString();
+                    if (content.contains("<style>") && content.contains("</style")) {
+                        content = content.substring(content.indexOf("</style") + "</style>".length());
                     }
+                    a.setDesc(content);
                     break;
                 }
-                case "image_url": {
-                    a.setImgSrc(reader.nextString());
+                case "og_image": {
+                    if (reader.peek() == JsonToken.NULL) {
+                        a.setImgSrc(NULL_IMAGE);
+                        reader.nextNull();
+                    } else {
+                        a.setImgSrc(reader.nextString());
+                    }
                     break;
                 }
                 default: {
@@ -143,11 +136,9 @@ public class NewsTask extends AsyncTask {
                     }
                     if (reader.peek() == JsonToken.END_OBJECT) {
                         if (a.getTitle() != null) {
-                            formatDate(a);
                             a.setTxt(getHTMLForTitle(a));
-                            articles.add(a);
+                            publishProgress(a);
                             a = new NewsArticle();
-                            publishProgress();
                         }
                         reader.endObject();
                     }
@@ -197,20 +188,10 @@ public class NewsTask extends AsyncTask {
     }
 
     @Override
-    protected void onProgressUpdate(Object[] values) {
-        super.onProgressUpdate(values);
+    protected void onProgressUpdate(NewsArticle[] a) {
+        super.onProgressUpdate(a);
+        articles.add(a[0]);
         ((ImgTxtAdapter) list.getAdapter()).notifyDataSetChanged();
-    }
-
-    private void formatDate(NewsArticle e) {
-        SimpleDateFormat ft;
-        ft = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS", Locale.US);
-        try {
-            Date date = ft.parse(e.getPubDate());
-            e.setPubDate(new SimpleDateFormat("MMMM d, yyyy").format(date));
-        } catch (ParseException e1) {
-            e1.printStackTrace();
-        }
     }
 
     private String getHTMLForTitle(NewsArticle e) {

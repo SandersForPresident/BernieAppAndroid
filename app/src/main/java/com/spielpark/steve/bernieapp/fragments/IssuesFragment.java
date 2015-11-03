@@ -14,7 +14,6 @@ import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.actMainPage;
 import com.spielpark.steve.bernieapp.tasks.IssuesTask;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -55,5 +54,4 @@ public class IssuesFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.frag_issues, container, false);
     }
-
 }

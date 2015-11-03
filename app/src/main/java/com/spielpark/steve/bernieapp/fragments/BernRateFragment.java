@@ -16,7 +16,6 @@ import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.actMainPage;
 import com.spielpark.steve.bernieapp.misc.Util;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -46,7 +45,7 @@ public class BernRateFragment extends Fragment {
         SharedPreferences p = ((actMainPage) getActivity()).getPrefs();
         Util.Preferences key = Util.Preferences.BERNRATE_DIALOGUE;
         if (p.getInt(key.name, key.value) == 1) {
-            Util.getShowAgainDialogue(getActivity(), p, key, "Welcome to BernRate. This section is dedicated to showing you how Bernie Sanders is doing with popularity in various Social Medias. Created by Arman, this contribution was made by volunteers, NOT the billionaire class.").show();
+            Util.getShowAgainDialogue(getActivity(), p, key, getString(R.string.fragment_bern_rate_intro)).show();
         }
         displayWebViews(generateURLs());
     }
@@ -61,10 +60,8 @@ public class BernRateFragment extends Fragment {
     }
 
     private void displayWebViews(String[] urls) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT
-        );
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT);
         LinearLayout parent = (LinearLayout) getView().findViewById(R.id.layoutBernRate);
         params.setMargins(8, 8, 8, 8);
         params.gravity = Gravity.CENTER_HORIZONTAL;
@@ -83,6 +80,4 @@ public class BernRateFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.frag_bernrate, container, false);
     }
-
-
 }

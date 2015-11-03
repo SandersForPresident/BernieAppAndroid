@@ -4,12 +4,12 @@ package com.spielpark.steve.bernieapp.wrappers;
  * Created by Steve on 8/17/2015.
  */
 public interface ImgTxtItem {
-    String getTxt();
+    public String getTxt();
 
-    void setTxt(String txt);
+    public void setTxt(String txt);
 
-    String getImgSrc();
+    public String getImgSrc();
 
-    void setImgSrc(String img);
+    public void setImgSrc(String img);
 
 }

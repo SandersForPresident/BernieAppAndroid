@@ -1,6 +1,5 @@
 package com.spielpark.steve.bernieapp.fragments;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+import com.spielpark.steve.bernieapp.BuildConfig;
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.misc.Util;
 
@@ -30,7 +30,8 @@ public class FeedbackFragment extends Fragment {
         WebView wv = (WebView) view.findViewById(R.id.feedback_webview);
         StringBuilder bld = new StringBuilder();
         int[] wh = Util.getScreenWidthHeight(getActivity());
-        bld.append("<iframe src=\"https://docs.google.com/forms/d/1YtW1qhtXIb7rdiksI94XjsN6lJ8vkIGqH7LU0xLU_5Q/viewform?embedded=true\" width=\"");
+        int versionNo = BuildConfig.VERSION_CODE;
+        bld.append("<iframe src=\"https://docs.google.com/forms/d/1YtW1qhtXIb7rdiksI94XjsN6lJ8vkIGqH7LU0xLU_5Q/viewform?entry.1137571599&entry.118536412&entry.506=Android&entry.937851719=" + versionNo + "&embedded=true\" width=\"");
         bld.append(wh[0]);
         bld.append("\" height=\"");
         bld.append(Util.getFullScreenHeight(getActivity()));
@@ -43,6 +44,4 @@ public class FeedbackFragment extends Fragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.frag_feedback, container, false);
     }
-
-
 }

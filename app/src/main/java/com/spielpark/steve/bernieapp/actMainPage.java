@@ -27,7 +27,6 @@ import com.spielpark.steve.bernieapp.tasks.NewsTask;
 import com.spielpark.steve.bernieapp.wrappers.Issue;
 import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
-
 public class actMainPage extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private static SharedPreferences preferences;
@@ -50,12 +49,12 @@ public class actMainPage extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_page);
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mNavigationDrawerFragment =
+                (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(
+                        R.id.navigation_drawer);
         mTitle = getTitle();
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#147FD7")));
@@ -103,6 +102,7 @@ public class actMainPage extends ActionBarActivity
                 replacement = NewsFragment.getInstance();
             }
         }
+        if (replacement.isAdded()) return;
         adjustNavBarText(position);
         curFrag = replacement;
         onSectionAttached(++position);
@@ -141,7 +141,6 @@ public class actMainPage extends ActionBarActivity
         actionBar.setTitle(mTitle);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
@@ -157,7 +156,7 @@ public class actMainPage extends ActionBarActivity
             ((ConnectFragment) curFrag).backPressed();
             return;
         } else if (curFrag instanceof OrganizeFragment) {
-            if (OrganizeFragment.canGoBack()) {
+            if (((OrganizeFragment) curFrag).canGoBack()) {
                 return;
             }
         }
@@ -203,10 +202,8 @@ public class actMainPage extends ActionBarActivity
 
     public void adjustNavBarText(int selected) {
         TextView[] views = new TextView[]{
-                (TextView) findViewById(R.id.newsTxt),
-                (TextView) findViewById(R.id.issuesTxt),
-                (TextView) findViewById(R.id.organizeTxt),
-                (TextView) findViewById(R.id.connectTxt)
+                (TextView) findViewById(R.id.newsTxt), (TextView) findViewById(R.id.issuesTxt),
+                (TextView) findViewById(R.id.organizeTxt), (TextView) findViewById(R.id.connectTxt)
         };
         for (int i = 0; i < views.length; i++) {
             TextView t = views[i];

@@ -44,9 +44,13 @@ public class ConnectTask extends AsyncTask {
         events = new ArrayList<>();
         BufferedReader in = null;
         try {
-            URL url = frag.fetchCountry ?
-                    new URL("https://go.berniesanders.com/page/event/search_results?orderby=date&format=json") :
-                    new URL("https://go.berniesanders.com/page/event/search_results?orderby=date&format=json&zip_radius=" + frag.mRadius + "&zip=" + frag.mZip);
+            URL url = frag.fetchCountry ? new URL(
+                    "https://go.berniesanders.com/page/event/search_results?orderby=date&format=json")
+                    : new URL(
+                    "https://go.berniesanders.com/page/event/search_results?orderby=date&format=json&zip_radius="
+                            + frag.mRadius
+                            + "&zip="
+                            + frag.mZip);
             Log.d("URL", url.toString());
             in = new BufferedReader(new InputStreamReader(url.openStream()));
         } catch (IOException e) {
@@ -98,8 +102,15 @@ public class ConnectTask extends AsyncTask {
         StringBuilder bld = new StringBuilder();
         bld.append("<big><font color =\"#147FD7\">").append(e.getName()).append("</font></big><br>");
         if (e.getVenue_city() != null) {
-            bld.append("&emsp;").append(e.getVenue_city()).append(", ").append(e.getState()).append(" - ").append(e.getZip()).append("<br>");
-            bld.append("&emsp;# of RSVP: ").append(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
+            bld.append("&emsp;")
+                    .append(e.getVenue_city())
+                    .append(", ")
+                    .append(e.getState())
+                    .append(" - ")
+                    .append(e.getZip())
+                    .append("<br>");
+            bld.append("&emsp;# of RSVP: ")
+                    .append(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
         }
         return bld.toString();
     }
@@ -236,6 +247,5 @@ public class ConnectTask extends AsyncTask {
         public Object getItem(int position) {
             return Html.fromHtml((String) super.getItem(position));
         }
-
     }
 }

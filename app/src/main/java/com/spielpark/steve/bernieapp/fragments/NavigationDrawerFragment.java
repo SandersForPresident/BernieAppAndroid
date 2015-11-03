@@ -11,7 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,8 +93,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
-                R.layout.frag_nav, container, false);
+        mDrawerListView = (ListView) inflater.inflate(R.layout.frag_nav, container, false);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -106,10 +105,12 @@ public class NavigationDrawerFragment extends Fragment {
                 new NavDrawerItem(R.drawable.ic_event_note_white_24dp, getString(R.string.title_section2)),
                 new NavDrawerItem(R.drawable.ic_people_white_24dp, getString(R.string.title_section3)),
                 new NavDrawerItem(R.drawable.ic_map_white_24dp, getString(R.string.title_section4)),
-                new NavDrawerItem(R.drawable.ic_insert_chart_white_24dp, getString(R.string.title_section5)),
+                new NavDrawerItem(R.drawable.ic_insert_chart_white_24dp,
+                        getString(R.string.title_section5)),
                 new NavDrawerItem(R.drawable.ic_feedback_white_24dp, getString(R.string.title_section6)),
         };
-        mDrawerListView.setAdapter(new NavDrawerAdapter(getActivity(), R.layout.list_drawer_item, datas));
+        mDrawerListView.setAdapter(
+                new NavDrawerAdapter(getActivity(), R.layout.list_drawer_item, datas));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -138,13 +139,11 @@ public class NavigationDrawerFragment extends Fragment {
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the navigation drawer and the action bar app icon.
-        mDrawerToggle = new ActionBarDrawerToggle(
-                getActivity(),                    /* host Activity */
+        mDrawerToggle = new ActionBarDrawerToggle(getActivity(),                    /* host Activity */
                 mDrawerLayout,                    /* DrawerLayout object */
                 R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
-                R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
-        ) {
+                R.string.navigation_drawer_close  /* "close drawer" description for accessibility */) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -166,8 +165,7 @@ public class NavigationDrawerFragment extends Fragment {
                     // The user manually opened the drawer; store this flag to prevent auto-showing
                     // the navigation drawer automatically in the future.
                     mUserLearnedDrawer = true;
-                    SharedPreferences sp = PreferenceManager
-                            .getDefaultSharedPreferences(getActivity());
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
                 }
                 getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
@@ -241,8 +239,9 @@ public class NavigationDrawerFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+
     private ActionBar getActionBar() {
-        return ((AppCompatActivity) getActivity()).getSupportActionBar();
+        return ((ActionBarActivity) getActivity()).getSupportActionBar();
     }
 
     /**

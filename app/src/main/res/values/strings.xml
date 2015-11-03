@@ -17,6 +17,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_bern_rate_intro">Welcome to BernRate. This section is dedicated to showing you how Bernie Sanders is doing with popularity in various Social Medias. Created by Arman, this contribution was made by volunteers, NOT the billionaire class.</string>
     <string-array name="radius_choices">
         <item>25</item>
         <item>50</item>

@@ -16,10 +16,14 @@ import com.spielpark.steve.bernieapp.wrappers.ImgTxtItem;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Steve on 8/14/2015.
  */
 public class ImgTxtAdapter extends ArrayAdapter {
+    private final Typeface typeface;
     private Context ctx;
     private List list;
     private int layout;
@@ -29,6 +33,7 @@ public class ImgTxtAdapter extends ArrayAdapter {
         this.ctx = context;
         this.layout = resource;
         this.list = objects;
+        this.typeface = Typeface.createFromAsset(ctx.getAssets(), "Jubilat.otf");
     }
 
     @Override
@@ -38,21 +43,24 @@ public class ImgTxtAdapter extends ArrayAdapter {
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) ctx).getLayoutInflater();
             convertView = inflater.inflate(layout, parent, false);
-            v = new ViewHolder();
+            v = new ViewHolder(convertView, typeface);
             v.img = (ImageView) convertView.findViewById(R.id.picThumb);
-            v.txt = (TextView) convertView.findViewById(R.id.txtItem);
             convertView.setTag(v);
         } else {
             v = (ViewHolder) convertView.getTag();
         }
         Util.getPicasso(ctx).load(item.getImgSrc()).into(v.img);
-        v.txt.setTypeface(Typeface.createFromAsset(ctx.getAssets(), "Jubilat.otf"));
         v.txt.setText(Html.fromHtml(item.getTxt()));
         return convertView;
     }
 
-    private static class ViewHolder {
-        TextView txt;
-        ImageView img;
+    public static class ViewHolder {
+        @Bind(R.id.txtItem) TextView txt;
+        @Bind(R.id.picThumb) ImageView img;
+
+        public ViewHolder(View convertView, Typeface typeface) {
+            ButterKnife.bind(this, convertView);
+            txt.setTypeface(typeface);
+        }
     }
 }

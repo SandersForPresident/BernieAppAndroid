@@ -17,17 +17,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 /**
  * Created by Steve on 7/9/2015.
  */
-public class IssuesTask extends AsyncTask {
+public class IssuesTask extends AsyncTask<Object, Issue, Object> {
     private static ArrayList<Issue> issues;
     private static ListView list;
     private static ProgressBar progressBar;
@@ -77,8 +73,9 @@ public class IssuesTask extends AsyncTask {
     }
 
     @Override
-    protected void onProgressUpdate(Object[] values) {
-        super.onProgressUpdate(values);
+    protected void onProgressUpdate(Issue[] i) {
+        super.onProgressUpdate(i);
+        issues.add(i[0]);
         ((ImgTxtAdapter) list.getAdapter()).notifyDataSetChanged();
     }
 
@@ -87,7 +84,7 @@ public class IssuesTask extends AsyncTask {
         retrieveLinks();
         BufferedReader in = null;
         try {
-            URL url = new URL("https://search.berniesanders.tech/articles_en/berniesanders_com/_search?q=article_type%3A%28Issues%29&sort=created_at:desc&size=20");
+            URL url = new URL("https://berniesanders.com/?json=true&which=issues");
             in = new BufferedReader(new InputStreamReader(url.openStream()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,50 +112,38 @@ public class IssuesTask extends AsyncTask {
             if (isCancelled()) {
                 return;
             }
-            if (reader.peek() == JsonToken.BEGIN_OBJECT) {
-                reader.beginObject();
-            }
             if (reader.peek() == JsonToken.BEGIN_ARRAY) {
                 reader.beginArray();
+            }
+            if (reader.peek() == JsonToken.BEGIN_OBJECT) {
+                reader.beginObject();
             }
             if (reader.peek() == JsonToken.END_ARRAY) {
                 reader.endArray();
             }
+            if (reader.peek() == JsonToken.END_DOCUMENT) {
+                return;
+            }
             String next = reader.nextName();
             switch (next.toLowerCase().trim()) {
-                case "hits": {
-                    if (reader.peek() == JsonToken.BEGIN_ARRAY) {
-                        reader.beginArray();
-                    } else {
-                        reader.beginObject();
-                    }
-                    break;
-                }
-                case "_source": {
-                    reader.beginObject();
-                    break;
-                }
                 case "title": {
-                    i.setTitle(reader.nextString());
+                    i.setTitle(Html.fromHtml(reader.nextString()).toString());
                     break;
                 }
-                case "url": {
+                case "permalink": {
                     i.setUrl(reader.nextString());
                     break;
                 }
-                case "inserted_at": {
+                case "date": {
                     i.setPubDate(reader.nextString());
                     break;
                 }
-                case "body": {
-                    i.setDesc(reader.nextString());
-                    break;
-                }
-                case "_id": {
-                    reader.skipValue();
-                    if (reader.peek() == JsonToken.END_OBJECT) {
-                        reader.endObject();
+                case "content": {
+                    String content = reader.nextString();
+                    if (content.contains("<style>") && content.contains("</style")) {
+                        content = content.substring(content.indexOf("</style") + "</style>".length());
                     }
+                    i.setDesc(content);
                     break;
                 }
                 default: {
@@ -167,11 +152,9 @@ public class IssuesTask extends AsyncTask {
                     }
                     if (reader.peek() == JsonToken.END_OBJECT) {
                         if (i.getTitle() != null) {
-                            formatDate(i);
                             i.setTxt(getHTMLForTitle(i));
-                            issues.add(i);
+                            publishProgress(i);
                             i = new Issue();
-                            publishProgress();
                         }
                         reader.endObject();
                     }
@@ -179,17 +162,6 @@ public class IssuesTask extends AsyncTask {
             }
         }
         reader.close();
-    }
-
-    private void formatDate(Issue i) {
-        SimpleDateFormat ft;
-        ft = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS", Locale.US);
-        try {
-            Date date = ft.parse(i.getPubDate());
-            i.setPubDate(new SimpleDateFormat("MMMM d, yyyy").format(date));
-        } catch (ParseException e1) {
-            e1.printStackTrace();
-        }
     }
 
     private void retrieveLinks() {

@@ -97,8 +97,7 @@
             android:id="@+id/c_centerMark"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_centerInParent="true">
-        </View>
+            android:layout_centerInParent="true"/>
 
         <Button
             android:id="@+id/cd_btnRSVP"
@@ -111,8 +110,7 @@
             android:paddingRight="16dp"
             android:text="RSVP"
             android:textAlignment="center"
-            android:textSize="16dp"
-            />
+            android:textSize="16dp"/>
 
         <Button
             android:id="@+id/cd_btnDirections"
@@ -126,8 +124,7 @@
             android:paddingRight="8dp"
             android:text="Directions"
             android:textAlignment="center"
-            android:textSize="16dp"
-            />
+            android:textSize="16dp"/>
 
         <TextView
             android:id="@+id/cd_txtTitle"

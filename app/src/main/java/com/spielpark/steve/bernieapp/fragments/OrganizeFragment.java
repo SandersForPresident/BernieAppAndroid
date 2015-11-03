@@ -1,6 +1,5 @@
 package com.spielpark.steve.bernieapp.fragments;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -48,7 +47,8 @@ public class OrganizeFragment extends Fragment {
         browser.getSettings().setAppCacheEnabled(true);
         browser.setWebViewClient(new WebViewClient() {
             @Override
-            public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
+            public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host,
+                                                  String realm) {
                 super.onReceivedHttpAuthRequest(view, handler, host, realm);
                 Toast.makeText(getActivity(), "Logging in..", Toast.LENGTH_SHORT);
             }
@@ -59,7 +59,8 @@ public class OrganizeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Logging in -HTTP..", Toast.LENGTH_SHORT);
             }
         });
-        browser.loadUrl("https://berniecrowd.org/?utm_source=bernie-app&utm_medium=android&utm_campaign=bernie-app");
+        browser.loadUrl(
+                "https://berniecrowd.org/?utm_source=bernie-app&utm_medium=android&utm_campaign=bernie-app");
     }
 
     @Override

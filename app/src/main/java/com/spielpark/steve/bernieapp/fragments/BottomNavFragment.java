@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.spielpark.steve.bernieapp.R;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */

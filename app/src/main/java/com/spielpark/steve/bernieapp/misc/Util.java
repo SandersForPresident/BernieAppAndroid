@@ -43,7 +43,8 @@ public class Util {
         return height;
     }
 
-    public static AlertDialog getShowAgainDialogue(Context ctx, final SharedPreferences prefs, final Preferences p, String message) {
+    public static AlertDialog getShowAgainDialogue(Context ctx, final SharedPreferences prefs,
+                                                   final Preferences p, String message) {
         LayoutInflater inflator = LayoutInflater.from(ctx);
         final View view = inflator.inflate(R.layout.dialogue_checkbox, null);
         AlertDialog.Builder bld = new AlertDialog.Builder(ctx, 4);
