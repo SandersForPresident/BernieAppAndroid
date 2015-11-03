@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android"
-     android:fillAfter="true"
-     android:fillEnabled="true"
-     android:interpolator="@android:anim/linear_interpolator"
-     android:shareInterpolator="true">
+<set
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true"
+    android:fillEnabled="true"
+    android:interpolator="@android:anim/linear_interpolator"
+    android:shareInterpolator="true">
 
     <translate
         android:duration="700"

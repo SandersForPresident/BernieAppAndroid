@@ -1,11 +1,12 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="60dp"
-              android:background="#147FD7"
-              android:orientation="vertical"
-              android:weightSum="4"
-              tools:context="com.spielpark.steve.bernieapp.fragments.BottomNavFragment">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="#147FD7"
+    android:orientation="vertical"
+    android:weightSum="4"
+    tools:context="com.spielpark.steve.bernieapp.fragments.BottomNavFragment">
 
     <LinearLayout
         android:layout_width="fill_parent"
