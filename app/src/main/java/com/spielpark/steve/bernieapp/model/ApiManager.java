@@ -27,7 +27,7 @@ public class ApiManager {
 
             LoggingInterceptor interceptor = new LoggingInterceptor();
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://search.berniesanders.tech/articles_en/berniesanders_com")
+                    .baseUrl("https://berniesanders.com/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();

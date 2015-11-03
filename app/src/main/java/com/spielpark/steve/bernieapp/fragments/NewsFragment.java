@@ -82,32 +82,25 @@ public class NewsFragment extends Fragment {
             public void call(Pair<NewsArticle, List<NewsArticle>> pair) {
                 //Setup the header
                 headerArticle = pair.first;
-                if (headerArticle != null) {
-                    subHeader.setText(Html.fromHtml(headerArticle.getContent()));
-                    String s = headerArticle.getTitle();
-                    s = s.length() > 40 ? s.substring(0, 40) + "..." : s;
-                    header.setText(s);
+                if (pair.first != null) {
+                    setupHeader(headerArticle);
                 } else {
+
                     //TODO: We need to replace the header with something else.
                 }
 
                 //Setup the remaining articles
                 if (pair.second != null && pair.second.size() > 0) {
-                    Collections.sort(pair.second);
-                    adapter.addAll(pair.second);
-                    ((ImgTxtAdapter) list.getAdapter()).notifyDataSetChanged();
-                    list.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
-                    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            ((actMainPage) getActivity()).loadEvent((NewsArticle) list.getAdapter().getItem(position));
-                        }
-                    });
+                    setupListView(pair.second);
                 } else {
                     //TODO: Handle an empty list.
                 }
 
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                setupHeader(new NewsArticle("Unable to Load News", "Check your connection and try again."));
             }
         });
     }
@@ -123,5 +116,26 @@ public class NewsFragment extends Fragment {
     void onHeaderClicked() {
         if (headerArticle != null)
             ((actMainPage) getActivity()).loadEvent(headerArticle);
+    }
+
+    private void setupHeader(NewsArticle article) {
+        subHeader.setText(Html.fromHtml(article.getContent()));
+        String s = article.getTitle();
+        s = s.length() > 40 ? s.substring(0, 40) + "..." : s;
+        header.setText(s);
+    }
+
+    private void setupListView(List<NewsArticle> articles) {
+        Collections.sort(articles);
+        adapter.addAll(articles);
+        ((ImgTxtAdapter) list.getAdapter()).notifyDataSetChanged();
+        list.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ((actMainPage) getActivity()).loadEvent((NewsArticle) list.getAdapter().getItem(position));
+            }
+        });
     }
 }

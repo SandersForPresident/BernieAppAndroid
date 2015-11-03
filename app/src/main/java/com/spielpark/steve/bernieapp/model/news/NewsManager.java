@@ -45,6 +45,7 @@ public class NewsManager {
                 if (pressRelease != null) {
                     newsArticles.remove(pressRelease);
                 }
+
                 return new Pair<>(pressRelease, newsArticles);
             }
         }).cache().subscribeOn(Schedulers.io());

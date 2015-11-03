@@ -38,6 +38,11 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem, P
 
     }
 
+    public NewsArticle(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
     protected NewsArticle(Parcel in) {
         this.title = in.readString();
         this.content = in.readString();

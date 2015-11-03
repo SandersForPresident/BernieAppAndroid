@@ -12,6 +12,6 @@ public interface BernieApi {
     String NEWS = "news";
     String DAILY = "daily";
 
-    @GET("https://berniesanders.com/?json=true&limit=12")
+    @GET("?json=true&limit=12")
     Observable<List<NewsArticle>> getNews(@Query("which") String newsType);
 }
