@@ -38,6 +38,34 @@ public class SingleNewsFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        String time = mEvent.getPubDate();
+        try {
+            final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            final Date dateObj = sdf.parse(time);
+            time = new SimpleDateFormat("h:mm a, z").format(dateObj);
+        } catch (final ParseException e) {
+            e.printStackTrace();
+        }
+        View root = getView();
+        ((TextView) root.findViewById(R.id.e_txtTitle)).setText(mEvent.getTitle());
+        ((TextView) root.findViewById(R.id.e_txtTitle)).setShadowLayer(13, 0, 0, Color.BLACK);
+        ((TextView) root.findViewById(R.id.e_txtDate)).setText(mEvent.getPubDate() + " at " + time);
+        ((TextView) root.findViewById(R.id.e_txtDesc)).setText(Html.fromHtml(mEvent.getDesc()));
+        ((TextView) root.findViewById(R.id.e_txtDesc)).setMovementMethod(new LinkMovementMethod());
+        Util.getPicasso(getActivity()).load(mEvent.getImgSrc()).placeholder(R.drawable.logo).into((ImageView)root.findViewById(R.id.e_imgLogo));
+        root.findViewById(R.id.e_btnWebsite).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(mEvent.getUrl()));
+                startActivity(i);
+            }
+        });
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();

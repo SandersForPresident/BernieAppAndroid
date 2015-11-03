@@ -37,11 +37,11 @@ public class NewsTask extends AsyncTask<Object, NewsArticle, Object> {
     private static String NULL_IMAGE = "https://s.bsd.net/bernie16/main/page/-/website/fb-share.png";
 
     public NewsTask(Context ctx, ListView listView, ProgressBar progressBar, TextView subHeader, TextView header) {
-        this.list = listView;
-        this.ctx = ctx;
-        this.progressBar = progressBar;
-        this.subHeader = subHeader;
-        this.header = header;
+        list = listView;
+        NewsTask.ctx = ctx;
+        NewsTask.progressBar = progressBar;
+        NewsTask.subHeader = subHeader;
+        NewsTask.header = header;
     }
 
     public static NewsArticle getArticle(int pos) {

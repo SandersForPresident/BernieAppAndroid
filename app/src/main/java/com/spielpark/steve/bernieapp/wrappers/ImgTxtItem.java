@@ -11,4 +11,5 @@ public interface ImgTxtItem {
     public String getImgSrc();
 
     public void setImgSrc(String img);
+
 }

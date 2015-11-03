@@ -186,7 +186,7 @@ public class actMainPage extends ActionBarActivity
     }
 
     public SharedPreferences getPrefs() {
-        return this.preferences;
+        return preferences;
     }
 
     public void loadHeaderArticle(View view) {

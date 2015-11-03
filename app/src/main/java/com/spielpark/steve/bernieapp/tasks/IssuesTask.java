@@ -2,7 +2,6 @@ package com.spielpark.steve.bernieapp.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.text.Html;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
@@ -32,9 +31,9 @@ public class IssuesTask extends AsyncTask<Object, Issue, Object> {
     private static HashMap<String, String> vidLinks;
 
     public IssuesTask(Context ctx, ListView listView, ProgressBar progressBar) {
-        this.list = listView;
-        this.ctx = ctx;
-        this.progressBar = progressBar;
+        list = listView;
+        IssuesTask.ctx = ctx;
+        IssuesTask.progressBar = progressBar;
     }
 
     public static Issue getIssue(int position) {

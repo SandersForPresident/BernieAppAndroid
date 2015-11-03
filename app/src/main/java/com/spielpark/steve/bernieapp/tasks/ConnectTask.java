@@ -31,8 +31,8 @@ public class ConnectTask extends AsyncTask {
     private static ConnectFragment frag;
 
     public ConnectTask(Context ctx, ConnectFragment frag) {
-        this.frag = frag;
-        this.ctx = ctx;
+        ConnectTask.frag = frag;
+        ConnectTask.ctx = ctx;
     }
 
     public static ArrayList<Event> getEvents() {
