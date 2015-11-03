@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    android:background="?android:attr/activatedBackgroundIndicator"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall"
-    android:padding ="10dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/activatedBackgroundIndicator"
+                android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                android:padding="10dp">
 
     <ImageView
         android:id="@+id/navDrawerImageView"
@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:paddingRight="10dp" />
+        android:paddingRight="10dp"/>
 
     <TextView
         android:id="@+id/navDrawerTextView"
@@ -22,5 +22,5 @@
         android:layout_toRightOf="@+id/navDrawerImageView"
         android:paddingRight="10dp"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:textColor="#DDDDDD" />
+        android:textColor="#DDDDDD"/>
 </RelativeLayout>

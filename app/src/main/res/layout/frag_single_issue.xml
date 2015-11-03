@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="60dp"
-    tools:context="com.spielpark.steve.bernieapp.fragments.SingleNewsFragment">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="60dp"
+                tools:context="com.spielpark.steve.bernieapp.fragments.SingleNewsFragment">
 
     <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
         android:layout_width="fill_parent"
@@ -18,7 +18,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="200dp"
                 android:background="@android:drawable/dialog_holo_dark_frame"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitCenter"/>
 
             <LinearLayout
                 android:id="@+id/layoutSticky"
@@ -38,7 +38,7 @@
                     android:text="Title"
                     android:textColor="#FFFFFF"
                     android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/i_txtDate"
@@ -49,7 +49,7 @@
                     android:text="Date"
                     android:textColor="#FFC207"
                     android:textSize="18sp"
-                    android:textStyle="italic|bold" />
+                    android:textStyle="italic|bold"/>
             </LinearLayout>
 
             <TextView
@@ -64,7 +64,7 @@
                 android:linksClickable="true"
                 android:scrollbars="vertical"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit amet dui varius mauris ullamcorper pretium. Morbi pellentesque vitae leo sit amet ullamcorper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Quisque efficitur eu ipsum et mollis. Donec ante quam, semper mattis ornare et, pharetra eget eros. Aliquam quis augue congue mi commodo vehicula. Maecenas nec sodales ipsum, et posuere nisl. Morbi nec felis nisi. Etiam euismod, neque vitae pharetra iaculis, lorem dolor rutrum metus, sit amet consectetur libero dolor at purus. Nunc varius volutpat lorem a sollicitudin. Mauris lacinia eleifend leo, nec venenatis erat hendrerit id. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; "
-                android:textSize="18sp" />
+                android:textSize="18sp"/>
 
         </RelativeLayout>
     </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="2dp"
-    android:layout_marginTop="2dp"
-    android:orientation="horizontal">
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/picThumb"
@@ -14,7 +14,7 @@
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
         android:scaleType="fitXY"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"/>
 
     <TextView
         android:id="@+id/txtItem"
@@ -23,7 +23,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
         android:layout_toRightOf="@id/picThumb"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
 
 
 </RelativeLayout>
