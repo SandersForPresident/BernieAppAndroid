@@ -2,7 +2,6 @@ package com.spielpark.steve.bernieapp.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.text.Html;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;

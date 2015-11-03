@@ -47,7 +47,6 @@ public class actMainPage extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.layout_main_page);
         mNavigationDrawerFragment =
                 (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(
@@ -102,10 +101,13 @@ public class actMainPage extends ActionBarActivity
                 replacement = NewsFragment.getInstance();
             }
         }
+        if (replacement.isAdded()) return;
         adjustNavBarText(position);
         curFrag = replacement;
         onSectionAttached(++position);
-        fragmentManager.beginTransaction().replace(R.id.container, replacement).commit();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, replacement)
+                .commit();
     }
 
     public void onSectionAttached(int number) {
@@ -153,7 +155,7 @@ public class actMainPage extends ActionBarActivity
             ((ConnectFragment) curFrag).backPressed();
             return;
         } else if (curFrag instanceof OrganizeFragment) {
-            if (OrganizeFragment.canGoBack()) {
+            if (((OrganizeFragment) curFrag).canGoBack()) {
                 return;
             }
         }

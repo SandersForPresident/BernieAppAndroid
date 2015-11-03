@@ -1,26 +1,27 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="60dp"
+    android:layout_marginBottom="61dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".actMainPage$PlaceholderFragment">
-
 
     <ImageView
         android:id="@+id/pic_header"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:scaleType="fitXY"
-        android:src="@drawable/vermont_state_house" />
+        android:src="@drawable/vermont_state_house"/>
 
     <TextView
         android:id="@+id/txtHeader"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignTop="@id/pic_header"
+        android:layout_marginTop="2dp"
         android:background="@drawable/shadow"
         android:gravity="left"
         android:paddingLeft="8dp"
@@ -28,7 +29,7 @@
         android:text="This just in: "
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/txtSubHeader"
@@ -43,7 +44,7 @@
         android:scrollbars="vertical"
         android:text=""
         android:textSize="12sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <ListView
         android:id="@+id/listNews"
@@ -51,14 +52,12 @@
         android:layout_height="fill_parent"
         android:layout_below="@id/txtSubHeader"
         android:layout_marginTop="12dp"
-        android:visibility="visible" />
+        android:visibility="visible"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="visible" />
-
-
+        android:visibility="visible"/>
 </RelativeLayout>

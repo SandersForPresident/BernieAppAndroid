@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="60dp"
@@ -20,7 +21,7 @@
             android:layout_weight="1.0"
             android:onClick="switchPage"
             android:src="@drawable/ic_public_white_24dp"
-            android:tag="0" />
+            android:tag="0"/>
 
         <ImageView
             android:id="@+id/issuesPic"
@@ -29,7 +30,7 @@
             android:layout_weight="1.0"
             android:onClick="switchPage"
             android:src="@drawable/ic_event_note_white_24dp"
-            android:tag="1" />
+            android:tag="1"/>
 
         <ImageView
             android:id="@+id/organizePic"
@@ -38,7 +39,7 @@
             android:layout_weight="1.0"
             android:onClick="switchPage"
             android:src="@drawable/ic_people_white_24dp"
-            android:tag="2" />
+            android:tag="2"/>
 
         <ImageView
             android:id="@+id/connectPic"
@@ -47,7 +48,7 @@
             android:layout_weight="1.0"
             android:onClick="switchPage"
             android:src="@drawable/ic_map_white_24dp"
-            android:tag="3" />
+            android:tag="3"/>
 
     </LinearLayout>
 
@@ -68,7 +69,7 @@
             android:onClick="switchPage"
             android:tag="0"
             android:text="News"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"/>
 
         <TextView
             android:id="@+id/issuesTxt"
@@ -79,7 +80,7 @@
             android:onClick="switchPage"
             android:tag="1"
             android:text="Issues"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"/>
 
         <TextView
             android:id="@+id/organizeTxt"
@@ -90,7 +91,7 @@
             android:onClick="switchPage"
             android:tag="2"
             android:text="Organize"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"/>
 
         <TextView
             android:id="@+id/connectTxt"
@@ -101,7 +102,7 @@
             android:onClick="switchPage"
             android:tag="3"
             android:text="Connect"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"/>
     </LinearLayout>
 
 </LinearLayout>
