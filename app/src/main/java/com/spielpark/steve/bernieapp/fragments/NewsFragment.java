@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.actMainPage;
 import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
-import com.spielpark.steve.bernieapp.model.news.Category;
 import com.spielpark.steve.bernieapp.model.news.NewsArticle;
 import com.spielpark.steve.bernieapp.model.news.NewsManager;
 
@@ -32,12 +31,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.functions.Func2;
 
 /**
  * A placeholder instance containing a simple view.
@@ -81,52 +77,36 @@ public class NewsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        //Get all of the articles
-        Observable<NewsArticle> articles = NewsManager.get().getNews().flatMapIterable(new Func1<List<NewsArticle>, Iterable<NewsArticle>>() {
-            @Override
-            public Iterable<NewsArticle> call(List<NewsArticle> newsArticles) {
-                return newsArticles;
-            }
-        });
-
-        //Filter out only the first press release article to be used as the header.
-        Observable<NewsArticle> firstPressRelease = articles.filter(new Func1<NewsArticle, Boolean>() {
-            @Override
-            public Boolean call(NewsArticle newsArticle) {
-                return newsArticle.getCategories().contains(Category.PressRelease);
-            }
-        }).first();
-
-        //Remove the header from the list of articles
-        newsSubscription = Observable.zip(articles.toList(), firstPressRelease, new Func2<List<NewsArticle>, NewsArticle, Pair<NewsArticle, List<NewsArticle>>>() {
-            @Override
-            public Pair<NewsArticle, List<NewsArticle>> call(List<NewsArticle> newsArticles, NewsArticle newsArticle) {
-                newsArticles.remove(newsArticle);
-                return new Pair(newsArticle, newsArticles);
-            }
-        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Pair<NewsArticle, List<NewsArticle>>>() {
+        newsSubscription = NewsManager.get().getNews().observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Pair<NewsArticle, List<NewsArticle>>>() {
             @Override
             public void call(Pair<NewsArticle, List<NewsArticle>> pair) {
                 //Setup the header
                 headerArticle = pair.first;
-                subHeader.setText(Html.fromHtml(headerArticle.getContent()));
-                String s = headerArticle.getTitle();
-                s = s.length() > 40 ? s.substring(0, 40) + "..." : s;
-                header.setText(s);
+                if (headerArticle != null) {
+                    subHeader.setText(Html.fromHtml(headerArticle.getContent()));
+                    String s = headerArticle.getTitle();
+                    s = s.length() > 40 ? s.substring(0, 40) + "..." : s;
+                    header.setText(s);
+                } else {
+                    //TODO: We need to replace the header with something else.
+                }
 
                 //Setup the remaining articles
-                Collections.sort(pair.second);
-                adapter.addAll(pair.second);
-                ((ImgTxtAdapter) list.getAdapter()).notifyDataSetChanged();
-                list.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
-                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ((actMainPage) getActivity()).loadEvent((NewsArticle) list.getAdapter().getItem(position));
-                    }
-                });
+                if (pair.second != null && pair.second.size() > 0) {
+                    Collections.sort(pair.second);
+                    adapter.addAll(pair.second);
+                    ((ImgTxtAdapter) list.getAdapter()).notifyDataSetChanged();
+                    list.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            ((actMainPage) getActivity()).loadEvent((NewsArticle) list.getAdapter().getItem(position));
+                        }
+                    });
+                } else {
+                    //TODO: Handle an empty list.
+                }
 
             }
         });
