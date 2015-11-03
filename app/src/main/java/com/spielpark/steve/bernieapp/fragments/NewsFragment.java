@@ -7,21 +7,16 @@ package com.spielpark.steve.bernieapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
-import com.spielpark.steve.bernieapp.actMainPage;
-import com.spielpark.steve.bernieapp.misc.ImgTxtAdapter;
 import com.spielpark.steve.bernieapp.tasks.NewsTask;
-import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -38,6 +33,7 @@ public class NewsFragment extends Fragment {
             return mIntstance;
         }
     }
+
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

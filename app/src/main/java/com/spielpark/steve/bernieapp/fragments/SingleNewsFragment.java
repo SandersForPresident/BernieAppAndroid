@@ -1,11 +1,8 @@
 package com.spielpark.steve.bernieapp.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -55,7 +52,7 @@ public class SingleNewsFragment extends Fragment {
         ((TextView) root.findViewById(R.id.e_txtDate)).setText(mEvent.getPubDate() + " at " + time);
         ((TextView) root.findViewById(R.id.e_txtDesc)).setText(Html.fromHtml(mEvent.getDesc()));
         ((TextView) root.findViewById(R.id.e_txtDesc)).setMovementMethod(new LinkMovementMethod());
-        Util.getPicasso(getActivity()).load(mEvent.getImgSrc()).placeholder(R.drawable.logo).into((ImageView)root.findViewById(R.id.e_imgLogo));
+        Util.getPicasso(getActivity()).load(mEvent.getImgSrc()).placeholder(R.drawable.logo).into((ImageView) root.findViewById(R.id.e_imgLogo));
         root.findViewById(R.id.e_btnWebsite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -20,12 +20,22 @@ public class OrganizeFragment extends Fragment {
 
     private static OrganizeFragment mInstance;
     private static WebView browser;
+
     public static OrganizeFragment getInstance() {
         if (mInstance == null) {
             mInstance = new OrganizeFragment();
             return mInstance;
         } else {
             return mInstance;
+        }
+    }
+
+    public static boolean canGoBack() {
+        if (browser.canGoBack()) {
+            browser.goBack();
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -56,14 +66,5 @@ public class OrganizeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.frag_organize, container, false);
-    }
-
-    public static boolean canGoBack() {
-        if (browser.canGoBack()) {
-            browser.goBack();
-            return true;
-        } else {
-            return false;
-        }
     }
 }

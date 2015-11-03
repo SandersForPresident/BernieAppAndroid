@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.wrappers.ImgTxtItem;
-import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
 import java.util.List;
 

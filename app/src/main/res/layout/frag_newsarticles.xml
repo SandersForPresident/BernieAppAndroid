@@ -1,66 +1,64 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="61dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:layout_marginBottom="61dp"
     tools:context=".actMainPage$PlaceholderFragment">
-
 
     <ImageView
         android:id="@+id/pic_header"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:src="@drawable/vermont_state_house"
+        android:onClick="loadHeaderArticle"
         android:scaleType="fitXY"
-        android:onClick="loadHeaderArticle"/>
+        android:src="@drawable/vermont_state_house"/>
 
     <TextView
         android:id="@+id/txtHeader"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_alignTop="@id/pic_header"
         android:layout_marginTop="2dp"
+        android:background="@drawable/shadow"
+        android:gravity="left"
         android:paddingLeft="8dp"
         android:paddingTop="4dp"
-        android:layout_alignTop="@id/pic_header"
-        android:gravity="left"
-        android:textColor="#FFFFFF"
         android:text="This just in: "
-        android:textStyle="bold"
+        android:textColor="#FFFFFF"
         android:textSize="15sp"
-        android:background="@drawable/shadow"/>
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/txtSubHeader"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_below="@id/pic_header"
+        android:layout_marginTop="-2dp"
+        android:background="@drawable/news_header_border"
+        android:maxLines="4"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:layout_marginTop="-2dp"
-        android:textStyle="bold"
-        android:textSize="12sp"
-        android:text=""
         android:scrollbars="vertical"
-        android:maxLines="4"
-        android:layout_below="@id/pic_header"
-        android:background="@drawable/news_header_border"/>
+        android:text=""
+        android:textSize="12sp"
+        android:textStyle="bold"/>
 
     <ListView
         android:id="@+id/listNews"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="12dp"
         android:layout_below="@id/txtSubHeader"
+        android:layout_marginTop="12dp"
         android:visibility="visible"/>
-    
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="visible"/>
-
-
 </RelativeLayout>

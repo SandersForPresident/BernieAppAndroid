@@ -5,8 +5,8 @@
     android:shareInterpolator="true">
 
     <alpha
-        android:toAlpha="1.0"
+        android:duration="600"
         android:fromAlpha="0.0"
-        android:duration="600"/>
+        android:toAlpha="1.0"/>
 
 </set>

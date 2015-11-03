@@ -1,8 +1,8 @@
 <!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
 <android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".actMainPage">
@@ -15,13 +15,13 @@
         android:layout_height="match_parent"
         android:background="#F1F1F1">
 
-    <fragment
-        android:id="@+id/bottom_navigation"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:name="com.spielpark.steve.bernieapp.fragments.BottomNavFragment"
-        tools:layout="@layout/frag_bottom_nav"
-        android:layout_alignParentBottom="true"/>
+        <fragment
+            android:id="@+id/bottom_navigation"
+            android:name="com.spielpark.steve.bernieapp.fragments.BottomNavFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            tools:layout="@layout/frag_bottom_nav"/>
 
     </RelativeLayout>
 
@@ -32,11 +32,12 @@
          android:layout_gravity="left" instead. -->
     <!-- The drawer is given a fixed width in dp and extends the full height of
          the container. -->
-    <fragment android:id="@+id/navigation_drawer"
+    <fragment
+        android:id="@+id/navigation_drawer"
+        android:name="com.spielpark.steve.bernieapp.fragments.NavigationDrawerFragment"
         android:layout_width="@dimen/navigation_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:name="com.spielpark.steve.bernieapp.fragments.NavigationDrawerFragment"
-        tools:layout="@layout/frag_nav" />
+        tools:layout="@layout/frag_nav"/>
 
 </android.support.v4.widget.DrawerLayout>

@@ -1,7 +1,6 @@
 package com.spielpark.steve.bernieapp.wrappers;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.spielpark.steve.bernieapp.misc.Util;
@@ -10,6 +9,14 @@ import com.spielpark.steve.bernieapp.misc.Util;
  * Created by Steve on 7/9/2015.
  */
 public class Issue implements ImgTxtItem {
+
+    private String pubDate;
+    private String htmlTitle;
+    private String desc;
+    private String Url;
+    private String title;
+    private String video;
+    private String imgSrc;
 
     public String getHtmlTitle() {
         return htmlTitle;
@@ -48,14 +55,6 @@ public class Issue implements ImgTxtItem {
         Log.d("Issue URL", bld.toString());
         return bld.toString();
     }
-
-    private String pubDate;
-    private String htmlTitle;
-    private String desc;
-    private String Url;
-    private String title;
-    private String video;
-    private String imgSrc;
 
     public String getPubDate() {
         return pubDate;

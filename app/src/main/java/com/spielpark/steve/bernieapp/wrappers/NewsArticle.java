@@ -16,6 +16,10 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem {
     private String htmlTitle;
     private String imgSrc;
 
+    public NewsArticle() {
+
+    }
+
     public String getHtmlTitle() {
         return htmlTitle;
     }
@@ -82,10 +86,6 @@ public class NewsArticle<T> implements Comparable<NewsArticle<T>>, ImgTxtItem {
     @Override
     public void setImgSrc(String img) {
         this.imgSrc = img;
-    }
-
-    public NewsArticle() {
-
     }
 
     @Override

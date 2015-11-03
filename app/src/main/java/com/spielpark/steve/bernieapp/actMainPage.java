@@ -3,27 +3,26 @@ package com.spielpark.steve.bernieapp;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
-import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.fragments.BernRateFragment;
 import com.spielpark.steve.bernieapp.fragments.ConnectFragment;
 import com.spielpark.steve.bernieapp.fragments.FeedbackFragment;
-import com.spielpark.steve.bernieapp.fragments.SingleNewsFragment;
 import com.spielpark.steve.bernieapp.fragments.IssuesFragment;
 import com.spielpark.steve.bernieapp.fragments.NavigationDrawerFragment;
 import com.spielpark.steve.bernieapp.fragments.NewsFragment;
 import com.spielpark.steve.bernieapp.fragments.OrganizeFragment;
 import com.spielpark.steve.bernieapp.fragments.SingleIssueFragment;
-import com.spielpark.steve.bernieapp.tasks.IssuesTask;
+import com.spielpark.steve.bernieapp.fragments.SingleNewsFragment;
 import com.spielpark.steve.bernieapp.tasks.NewsTask;
 import com.spielpark.steve.bernieapp.wrappers.Issue;
 import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
@@ -31,12 +30,12 @@ import com.spielpark.steve.bernieapp.wrappers.NewsArticle;
 
 public class actMainPage extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+    private static SharedPreferences preferences;
+    private static Fragment curFrag;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private static SharedPreferences preferences;
-    private static Fragment curFrag;
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -75,32 +74,32 @@ public class actMainPage extends ActionBarActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack("base", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         Fragment replacement;
-        switch(position) {
-            case 0 : {
+        switch (position) {
+            case 0: {
                 replacement = NewsFragment.getInstance();
                 break;
             }
-            case 1 : {
+            case 1: {
                 replacement = IssuesFragment.getInstance();
                 break;
             }
-            case 2 : {
+            case 2: {
                 replacement = OrganizeFragment.getInstance();
                 break;
             }
-            case 3 : {
+            case 3: {
                 replacement = ConnectFragment.getInstance();
                 break;
             }
-            case 4 : {
+            case 4: {
                 replacement = BernRateFragment.getInstance();
                 break;
             }
-            case 5 : {
+            case 5: {
                 replacement = FeedbackFragment.getInstance();
                 break;
             }
-            default:  {
+            default: {
                 replacement = NewsFragment.getInstance();
             }
         }
@@ -158,7 +157,7 @@ public class actMainPage extends ActionBarActivity
             ((ConnectFragment) curFrag).backPressed();
             return;
         } else if (curFrag instanceof OrganizeFragment) {
-            if (((OrganizeFragment) curFrag).canGoBack()) {
+            if (OrganizeFragment.canGoBack()) {
                 return;
             }
         }
@@ -188,7 +187,7 @@ public class actMainPage extends ActionBarActivity
     }
 
     public SharedPreferences getPrefs() {
-        return this.preferences;
+        return preferences;
     }
 
     public void loadHeaderArticle(View view) {
@@ -203,7 +202,7 @@ public class actMainPage extends ActionBarActivity
     }
 
     public void adjustNavBarText(int selected) {
-        TextView[] views = new TextView[] {
+        TextView[] views = new TextView[]{
                 (TextView) findViewById(R.id.newsTxt),
                 (TextView) findViewById(R.id.issuesTxt),
                 (TextView) findViewById(R.id.organizeTxt),

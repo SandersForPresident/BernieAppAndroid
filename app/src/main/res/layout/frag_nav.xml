@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#147FD7"
     android:choiceMode="singleChoice"
     android:divider="@null"
-    android:background="#147FD7"
-    tools:context=".NavigationDrawerFragment" />
+    tools:context=".NavigationDrawerFragment"/>

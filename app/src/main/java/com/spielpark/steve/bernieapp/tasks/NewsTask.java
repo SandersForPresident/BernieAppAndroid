@@ -40,18 +40,20 @@ public class NewsTask extends AsyncTask {
     private static TextView header;
 
     public NewsTask(Context ctx, ListView listView, ProgressBar progressBar, TextView subHeader, TextView header) {
-        this.list = listView;
-        this.ctx = ctx;
-        this.progressBar = progressBar;
-        this.subHeader = subHeader;
-        this.header = header;
+        list = listView;
+        NewsTask.ctx = ctx;
+        NewsTask.progressBar = progressBar;
+        NewsTask.subHeader = subHeader;
+        NewsTask.header = header;
     }
 
     public static NewsArticle getArticle(int pos) {
         return articles.get(pos);
     }
 
-    public static ArrayList<NewsArticle> getData() { return articles; }
+    public static ArrayList<NewsArticle> getData() {
+        return articles;
+    }
 
     @Override
     protected Object doInBackground(Object[] params) {
@@ -95,8 +97,8 @@ public class NewsTask extends AsyncTask {
                 reader.endArray();
             }
             String next = reader.nextName();
-            switch(next.toLowerCase().trim()) {
-                case "hits" : {
+            switch (next.toLowerCase().trim()) {
+                case "hits": {
                     if (reader.peek() == JsonToken.BEGIN_ARRAY) {
                         reader.beginArray();
                     } else {
@@ -104,34 +106,34 @@ public class NewsTask extends AsyncTask {
                     }
                     break;
                 }
-                case "_source" : {
+                case "_source": {
                     reader.beginObject();
                     break;
                 }
-                case "title" : {
+                case "title": {
                     a.setTitle(reader.nextString());
                     break;
                 }
-                case "url" : {
+                case "url": {
                     a.setUrl(reader.nextString());
                     break;
                 }
-                case "inserted_at" : {
+                case "inserted_at": {
                     a.setPubDate(reader.nextString());
                     break;
                 }
-                case "body_html" : {
+                case "body_html": {
                     a.setDesc(reader.nextString());
                     break;
                 }
-                case "_id" : {
+                case "_id": {
                     reader.skipValue();
                     if (reader.peek() == JsonToken.END_OBJECT) {
                         reader.endObject();
                     }
                     break;
                 }
-                case "image_url" : {
+                case "image_url": {
                     a.setImgSrc(reader.nextString());
                     break;
                 }
