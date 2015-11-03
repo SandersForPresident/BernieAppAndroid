@@ -56,14 +56,14 @@ public class SingleNewsFragment extends Fragment {
         ((TextView) root.findViewById(R.id.e_txtTitle)).setText(event.getTitle());
         ((TextView) root.findViewById(R.id.e_txtTitle)).setShadowLayer(13, 0, 0, Color.BLACK);
         ((TextView) root.findViewById(R.id.e_txtDate)).setText(event.getPubDate() + " at " + time);
-        ((TextView) root.findViewById(R.id.e_txtDesc)).setText(Html.fromHtml(event.getDesc()));
+        ((TextView) root.findViewById(R.id.e_txtDesc)).setText(Html.fromHtml(event.getContent()));
         ((TextView) root.findViewById(R.id.e_txtDesc)).setMovementMethod(new LinkMovementMethod());
         Util.getPicasso(getActivity()).load(event.getImgSrc()).placeholder(R.drawable.logo).into((ImageView) root.findViewById(R.id.e_imgLogo));
         root.findViewById(R.id.e_btnWebsite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(event.getUrl()));
+                i.setData(Uri.parse(event.getPermalink()));
                 startActivity(i);
             }
         });

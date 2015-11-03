@@ -155,7 +155,7 @@ public class actMainPage extends ActionBarActivity
             ((ConnectFragment) curFrag).backPressed();
             return;
         } else if (curFrag instanceof OrganizeFragment) {
-            if (((OrganizeFragment) curFrag).canGoBack()) {
+            if (OrganizeFragment.canGoBack()) {
                 return;
             }
         }
