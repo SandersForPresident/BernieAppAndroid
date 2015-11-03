@@ -1,9 +1,10 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="60dp"
-                tools:context="com.spielpark.steve.bernieapp.fragments.SingleNewsFragment">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="60dp"
+    tools:context="com.spielpark.steve.bernieapp.fragments.SingleNewsFragment">
 
     <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
         android:layout_width="fill_parent"
