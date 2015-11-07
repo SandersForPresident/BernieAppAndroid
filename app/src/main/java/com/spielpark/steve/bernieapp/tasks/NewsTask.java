@@ -129,6 +129,9 @@ public class NewsTask extends AsyncTask<Object, NewsArticle, Object> {
                     if (reader.peek() == JsonToken.NULL) {
                         a.setImgSrc(NULL_IMAGE);
                         reader.nextNull();
+                    } else if (reader.peek() == JsonToken.BOOLEAN) {
+                        a.setImgSrc(NULL_IMAGE);
+                        reader.nextBoolean();
                     } else {
                         a.setImgSrc(reader.nextString());
                     }

@@ -8,8 +8,8 @@ android {
         applicationId "com.spielpark.steve.bernieapp"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 15
-        versionName "1.51R"
+        versionCode 16
+        versionName "1.52R"
     }
     buildTypes {
         release {
