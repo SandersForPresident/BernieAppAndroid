@@ -4,10 +4,13 @@ package com.spielpark.steve.bernieapp.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -63,16 +66,18 @@ public class BernRateFragment extends Fragment {
     private void displayWebViews(String[] urls) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT
+900
         );
         LinearLayout parent = (LinearLayout) getView().findViewById(R.id.layoutBernRate);
         params.setMargins(8, 8, 8, 8);
         params.gravity = Gravity.CENTER_HORIZONTAL;
         for (String s : urls) {
             WebView wv = new WebView(getActivity());
-            wv.getSettings().setJavaScriptEnabled(true);
+            WebSettings settings = wv.getSettings();
+            settings.setJavaScriptEnabled(true);
             wv.setLayoutParams(params);
-            wv.loadData(s, "text/Html", "UTF-8");
+            wv.setWebChromeClient(new WebChromeClient());
+            wv.loadDataWithBaseURL("http://www.bernrate.com", s, "text/html", "UTF-8", null);
             parent.addView(wv);
         }
     }
