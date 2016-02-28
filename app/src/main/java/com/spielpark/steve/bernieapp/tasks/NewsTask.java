@@ -119,8 +119,22 @@ public class NewsTask extends AsyncTask<Object, NewsArticle, Object> {
                 }
                 case "content" : {
                     String content = reader.nextString();
+                    content = content.replaceAll("\\[.*?\\]",""); //at the risk of removing innocuous []'s
                     if (content.contains("<style>") && content.contains("</style")) {
                         content = content.substring(content.indexOf("</style") + "</style>".length());
+                    }
+                    if (content.contains("<img")) {
+                        content = content.replaceAll("(<(/)img>)|(<img.+?>)", "");
+                    }
+                    //This shouldn't have to happen but I can't change the text formatting from the source. /me shrugs "it works"
+                    try {
+                        while (content.contains(("[rwd"))) {
+                            String p1 = content.substring(0, content.indexOf(("[rwd")));
+                            String p2 = content.substring(content.indexOf(']', p1.length()) + 1);
+                            content = p1.concat(p2);
+                        }
+                    } catch (Exception e) { //can't win'm all.
+                        a.setDesc(content); //just roll with it.
                     }
                     a.setDesc(content);
                     break;
