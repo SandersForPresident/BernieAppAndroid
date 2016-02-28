@@ -35,7 +35,6 @@
                 android:layout_alignBottom="@id/d_txtDesc"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
-                android:src="@drawable/darkshort"
                 android:scaleType="fitXY"/>
 
         <TextView
