@@ -111,7 +111,8 @@ public class NavigationDrawerFragment extends Fragment {
                 new NavDrawerItem(R.drawable.ic_people_white_24dp, getString(R.string.title_section3)),
                 new NavDrawerItem(R.drawable.ic_map_white_24dp, getString(R.string.title_section4)),
                 new NavDrawerItem(R.drawable.ic_insert_chart_white_24dp, getString(R.string.title_section5)),
-                new NavDrawerItem(R.drawable.ic_feedback_white_24dp, getString(R.string.title_section6)),
+                new NavDrawerItem(R.drawable.ic_attach_money_white_24dp, getString(R.string.title_section6)),
+                new NavDrawerItem(R.drawable.ic_feedback_white_24dp, getString(R.string.title_section7)),
         };
         mDrawerListView.setAdapter(new NavDrawerAdapter(getActivity(), R.layout.list_drawer_item, datas));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
