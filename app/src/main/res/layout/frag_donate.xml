@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="60dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp">
+
+        <TextView
+            android:id="@+id/d_txtDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="150dp"
+            android:textSize="14sp"
+            android:text="Join grassroots supporters from Reddit, Facebook, Twitter and elsewhere in supporting Bernie Sanders' run for president.\n\nAmerica is ready for a new path to the future. Make a contribution to our presidential campaign today. We can't wait to see what we will accomplish together."/>
+
+            <ImageView
+                android:id="@+id/d_imgThermometer"
+                android:layout_width="130dp"
+                android:layout_height="256dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/d_txtDesc"
+                android:layout_alignBottom="@id/d_txtDesc"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:src="@drawable/darkshort"
+                android:scaleType="fitXY"/>
+
+        <TextView
+            android:id="@+id/d_txtDescMini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I can not host a direct donation through the app! Please donate through the official page &#9658;"
+            android:layout_alignRight="@id/d_txtDesc"
+            android:layout_below="@+id/d_txtDesc"
+            android:layout_marginTop="40dp"
+            android:textStyle="italic"/>
+
+        <Button
+            android:id="@+id/d_btnDonate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Donate Through ActBlue"
+            android:textColor="#FFFFFF"
+            android:background="#AA147FD7"
+            android:layout_below="@id/d_imgThermometer"
+            android:layout_alignLeft="@id/d_imgThermometer"
+            android:layout_alignRight="@id/d_imgThermometer"
+            android:layout_alignTop="@id/d_txtDescMini"
+            android:layout_alignBottom="@id/d_txtDescMini"/>
+
+    </RelativeLayout>
+</LinearLayout>

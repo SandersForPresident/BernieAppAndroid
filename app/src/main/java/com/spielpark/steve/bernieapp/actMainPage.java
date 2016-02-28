@@ -1,21 +1,31 @@
 package com.spielpark.steve.bernieapp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.spielpark.steve.bernieapp.fragments.BernRateFragment;
 import com.spielpark.steve.bernieapp.fragments.ConnectFragment;
+import com.spielpark.steve.bernieapp.fragments.DonateFragment;
 import com.spielpark.steve.bernieapp.fragments.FeedbackFragment;
 import com.spielpark.steve.bernieapp.fragments.IssuesFragment;
 import com.spielpark.steve.bernieapp.fragments.NavigationDrawerFragment;
@@ -36,14 +46,28 @@ public class actMainPage extends ActionBarActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private static SharedPreferences preferences;
     private static Fragment curFrag;
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
+
     private CharSequence mTitle;
+
+    private GoogleApiClient client;
 
     @Override
     protected void onStop() {
         super.onStop();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "actMainPage Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.spielpark.steve.bernieapp/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.disconnect();
     }
 
     @Override
@@ -62,44 +86,50 @@ public class actMainPage extends ActionBarActivity
         mTitle = "News";
         preferences = getApplicationContext().getSharedPreferences("bernie_app_prefs", 0);
         adjustNavBarText(0);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         if (curFrag instanceof ConnectFragment) {
             ConnectFragment.cancelTask(); //cancel loading the map.
-            Log.d("AMP - ONDIS", "Cancelled loading the map.");
         }
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack("base", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         Fragment replacement;
-        switch(position) {
-            case 0 : {
+        switch (position) {
+            case 0: {
                 replacement = NewsFragment.getInstance();
                 break;
             }
-            case 1 : {
+            case 1: {
                 replacement = IssuesFragment.getInstance();
                 break;
             }
-            case 2 : {
+            case 2: {
                 replacement = OrganizeFragment.getInstance();
                 break;
             }
-            case 3 : {
+            case 3: {
                 replacement = ConnectFragment.getInstance();
                 break;
             }
-            case 4 : {
+            case 4: {
                 replacement = BernRateFragment.getInstance();
                 break;
             }
-            case 5 : {
+            case 5: {
+                replacement = DonateFragment.getInstance();
+                break;
+            }
+            case 6: {
                 replacement = FeedbackFragment.getInstance();
                 break;
             }
-            default:  {
+            default: {
                 replacement = NewsFragment.getInstance();
             }
         }
@@ -132,6 +162,9 @@ public class actMainPage extends ActionBarActivity
             case 6:
                 mTitle = getString(R.string.title_section6);
                 break;
+            case 7:
+                mTitle = getString(R.string.title_section7);
+                break;
         }
     }
 
@@ -142,12 +175,11 @@ public class actMainPage extends ActionBarActivity
         actionBar.setTitle(mTitle);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             restoreActionBar();
-            return true;
+            //return true;
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -176,6 +208,7 @@ public class actMainPage extends ActionBarActivity
             manager.popBackStack();
         }
         manager.beginTransaction().addToBackStack("base").replace(R.id.container, f).commit();
+        curFrag = f;
     }
 
     public void loadIssue(Issue i) {
@@ -185,6 +218,7 @@ public class actMainPage extends ActionBarActivity
             manager.popBackStack();
         }
         manager.beginTransaction().addToBackStack("base").replace(R.id.container, f).commit();
+        curFrag = f;
     }
 
     public SharedPreferences getPrefs() {
@@ -203,7 +237,7 @@ public class actMainPage extends ActionBarActivity
     }
 
     public void adjustNavBarText(int selected) {
-        TextView[] views = new TextView[] {
+        TextView[] views = new TextView[]{
                 (TextView) findViewById(R.id.newsTxt),
                 (TextView) findViewById(R.id.issuesTxt),
                 (TextView) findViewById(R.id.organizeTxt),
@@ -229,5 +263,25 @@ public class actMainPage extends ActionBarActivity
         restoreActionBar();
         adjustNavBarText(selected);
         NavigationDrawerFragment.setSelected(selected);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "actMainPage Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.spielpark.steve.bernieapp/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
     }
 }
