@@ -54,8 +54,8 @@ public class Util {
     }
 
     public static AlertDialog getShowAgainDialogue(Context ctx, final SharedPreferences prefs, final Preferences p, String message) {
-        LayoutInflater inflator = LayoutInflater.from(ctx);
-        final View view = inflator.inflate(R.layout.dialogue_checkbox, null);
+        LayoutInflater inflater = LayoutInflater.from(ctx);
+        final View view = inflater.inflate(R.layout.dialogue_checkbox, null);
         AlertDialog.Builder bld = new AlertDialog.Builder(ctx, 4);
         bld.setMessage(message)
                 .setTitle("Welcome!")
