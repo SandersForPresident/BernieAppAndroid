@@ -4,4 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/list_con_txtDate"
+        android:layout_width="75dp"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/list_con_txtDesc"
+        android:layout_alignBottom="@+id/list_con_txtDesc"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/list_con_txtDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/list_con_txtDate"/>
 </RelativeLayout>
