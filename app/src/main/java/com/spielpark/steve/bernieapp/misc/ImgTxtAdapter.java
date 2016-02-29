@@ -45,7 +45,7 @@ public class ImgTxtAdapter extends ArrayAdapter {
         } else {
             v = (ViewHolder) convertView.getTag();
         }
-        Util.getPicasso(ctx).load(item.getImgSrc()).into(v.img);
+        Util.getPicasso(ctx).load(item.getImgSrc()).fit().into(v.img);
         v.txt.setTypeface(Typeface.createFromAsset(ctx.getAssets(), "Jubilat.otf"));
         v.txt.setText(Html.fromHtml(item.getTxt()));
         return convertView;
