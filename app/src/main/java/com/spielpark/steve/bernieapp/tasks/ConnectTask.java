@@ -1,16 +1,25 @@
 package com.spielpark.steve.bernieapp.tasks;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.spielpark.steve.bernieapp.R;
 import com.spielpark.steve.bernieapp.fragments.ConnectFragment;
+import com.spielpark.steve.bernieapp.misc.Util;
 import com.spielpark.steve.bernieapp.wrappers.Event;
+import com.spielpark.steve.bernieapp.wrappers.ImgTxtItem;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,7 +54,7 @@ public class ConnectTask extends AsyncTask {
         BufferedReader in = null;
         try {
             URL url = frag.fetchCountry ?
-                    new URL("https://go.berniesanders.com/page/event/search_results?orderby=date&format=json") :
+                    new URL("https://go.berniesanders.com/page/event/search_results?orderby=date&format=json&limit=500") :
                     new URL("https://go.berniesanders.com/page/event/search_results?orderby=date&format=json&zip_radius=" + frag.mRadius + "&zip=" + frag.mZip);
             Log.d("URL", url.toString());
             in = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -75,10 +84,12 @@ public class ConnectTask extends AsyncTask {
         Log.d("OPE", "There are " + events.size() + " events.");
         Collections.sort(events);
         String[] titles = new String[events.size()];
+        String[] dates = new String[events.size()];
         for (int i = 0; i < events.size(); i++) {
             titles[i] = getHTMLForTitle(events.get(i));
+            dates[i] = getHTMLForDate(events.get(i).getDate());
         }
-        NewsAdapter adapter = new NewsAdapter(ctx, R.layout.list_news_item, R.id.txtItem, titles);
+        ConnectAdapter adapter = new ConnectAdapter(ctx, R.layout.list_connect_events, dates, titles);
         frag.setMarkers();
         frag.updateViews(adapter);
         frag = null;
@@ -102,6 +113,18 @@ public class ConnectTask extends AsyncTask {
             bld.append("&emsp;# of RSVP: ").append(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
         }
         return bld.toString();
+    }
+
+    private String getHTMLForDate(String s) {
+        String ret = s;
+        SimpleDateFormat ft = new SimpleDateFormat("MMMM d, yyyy");
+        try {
+            Date date = ft.parse(s);
+            ret = new SimpleDateFormat("'<big><font color=\"#EA504E\">'d'</font><br><font color=\"#147FD7\">'MMM'</font>'").format(date);
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
+        return ret;
     }
 
     private void readObjects(JsonReader reader) throws IOException {
@@ -226,16 +249,50 @@ public class ConnectTask extends AsyncTask {
         reader.close();
     }
 
-    private class NewsAdapter extends ArrayAdapter {
+    private class ConnectAdapter extends ArrayAdapter {
+        private String[] dates;
+        private String[] titles;
+        private int res;
 
-        private NewsAdapter(Context context, int resource, int textViewResourceId, Object[] objects) {
-            super(context, resource, textViewResourceId, objects);
+        public ConnectAdapter(Context context, int resource, String[] dates, String[] titles) {
+            super(context, resource, dates);
+            this.dates = dates;
+            this.titles = titles;
+            this.res = resource;
         }
 
         @Override
         public Object getItem(int position) {
-            return Html.fromHtml( (String) super.getItem(position));
+            return Html.fromHtml( dates[position] + " " + titles[position]);
         }
 
+        @Override
+        public int getCount() {
+            return dates.length;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder v;
+            if (convertView == null) {
+                LayoutInflater inflater = ((Activity) ctx).getLayoutInflater();
+                convertView = inflater.inflate(res, parent, false);
+                v = new ViewHolder();
+                v.date = (TextView) convertView.findViewById(R.id.list_con_txtDate);
+                v.title = (TextView) convertView.findViewById(R.id.list_con_txtDesc);
+                convertView.setTag(v);
+            } else {
+                v = (ViewHolder) convertView.getTag();
+            }
+            v.date.setText(Html.fromHtml(dates[position]));
+            v.date.setTypeface(Typeface.createFromAsset(ctx.getAssets(), "Jubilat.otf"));
+            v.title.setText(Html.fromHtml(titles[position]));
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView date;
+            TextView title;
+        }
     }
 }
