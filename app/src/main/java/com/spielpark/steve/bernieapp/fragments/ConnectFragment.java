@@ -104,6 +104,7 @@ public class ConnectFragment extends Fragment {
             }
         });
         fetchCountry = true;
+        Toast.makeText(getActivity(), "Only Start Date Listed, Events May End at a Later Date", Toast.LENGTH_LONG).show();
         setUpMap();
         MapsInitializer.initialize(getActivity().getApplicationContext());
         super.onViewCreated(view, savedInstanceState);
@@ -182,7 +183,7 @@ public class ConnectFragment extends Fragment {
         ((TextView) base.findViewById(R.id.cd_txtDescContent)).setText(Html.fromHtml(e.getDescription()));
         ((TextView) base.findViewById(R.id.cd_txtDescContent)).setMovementMethod(new ScrollingMovementMethod());
         if (e.getVenue_city() != null) ((TextView) base.findViewById(R.id.cd_txtLocation)).setText(e.getVenue_addr() + "\n" + e.getVenue_city() + ", " + e.getState() + " - " + e.getZip());
-        if (e.getAttendee_count() != 0) ((TextView) base.findViewById(R.id.cd_txtRSVP)).setText(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
+        ((TextView) base.findViewById(R.id.cd_txtRSVP)).setText(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
         Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), alreadyLoaded ? R.anim.view_fade_in_fast : R.anim.view_fade_in);
         fadeIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -308,7 +309,7 @@ public class ConnectFragment extends Fragment {
         if (parent == null) {
             return; //We switched out of this view.
         }
-        ListView list = (ListView) getView().findViewById(R.id.c_listEvents);
+        ListView list = (ListView) parent.findViewById(R.id.c_listEvents);
         list.setAdapter(a);
         list.setVisibility(View.VISIBLE);
         parent.findViewById(R.id.c_mapContainer).setVisibility(View.VISIBLE);
