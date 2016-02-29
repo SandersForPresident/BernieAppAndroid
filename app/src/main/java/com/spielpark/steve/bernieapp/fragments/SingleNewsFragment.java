@@ -47,7 +47,7 @@ public class SingleNewsFragment extends Fragment {
         ((TextView) root.findViewById(R.id.e_txtDate)).setText(mEvent.getPubDate());
         ((TextView) root.findViewById(R.id.e_txtDesc)).setText(Html.fromHtml(mEvent.getDesc()));
         ((TextView) root.findViewById(R.id.e_txtDesc)).setMovementMethod(new LinkMovementMethod());
-        Util.getPicasso(getActivity()).load(mEvent.getImgSrc()).placeholder(R.drawable.logo).into((ImageView)root.findViewById(R.id.e_imgLogo));
+        Util.getPicasso(getActivity()).load(mEvent.getImgSrc()).placeholder(R.drawable.logo).fit().into((ImageView)root.findViewById(R.id.e_imgLogo));
         root.findViewById(R.id.e_btnWebsite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
